@@ -30,4 +30,9 @@
         <url-pattern>/zkau/*</url-pattern>
     </servlet-mapping>
 
+    <!-- Welcome Page -->
+    <welcome-file-list>
+        <welcome-file>login.zul</welcome-file>
+    </welcome-file-list>
+
 </web-app>

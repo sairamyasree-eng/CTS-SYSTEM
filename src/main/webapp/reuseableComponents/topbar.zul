@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE COMPONENT: topbar.zul
+    ================================
+    Usage in any page:
+        <include src="/components/topbar.zul"/>
+
+    Reads from session:
+        session["currentUser"]    → UserDTO  (fullName, role, branch)
+        session["currentSession"] → SessionDTO (id, timeRange, date)  [optional]
+
+    Shows:
+        - CTS brand + title
+        - Current session info (if session open)
+        - Logged-in user name, branch, role badge
+        - Sign Out button
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/topbar.css"?>
+
+    <div sclass="cts-topbar"
+         apply="com.cts.web.composer.components.TopbarComposer">
+
+        <!-- Left: Brand -->
+        <div sclass="topbar-brand">
+            <div sclass="topbar-logo">
+                <label value="CTS" sclass="topbar-logo-text"/>
+            </div>
+            <div>
+                <label value="Cheque Truncation System" sclass="topbar-title"/>
+                <label value="NPCI · CTS Grid Processing" sclass="topbar-subtitle"/>
+            </div>
+        </div>
+
+        <!-- Right: Session info + user + logout -->
+        <div sclass="topbar-right">
+
+            <!-- Session badge (hidden when no session open) -->
+            <div id="sessionBadge" sclass="topbar-session" visible="false">
+                <label id="lblSessionId"    sclass="session-id"/>
+                <label value="|"            sclass="session-sep"/>
+                <label id="lblSessionTime"  sclass="session-time"/>
+                <label value="|"            sclass="session-sep"/>
+                <label id="lblSessionDate"  sclass="session-date"/>
+            </div>
+
+            <!-- User info -->
+            <div sclass="topbar-user">
+                <div>
+                    <label id="lblUserName"   sclass="topbar-user-name"/>
+                    <label id="lblUserBranch" sclass="topbar-user-branch"/>
+                </div>
+                <label id="lblRoleBadge" sclass="topbar-role-badge"/>
+            </div>
+
+            <!-- Sign out -->
+            <button id="btnSignOut"
+                    label="Sign Out"
+                    sclass="btn-signout"
+                    onClick="@command('signOut')"/>
+
+        </div>
+
+    </div>
+
+</zk>

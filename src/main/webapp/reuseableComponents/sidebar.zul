@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE COMPONENT: sidebar.zul
+    ================================
+    Usage in any page:
+        <include src="/components/sidebar.zul"/>
+
+    Reads from session:
+        session["currentUser"]  → UserDTO  (fullName, role, branch)
+        session["currentPage"]  → String   (active page id e.g. "scan")
+
+    How to set active page in your page composer:
+        Sessions.getCurrent().setAttribute("currentPage", "scan");
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/sidebar.css"?>
+
+    <div sclass="cts-sidebar"
+         apply="com.cts.web.composer.components.SidebarComposer">
+
+        <!-- Brand / Logo -->
+        <div sclass="sidebar-brand">
+            <div sclass="sidebar-logo">
+                <label value="C" sclass="sidebar-logo-letter"/>
+            </div>
+            <div sclass="sidebar-brand-text">
+                <label value="CTS" sclass="sidebar-brand-title"/>
+                <label value="Grid Processing" sclass="sidebar-brand-sub"/>
+            </div>
+        </div>
+
+        <div sclass="sidebar-divider"/>
+
+        <!-- Section label: Navigation -->
+        <label sclass="sidebar-section-label" value="NAVIGATION"/>
+
+        <!-- Dashboard item (always visible for all non-admin roles) -->
+        <div id="itemDashboard" sclass="sidebar-item" onClick="@command('navigate', page='dashboard')">
+            <div sclass="sidebar-step">
+                <label value="D"/>
+            </div>
+            <label value="Dashboard" sclass="sidebar-item-label"/>
+        </div>
+
+        <div sclass="sidebar-divider"/>
+
+        <!-- Section label: Pipeline / Admin -->
+        <label id="lblSection" sclass="sidebar-section-label" value="PIPELINE STEPS"/>
+
+        <!-- Dynamic menu items — rendered by SidebarComposer -->
+        <div id="menuContainer" sclass="sidebar-menu-container"/>
+
+    </div>
+
+</zk>
