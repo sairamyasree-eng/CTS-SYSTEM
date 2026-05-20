@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE COMPONENT: smartTable.zul
+    =====================================
+    A full-featured table with: search, status filter,
+    date range filter, column sorting, and pagination.
+
+    Usage — include in any page and wire to SmartTableComposer:
+    ──────────────────────────────────────────────────────────
+    <include src="/components/smartTable.zul"/>
+
+    Then in your page composer, inject and configure:
+
+        @Wire("div#smartTableRoot")
+        private Div smartTableRoot;
+
+        // Get the child SmartTableComposer from the included component
+        SmartTableComposer tableComp = smartTableRoot
+                .getAttribute(SmartTableComposer.ATTR_KEY);
+
+        tableComp.setColumns(List.of(
+            new ColumnDef("chequeNumber", "Cheque No.",   true, true),
+            new ColumnDef("payeeName",    "Payee",        true, false),
+            new ColumnDef("amount",       "Amount (₹)",   true, true),
+            new ColumnDef("status",       "Status",       false, false)
+        ));
+        tableComp.setData(chequeList);           // List<Map<String,Object>>
+        tableComp.setFilterKey("status");        // column key for dropdown filter
+        tableComp.setFilterOptions(statusOpts);  // List<String[]> {value, label}
+        tableComp.setDateField("chequeDate");    // optional date range filter
+        tableComp.setPageSize(8);                // default 8
+        tableComp.refresh();
+
+    Callback when a row is clicked:
+        tableComp.setRowClickListener(row -> {
+            String id = (String) row.get("id");
+            // open detail panel, navigate, etc.
+        });
+    ──────────────────────────────────────────────────────────
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/smartTable.css"?>
+
+    <div id="smartTableRoot" sclass="smart-table-wrap"
+         apply="com.cts.web.composer.components.SmartTableComposer">
+
+        <!-- Controls: search + filter + date range -->
+        <div sclass="tbl-controls">
+
+            <!-- Search -->
+            <textbox id="txtSearch"
+                     sclass="tbl-search"
+                     placeholder="Search..."
+                     instant="true"
+                     onChanging="@command('onSearch')"/>
+
+            <!-- Status filter dropdown (shown/hidden by composer) -->
+            <listbox id="cmbFilter"
+                     mold="select"
+                     sclass="tbl-filter"
+                     visible="false"
+                     onSelect="@command('onFilter')">
+                <listitem label="All Status" value=""/>
+            </listbox>
+
+            <!-- Date range (shown/hidden by composer) -->
+            <div id="dateRangePanel" sclass="tbl-date-range" visible="false">
+                <label value="From" sclass="tbl-date-label"/>
+                <datebox id="dtFrom" sclass="tbl-date" format="dd/MM/yyyy"
+                         onChange="@command('onDateChange')"/>
+                <label value="To" sclass="tbl-date-label"/>
+                <datebox id="dtTo" sclass="tbl-date" format="dd/MM/yyyy"
+                         onChange="@command('onDateChange')"/>
+                <button id="btnClearDate" label="Clear" sclass="btn btn-xs btn-secondary"
+                        onClick="@command('clearDateRange')"/>
+            </div>
+
+            <!-- Record count -->
+            <label id="lblCount" sclass="tbl-count" value=""/>
+
+        </div>
+
+        <!-- Table -->
+        <div sclass="tbl-wrap">
+            <listbox id="tblMain"
+                     sclass="tbl-main"
+                     vflex="true"
+                     nonselectableTags="*">
+
+                <listhead id="tblHead" sclass="tbl-head">
+                    <!-- Columns injected dynamically by SmartTableComposer -->
+                </listhead>
+
+                <listfoot id="tblFoot"/>
+
+            </listbox>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pgPanel" sclass="tbl-pagination">
+            <button id="btnFirst"    label="«" sclass="pg-btn" onClick="@command('goFirst')"/>
+            <button id="btnPrev"     label="‹" sclass="pg-btn" onClick="@command('goPrev')"/>
+            <div    id="pgNumbers"   sclass="pg-numbers"/>
+            <button id="btnNext"     label="›" sclass="pg-btn" onClick="@command('goNext')"/>
+            <button id="btnLast"     label="»" sclass="pg-btn" onClick="@command('goLast')"/>
+            <label  id="lblPgInfo"   sclass="pg-info" value=""/>
+        </div>
+
+    </div>
+
+</zk>

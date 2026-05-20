@@ -1,0 +1,176 @@
+/* ================================================
+   smartTable.css  —  CTS Smart Table Component
+   ================================================ */
+
+.smart-table-wrap {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Controls bar */
+.tbl-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.tbl-search {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    width: 180px;
+    color: #1e293b;
+    background: #fff;
+}
+.tbl-search:focus { border-color: #1a6bcc; outline: none; }
+
+.tbl-filter {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #1e293b;
+    background: #fff;
+}
+
+.tbl-date-range {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tbl-date-label {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+.tbl-date {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 5px 8px;
+    background: #fff;
+    color: #1e293b;
+}
+
+.tbl-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: #94a3b8;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Table */
+.tbl-wrap { overflow-x: auto; }
+
+.tbl-main {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tbl-head .z-listheader {
+    padding: 9px 14px;
+    background: #f1f5f9;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #64748b;
+    border-bottom: 1.5px solid #e2e8f0;
+    text-align: left;
+    white-space: nowrap;
+}
+.tbl-head .sortable-col { cursor: pointer; user-select: none; }
+.tbl-head .sortable-col:hover { background: #e2e8f0; }
+
+.tbl-row .z-listcell {
+    padding: 9px 14px;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 12px;
+    vertical-align: middle;
+}
+.tbl-row:last-child .z-listcell { border-bottom: none; }
+.tbl-row:hover .z-listcell { background: #f8fafc; }
+.tbl-row.clickable { cursor: pointer; }
+.tbl-row.clickable:hover .z-listcell { background: #eff6ff; }
+
+.td-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.tbl-empty-cell {
+    text-align: center;
+    padding: 32px !important;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Pagination */
+.tbl-pagination {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.pg-numbers {
+    display: flex;
+    gap: 3px;
+}
+
+.pg-btn {
+    padding: 4px 10px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #475569;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: background .1s;
+    min-width: 30px;
+    text-align: center;
+}
+.pg-btn:hover    { background: #f1f5f9; }
+.pg-btn.active   { background: #1a6bcc; color: #fff; border-color: #1a6bcc; }
+.pg-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+.pg-dots {
+    padding: 0 4px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 28px;
+}
+
+.pg-info {
+    margin-left: auto;
+    font-size: 11px;
+    color: #94a3b8;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Small button utility */
+.btn-xs {
+    padding: 3px 8px;
+    font-size: 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #fff;
+    color: #475569;
+    cursor: pointer;
+}
+.btn-xs:hover { background: #f1f5f9; }

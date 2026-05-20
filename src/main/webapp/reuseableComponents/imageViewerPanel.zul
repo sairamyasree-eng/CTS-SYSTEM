@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE COMPONENT: imageViewerPanel.zul
+    ==========================================
+    Cheque image viewer with Front / Back / Grayscale tabs.
+    Used in: Repair, Checker Outward, Inward Repair, Checker Inward.
+
+    Usage in any page:
+        <include src="/components/imageViewerPanel.zul"/>
+
+    Then in your page composer, configure:
+
+        ImageViewerComposer viewer = (ImageViewerComposer)
+            imgPanelDiv.getAttribute(ImageViewerComposer.ATTR_KEY);
+
+        viewer.setChequeId("C001");
+        viewer.setFrontImagePath("/images/cheques/C001_front.png");
+        viewer.setBackImagePath("/images/cheques/C001_back.png");
+        viewer.setGrayscaleImagePath("/images/cheques/C001_gray.png");
+        viewer.setShowSignature(true);       // optional, shows sig boxes
+        viewer.setSignaturePath("/images/sig/C001_sig.png");
+        viewer.setBankSignaturePath("/images/sig/bank_reference.png");
+        viewer.refresh();
+
+    Events fired (listen in your page composer):
+        EventQueues.lookup("imageViewer").subscribe(evt -> {
+            // evt.getName() == "tabChanged", evt.getData() == "front"|"back"|"grayscale"
+        });
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/imageViewerPanel.css"?>
+
+    <div id="imgPanelRoot"
+         sclass="img-viewer-wrap"
+         apply="com.cts.web.composer.components.ImageViewerComposer">
+
+        <!-- Tab bar -->
+        <div sclass="img-viewer-tabs">
+            <div id="tabFront"     sclass="img-tab active" onClick="@command('switchTab', tab='front')">
+                <label value="Front"/>
+            </div>
+            <div id="tabBack"      sclass="img-tab" onClick="@command('switchTab', tab='back')">
+                <label value="Back"/>
+            </div>
+            <div id="tabGrayscale" sclass="img-tab" onClick="@command('switchTab', tab='grayscale')">
+                <label value="Grayscale"/>
+            </div>
+        </div>
+
+        <!-- Image display area -->
+        <div sclass="img-viewer-body">
+
+            <!-- Front image panel -->
+            <div id="panelFront" sclass="img-panel">
+                <image id="imgFront" sclass="cheque-img"/>
+                <div sclass="img-placeholder" id="placeholderFront">
+                    <label value="No front image available" sclass="img-placeholder-text"/>
+                </div>
+            </div>
+
+            <!-- Back image panel -->
+            <div id="panelBack" sclass="img-panel" visible="false">
+                <image id="imgBack" sclass="cheque-img"/>
+                <div sclass="img-placeholder" id="placeholderBack">
+                    <label value="No back image available" sclass="img-placeholder-text"/>
+                </div>
+            </div>
+
+            <!-- Grayscale image panel -->
+            <div id="panelGrayscale" sclass="img-panel" visible="false">
+                <image id="imgGrayscale" sclass="cheque-img grayscale"/>
+                <div sclass="img-placeholder" id="placeholderGrayscale">
+                    <label value="No grayscale image available" sclass="img-placeholder-text"/>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Signature comparison panel (optional, shown only when enabled) -->
+        <div id="signaturePanel" sclass="sig-panel" visible="false">
+            <label value="SIGNATURE COMPARISON" sclass="sig-panel-title"/>
+            <div sclass="sig-row">
+
+                <div sclass="sig-box">
+                    <label value="PRESENTED" sclass="sig-box-label"/>
+                    <div sclass="sig-img-wrap">
+                        <image id="imgSig" sclass="sig-img"/>
+                        <div id="placeholderSig" sclass="sig-placeholder">
+                            <label value="No signature" sclass="sig-placeholder-text"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div sclass="sig-box">
+                    <label value="BANK RECORD" sclass="sig-box-label"/>
+                    <div sclass="sig-img-wrap">
+                        <image id="imgBankSig" sclass="sig-img"/>
+                        <div id="placeholderBankSig" sclass="sig-placeholder">
+                            <label value="No reference" sclass="sig-placeholder-text"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Match result badge -->
+            <div id="sigMatchBadge" sclass="sig-match-badge" visible="false">
+                <label id="lblSigMatch" sclass="sig-match-label"/>
+            </div>
+        </div>
+
+    </div>
+
+</zk>

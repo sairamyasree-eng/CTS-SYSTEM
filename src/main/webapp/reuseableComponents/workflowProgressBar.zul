@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE COMPONENT: workflowProgressBar.zul
+    =============================================
+    Shows the CTS pipeline steps with done / active / pending states.
+
+    Usage in any page:
+        <include src="/components/workflowProgressBar.zul"/>
+
+    Then in your page composer, get the child composer and configure:
+
+        WorkflowProgressBarComposer bar = (WorkflowProgressBarComposer)
+            pgBarDiv.getAttribute(WorkflowProgressBarComposer.ATTR_KEY);
+
+        bar.setSteps(List.of(
+            new WorkflowStep(1, "Scan",         WorkflowStep.State.DONE),
+            new WorkflowStep(2, "Repair",        WorkflowStep.State.DONE),
+            new WorkflowStep(3, "Checker Out",   WorkflowStep.State.ACTIVE),
+            new WorkflowStep(4, "File Process",  WorkflowStep.State.PENDING),
+            new WorkflowStep(5, "Inward Repair", WorkflowStep.State.PENDING)
+        ));
+        bar.render();
+
+    Or use the convenience method for the full CTS pipeline:
+        bar.setActiveStep("checker-out");  // sets done/active/pending automatically
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/workflowProgressBar.css"?>
+
+    <div id="pgBarRoot"
+         sclass="workflow-bar"
+         apply="com.cts.web.composer.components.WorkflowProgressBarComposer">
+
+        <!-- Steps injected dynamically by WorkflowProgressBarComposer -->
+        <div id="stepsContainer" sclass="workflow-steps-row"/>
+
+    </div>
+
+</zk>

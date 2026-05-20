@@ -1,0 +1,88 @@
+/* ================================================
+   workflowProgressBar.css  —  CTS Workflow Steps
+   ================================================ */
+
+.workflow-bar {
+    margin-bottom: 20px;
+}
+
+.workflow-steps-row {
+    display: flex;
+    align-items: stretch;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Individual step */
+.workflow-step {
+    flex: 1;
+    padding: 12px 14px;
+    text-align: center;
+    border-right: 1px solid #e2e8f0;
+    position: relative;
+    background: #fff;
+    transition: background .15s;
+}
+.workflow-step.last { border-right: none; }
+
+/* Step number micro-label */
+.wf-step-num {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+/* Step name */
+.wf-step-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* State indicator dot (bottom center) */
+.wf-step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    margin: 8px auto 0;
+}
+
+/* ── DONE state (green) ── */
+.workflow-step.done {
+    background: #f0fdf4;
+}
+.workflow-step.done .wf-step-num {
+    color: #059669;
+}
+.workflow-step.done .wf-step-label {
+    color: #065f46;
+}
+.workflow-step.done .wf-step-dot {
+    background: #059669;
+}
+
+/* ── ACTIVE state (blue) ── */
+.workflow-step.active {
+    background: #eff6ff;
+}
+.workflow-step.active .wf-step-num {
+    color: #1a6bcc;
+}
+.workflow-step.active .wf-step-label {
+    color: #1a3a6b;
+    font-weight: 700;
+}
+.workflow-step.active .wf-step-dot {
+    background: #1a6bcc;
+    box-shadow: 0 0 0 3px rgba(26,107,204,.2);
+}
+
+/* PENDING state is default (gray) */
