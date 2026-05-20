@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?page title="Cheque Truncation System - Login"
+        contentType="text/html;charset=UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+<?link rel="stylesheet" type="text/css" href="/styling/login.css"?>
+
+    <div sclass="cts-body">
+
+        <!-- Background -->
+        <div sclass="bg-overlay"/>
+
+        <!-- Login Wrapper -->
+        <div sclass="login-wrapper">
+
+            <!-- Logo -->
+            <div sclass="login-logo">
+
+                <div sclass="logo-icon">
+
+                    <label value="?"
+                           sclass="logo-question-mark"/>
+
+                </div>
+
+            </div>
+
+            <!-- Title -->
+            <div sclass="login-title-block">
+
+                <label value="Cheque Truncation System"
+                       sclass="login-title"/>
+
+                <label value="NATIONAL PAYMENTS CORPORATION OF INDIA"
+                       sclass="login-subtitle"/>
+
+            </div>
+
+            <!-- Login Card -->
+            <div sclass="login-card">
+
+                <!-- Username -->
+                <div sclass="form-group">
+
+                    <label value="USERNAME"
+                           sclass="form-label"/>
+
+                    <textbox id="txtUsername"
+                             sclass="form-input"
+                             width="100%"
+                             maxlength="50"
+                             placeholder="Enter username"/>
+
+                </div>
+
+                <!-- Password -->
+                <div sclass="form-group">
+
+                    <label value="PASSWORD"
+                           sclass="form-label"/>
+
+                    <textbox id="txtPassword"
+                             type="password"
+                             sclass="form-input"
+                             width="100%"
+                             maxlength="50"
+                             placeholder="Enter password"/>
+
+                </div>
+
+                <!-- Role -->
+                <div sclass="form-group">
+
+                    <label value="ROLE"
+                           sclass="form-label"/>
+
+                    <listbox id="cmbRole"
+                             mold="select"
+                             width="100%"
+                             sclass="form-select">
+
+                        <listitem label="Select Role"
+                                  value=""/>
+
+                        <listitem label="Admin"
+                                  value="ADMIN"/>
+
+                        <listitem label="Maker Outward"
+                                  value="MAKER_OUTWARD"/>
+
+                        <listitem label="Checker Outward Verification"
+                                  value="CHECKER_OUTWARD_VERIFICATION"/>
+
+                        <listitem label="Maker Inward"
+                                  value="MAKER_INWARD"/>
+
+                        <listitem label="Checker Inward Verification"
+                                  value="CHECKER_INWARD_VERIFICATION"/>
+
+                    </listbox>
+
+                </div>
+
+                <!-- Divider -->
+                <div sclass="form-divider"/>
+
+                <!-- Login Button -->
+                <button id="btnSignIn"
+                        label="SIGN IN"
+                        width="100%"
+                        sclass="btn-signin"/>
+
+                <!-- Error Label -->
+                <label id="lblError"
+                       visible="false"
+                       value="All fields are mandatory"
+                       sclass="error-message"/>
+
+            </div>
+
+            <!-- Footer -->
+            <div sclass="login-footer">
+
+                <label value="CTS V3.1"/>
+
+                <label value="·"
+                       sclass="footer-sep"/>
+
+                <label value="NPCI GRID NODE"/>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</zk>
