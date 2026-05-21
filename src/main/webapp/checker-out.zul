@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PAGE : checker-out.zul
+    ======================
+    Checker Outward Verification — Approve, reject, or refer outward cheques back to Maker.
+
+    Role access  : CHECKER_OUTWARD_VERIFICATION
+    Session attr : currentPage = "checker-out"
+    Composer     : com.cts.web.composer.CheckerOutComposer
+
+    Reusable components declared with <?component?> and used as custom XML tags.
+    No <include> tags anywhere — same convention as cbs.zul.
+
+    Sections:
+        1. AUTO APPROVED CHEQUES  — system-auto-approved, no manual review needed
+        2. MANUAL REVIEW          — paginated queue with progress counters
+        3. CHEQUE VIEWER          — image panel (Front/Back/Grayscale) + instrument details
+                                    Maker-edited fields shown with highlight badge
+        4. REVIEW SUMMARY TABLE   — running tally of all decisions this session
+        5. REFER TO MAKER DIALOG  — modal with optional note field
+-->
+<zk>
+
+    <!-- ================================================================== -->
+    <!-- COMPONENT DECLARATIONS                                              -->
+    <!-- name       = custom tag name used below                            -->
+    <!-- macroURI   = path to the reusable .zul template                   -->
+    <!-- class      = backing macro-component Java class                    -->
+    <!-- ================================================================== -->
+
+    <?component name="topbar"
+                macroURI="/components/topbar.zul"
+                class="com.cts.web.composer.components.TopbarComposer"?>
+
+    <?component name="sidebar"
+                macroURI="/components/sidebar.zul"
+                class="com.cts.web.composer.components.SidebarComposer"?>
+
+    <?component name="workflowprogressbar"
+                macroURI="/components/workflowProgressBar.zul"
+                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+
+    <!-- ================================================================== -->
+    <!-- PAGE ROOT                                                           -->
+    <!-- ================================================================== -->
+    <div sclass="cts-page-root"
+         apply="com.cts.web.composer.CheckerOutComposer">
+
+        <?link rel="stylesheet" href="/styling/checker-out.css"?>
+
+        <!-- ============================================================== -->
+        <!-- TOP BAR                                                         -->
+        <!-- ============================================================== -->
+        <topbar currentPage="checker-out"/>
+
+        <div sclass="app-shell">
+
+            <!-- ========================================================== -->
+            <!-- SIDEBAR                                                      -->
+            <!-- currentPage="checker-out" highlights step 3                 -->
+            <!-- ========================================================== -->
+            <sidebar currentPage="checker-out"/>
+
+            <!-- ========================================================== -->
+            <!-- MAIN CONTENT                                                 -->
+            <!-- ========================================================== -->
+            <div sclass="main-content">
+
+                <!-- Page header - -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-hdr-breadcrumb"
+                               value="CTS / CHECKER OUTWARD VERIFICATION"/>
+                        <label sclass="page-hdr-title"
+                               value="Checker Outward Verification"/>
+                        <label sclass="page-hdr-sub"
+                               value="Verify outward cheques — approve, reject or refer back to Maker"/>
+                    </div>
+
+                    <div sclass="page-hdr-nav">
+                        <button id="btnNavNext"
+                                label="File Processing &#8594;"
+                                sclass="btn btn-primary btn-sm"/>
+                    </div>
+                </div>
+
+                <!-- Workflow progress bar - -->
+                <workflowprogressbar currentPage="checker-out"/>
+
+                <!-- ====================================================== -->
+                <!-- SECTION 1 : AUTO APPROVED CHEQUES                       -->
+                <!-- CheckerOutComposer sets lblAutoApprovedTitle value,     -->
+                <!-- and appends .cheque-chip divs into autoApprovedChips.   -->
+                <!-- ====================================================== -->
+                <div id="panelAutoApproved" sclass="card-panel">
+
+                    <div sclass="card-panel-header checker-auto-header">
+                        <div sclass="checker-auto-title-row">
+                            <label id="lblAutoApprovedTitle"
+                                   sclass="card-panel-title"
+                                   value="AUTO APPROVED CHEQUES (0)"/>
+                            <label sclass="badge badge-success"
+                                   value="NO MANUAL REVIEW REQUIRED"/>
+                        </div>
+                        <label sclass="checker-auto-hint"
+                               value="Click a cheque to view details"/>
+                    </div>
+
+                    <!--
+                        Composer renders one chip per auto-approved cheque:
+                        <div sclass="cheque-chip">
+                            <label value="000012345"/>
+                            <label value="Raj Enterprises" sclass="chip-payee"/>
+                            <label value="&#8377;1,50,000"  sclass="chip-amount"/>
+                            <label value="View &#8599;"     sclass="chip-view-link"/>
+                        </div>
+                    -->
+                    <div id="autoApprovedChips" sclass="cheque-chips-wrap"/>
+
+                </div>
+                <!-- /panelAutoApproved -->
+
+                <!-- ====================================================== -->
+                <!-- SECTION 2 : MANUAL REVIEW                               -->
+                <!-- ====================================================== -->
+                <div id="panelManualReview" sclass="card-panel">
+
+                    <div sclass="card-panel-header checker-manual-header">
+
+                        <!-- Title e.g. "Manual Review — 1/4" -->
+                        <label id="lblManualReviewTitle"
+                               sclass="card-panel-title"
+                               value="Manual Review — 0/0"/>
+
+                        <!-- Running decision counters -->
+                        <div sclass="checker-counter-row">
+
+                            <div sclass="counter-pill counter-pill-green">
+                                <label sclass="counter-pill-key" value="APPROVED:"/>
+                                <label id="lblCountApproved" sclass="counter-pill-val" value="0"/>
+                            </div>
+
+                            <div sclass="counter-pill counter-pill-red">
+                                <label sclass="counter-pill-key" value="REJECTED:"/>
+                                <label id="lblCountRejected" sclass="counter-pill-val" value="0"/>
+                            </div>
+
+                            <div sclass="counter-pill counter-pill-yellow">
+                                <label sclass="counter-pill-key" value="REFERRED:"/>
+                                <label id="lblCountReferred" sclass="counter-pill-val" value="0"/>
+                            </div>
+
+                            <div sclass="counter-pill counter-pill-slate">
+                                <label sclass="counter-pill-key" value="PENDING:"/>
+                                <label id="lblCountPending"  sclass="counter-pill-val" value="0"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Progress bar: composer sets style="width:XX%" on fill div -->
+                    <div sclass="checker-progress-track">
+                        <div id="progressBar" sclass="checker-progress-fill" style="width:0%"/>
+                    </div>
+
+                    <!--
+                        Pagination buttons — composer creates one per cheque in queue.
+                        Active gets sclass="page-btn page-btn-active".
+                        onClick fires @command('goToPage', pageIdx=N)
+                    -->
+                    <div id="pageButtons" sclass="checker-page-btns"/>
+
+                </div>
+                <!-- /panelManualReview -->
+
+                <!-- ====================================================== -->
+                <!-- SECTION 3 : CHEQUE VIEWER + INSTRUMENT DETAILS          -->
+                <!-- composer sets visible="true" when a cheque is selected  -->
+                <!-- ====================================================== -->
+                <div id="panelChequeViewer" sclass="checker-viewer-wrap" visible="false">
+
+                    <!-- - -->
+                    <!-- LEFT : Cheque image (Front / Back / Grayscale)      -->
+                    <!-- - -->
+                    <div sclass="checker-img-col">
+
+                        <!-- Dark header bar with cheque number -->
+                        <div sclass="cheque-viewer-hdr">
+                            <label id="lblChequeViewerTitle"
+                                   sclass="cheque-viewer-hdr-title"
+                                   value="CHEQUE —"/>
+                        </div>
+
+                        <!-- Tab bar -->
+                        <div sclass="img-viewer-tabs">
+                            <div id="tabFront"
+                                 sclass="img-tab img-tab-active">
+                                <label value="FRONT"/>
+                            </div>
+                            <div id="tabBack"
+                                 sclass="img-tab">
+                                <label value="BACK"/>
+                            </div>
+                            <div id="tabGrayscale"
+                                 sclass="img-tab">
+                                <label value="GRAYSCALE"/>
+                            </div>
+                        </div>
+
+                        <!-- Image panels (composer shows/hides on tab switch) -->
+                        <div sclass="img-viewer-body">
+
+                            <div id="panelFront" sclass="img-panel">
+                                <image id="imgFront" sclass="cheque-img"/>
+                                <div id="placeholderFront" sclass="img-placeholder">
+                                    <label value="No front image available"
+                                           sclass="img-placeholder-text"/>
+                                </div>
+                            </div>
+
+                            <div id="panelBack" sclass="img-panel" visible="false">
+                                <image id="imgBack" sclass="cheque-img"/>
+                                <div id="placeholderBack" sclass="img-placeholder">
+                                    <label value="No back image available"
+                                           sclass="img-placeholder-text"/>
+                                </div>
+                            </div>
+
+                            <div id="panelGrayscale" sclass="img-panel" visible="false">
+                                <image id="imgGrayscale" sclass="cheque-img cheque-img-gray"/>
+                                <div id="placeholderGrayscale" sclass="img-placeholder">
+                                    <label value="No grayscale image available"
+                                           sclass="img-placeholder-text"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /img-viewer-body -->
+
+                    </div>
+                    <!-- /checker-img-col -->
+
+                    <!-- - -->
+                    <!-- RIGHT : Instrument details + maker-edit highlights  -->
+                    <!--         + action buttons                            -->
+                    <!-- - -->
+                    <div sclass="checker-detail-col">
+
+                        <!-- ============================================== -->
+                        <!-- INSTRUMENT DETAILS CARD                         -->
+                        <!--                                                 -->
+                        <!-- MAKER-EDIT HIGHLIGHT CONVENTION:                -->
+                        <!-- When the Maker edited a field before submitting  -->
+                        <!-- to Checker, CheckerOutComposer adds the sclass   -->
+                        <!-- "instrument-row-edited" to that row div.         -->
+                        <!-- This applies a yellow left-border + light bg     -->
+                        <!-- so the Checker can instantly see what changed.   -->
+                        <!--                                                  -->
+                        <!-- Each edited row also gets an inline              -->
+                        <!-- "EDITED" badge label and a "was: <original>"     -->
+                        <!-- label (both inserted by composer, not hardcoded).-->
+                        <!--                                                  -->
+                        <!-- Example — composer output for an edited field:   -->
+                        <!--   <div sclass="instrument-row instrument-row-edited"> -->
+                        <!--     <label sclass="instrument-lbl" value="AMOUNT"/> -->
+                        <!--     <div sclass="instrument-val-wrap">            -->
+                        <!--       <label id="detAmount" sclass="instrument-val" value="&#8377;75,000"/> -->
+                        <!--       <label sclass="maker-edit-badge" value="EDITED"/>  -->
+                        <!--       <label sclass="maker-edit-was"   value="was: &#8377;70,000"/> -->
+                        <!--     </div>                                         -->
+                        <!--   </div>                                            -->
+                        <!-- ============================================== -->
+                        <div sclass="instrument-card">
+
+                            <label sclass="instrument-card-title"
+                                   value="INSTRUMENT DETAILS"/>
+
+                            <!--
+                                Composer note:
+                                For NON-edited fields  → sclass="instrument-row"
+                                For Maker-edited fields → sclass="instrument-row instrument-row-edited"
+                                  and wrap the value side in <div sclass="instrument-val-wrap">
+                                  with the .maker-edit-badge and .maker-edit-was labels appended.
+                            -->
+
+                            <div id="rowChequeNo" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="CHEQUE NO."/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detChequeNo" sclass="instrument-val"/>
+                                    <!-- composer appends .maker-edit-badge + .maker-edit-was if edited -->
+                                </div>
+                            </div>
+
+                            <div id="rowPayeeName" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="PAYEE NAME"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detPayeeName" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowDrawerBank" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="DRAWER BANK"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detDrawerBank" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowAmount" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="AMOUNT"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detAmount" sclass="instrument-val instrument-amount"/>
+                                </div>
+                            </div>
+
+                            <div id="rowAmountWords" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="AMOUNT IN WORDS"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detAmountWords" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowChequeDate" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="CHEQUE DATE"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detChequeDate" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowAccountNo" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="ACCOUNT NO."/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detAccountNo" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowIfsc" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="IFSC"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detIfsc" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowMicrCode" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="MICR CODE"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detMicrCode" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowIqaStatus" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="IQA STATUS"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detIqaStatus" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowMicrStatus" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="MICR STATUS"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detMicrStatus" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <div id="rowRepairStatus" sclass="instrument-row">
+                                <label sclass="instrument-lbl" value="REPAIR STATUS"/>
+                                <div sclass="instrument-val-wrap">
+                                    <label id="detRepairStatus" sclass="instrument-val"/>
+                                </div>
+                            </div>
+
+                            <!--
+                                Maker-edits summary banner — visible only when
+                                at least one field was edited by the Maker.
+                                Composer sets visible="true" and lblMakerEditCount value.
+                            -->
+                            <div id="makerEditsBanner" sclass="maker-edits-banner" visible="false">
+                                <label sclass="maker-edits-banner-icon" value="&#9998;"/>
+                                <label id="lblMakerEditCount"
+                                       sclass="maker-edits-banner-text"
+                                       value="Maker edited 0 field(s) — highlighted below"/>
+                            </div>
+
+                        </div>
+                        <!-- /instrument-card -->
+
+                        <!-- Action buttons -->
+                        <button id="btnApprove"
+                                label="Approve"
+                                sclass="btn btn-success btn-block checker-action-btn"/>
+
+                        <button id="btnRefer"
+                                label="Refer to Maker"
+                                sclass="btn btn-warning btn-block checker-action-btn"/>
+
+                        <button id="btnReject"
+                                label="Reject"
+                                sclass="btn btn-danger btn-block checker-action-btn"/>
+
+                        <!-- Prev / Next within manual queue -->
+                        <div sclass="checker-viewer-nav">
+                            <button id="btnPrevCheque"
+                                    label="&#8592; Previous"
+                                    sclass="btn btn-ghost btn-sm"
+                                    disabled="true"/>
+                            <label id="lblChequePosition"
+                                   sclass="cheque-position-lbl"
+                                   value="1 of 1"/>
+                            <button id="btnNextCheque"
+                                    label="Next &#8594;"
+                                    sclass="btn btn-ghost btn-sm"
+                                    disabled="true"/>
+                        </div>
+
+                    </div>
+                    <!-- /checker-detail-col -->
+
+                </div>
+                <!-- /panelChequeViewer -->
+
+                <!-- ====================================================== -->
+                <!-- SECTION 4 : REVIEW SUMMARY                              -->
+                <!-- Visible once at least one cheque has been actioned.    -->
+                <!-- composer sets visible="true" after first decision.     -->
+                <!-- ====================================================== -->
+                <div id="panelReviewSummary" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <label sclass="card-panel-title" value="REVIEW SUMMARY"/>
+                    </div>
+
+                    <listbox id="tblReviewSummary"
+                             sclass="checker-summary-table"
+                             mold="paging"
+                             pageSize="10"
+                             emptyMessage="No decisions recorded yet.">
+
+                        <listhead sclass="summary-table-head">
+                            <listheader label="CHEQUE NO."    width="130px" sort="auto"/>
+                            <listheader label="PAYEE"                       sort="auto"/>
+                            <listheader label="AMOUNT"        width="120px" sort="auto"/>
+                            <listheader label="IQA"           width="70px"/>
+                            <listheader label="MAKER EDITS"   width="100px"/>
+                            <listheader label="DECISION"      width="110px"/>
+                            <listheader label="REJECT REASON"/>
+                        </listhead>
+
+                        <!--
+                            Rows rendered by CheckerOutComposer ListitemRenderer.
+                            - chequeNo      : plain text
+                            - payeeName     : plain text
+                            - amount        : plain text, right-aligned
+                            - iqaStatus     : <label sclass="badge badge-pass|badge-fail" value="PASS|FAIL"/>
+                            - makerEdits    : <label value="N field(s)" sclass="maker-edits-count"/>
+                                              OR <label value="—" sclass="text-muted"/>
+                            - decision      : <label sclass="badge badge-approved|badge-rejected
+                                                               |badge-referred|badge-pending"/>
+                            - rejectReason  : plain text or "—"
+                        -->
+
+                    </listbox>
+
+                </div>
+                <!-- /panelReviewSummary -->
+
+            </div>
+            <!-- /main-content -->
+
+        </div>
+        <!-- /app-shell -->
+
+        <!-- ============================================================== -->
+        <!-- MODAL : REFER TO MAKER                                          -->
+        <!-- composer calls dlgReferToMaker.doModal() on btnRefer click.   -->
+        <!-- lblReferMsg value is set by composer before opening.           -->
+        <!-- ============================================================== -->
+        <window id="dlgReferToMaker"
+                title="REFER TO MAKER"
+                border="normal"
+                sclass="cts-dialog"
+                closable="true"
+                visible="false"
+                width="500px">
+
+            <div sclass="dialog-body">
+
+                <!-- Italicised confirm message set by composer -->
+                <label id="lblReferMsg"
+                       sclass="dialog-refer-msg"
+                       value="Referring cheque — back to Maker Outward for re-verification."/>
+
+                <!-- Optional note for Maker -->
+                <div sclass="form-group dialog-form-group">
+                    <label sclass="form-label"
+                           value="NOTE FOR MAKER (OPTIONAL)"/>
+                    <textbox id="txtReferNote"
+                             sclass="form-input form-input-textarea"
+                             rows="4"
+                             multiline="true"
+                             width="100%"
+                             maxlength="500"
+                             placeholder="e.g. Signature unclear, please re-verify against CBS record"/>
+                </div>
+
+            </div>
+
+            <div sclass="dialog-footer">
+                <button id="btnCancelRefer"
+                        label="Cancel"
+                        sclass="btn btn-secondary"/>
+                <button id="btnSendToMaker"
+                        label="Send to Maker"
+                        sclass="btn btn-warning"/>
+            </div>
+
+        </window>
+        <!-- /dlgReferToMaker -->
+
+    </div>
+    <!-- /cts-page-root -->
+
+</zk>

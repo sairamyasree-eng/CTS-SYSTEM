@@ -52,7 +52,11 @@
             <artifactId>zul</artifactId>
             <version>10.0.0-jakarta</version>
         </dependency>
-
+<dependency>
+    <groupId>org.zkoss.zk</groupId>
+    <artifactId>zkbind</artifactId>
+    <version>10.0.0-jakarta</version>
+</dependency>
         <!-- Jakarta Servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>

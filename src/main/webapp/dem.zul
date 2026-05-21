@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk>
+
+    <!-- ================================================================== -->
+    <!-- COMPONENT DECLARATIONS                                              -->
+    <!-- ================================================================== -->
+
+    <?component name="topbar"
+                macroURI="/reuseableComponents/topbar.zul"
+                class="com.iispl.composer.TopbarComponent"?>
+
+    <?component name="sidebar"
+                macroURI="/reuseableComponents/sidebar.zul"
+                class="com.iispl.composer.SidebarComponent"?>
+
+    <?component name="workflowprogressbar"
+                macroURI="/reuseableComponents/workflowProgressBar.zul"
+                class="com.iispl.composer.WorkflowProgressBarComponent"?>
+
+    <!-- ================================================================== -->
+    <!-- PAGE ROOT                                                           -->
+    <!-- ================================================================== -->
+    <div sclass="cts-page-root"
+         apply="com.iispl.controller.DemController">
+
+        <?link rel="stylesheet" href="/styling/dem.css"?>
+
+        <!-- TOP BAR -->
+        <topbar currentPage="dem"/>
+
+        <div sclass="app-shell">
+
+            <!-- SIDEBAR — highlights step 4 (File Processing) -->
+            <sidebar currentPage="dem"/>
+
+            <!-- ========================================================== -->
+            <!-- MAIN CONTENT                                                 -->
+            <!-- ========================================================== -->
+            <div sclass="main-content">
+
+                <!-- Page header - -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-hdr-breadcrumb"
+                               value="CTS / FILE PROCESSING"/>
+                        <label sclass="page-hdr-title"
+                               value="File Processing"/>
+                        <label sclass="page-hdr-sub"
+                               value="DEM — CXF transmission and BPXF receipt"/>
+                    </div>
+
+                    <div sclass="page-hdr-nav">
+                        <button id="btnNavPrev"
+                                label="&#8592; Checker Outward Verification"
+                                sclass="btn btn-secondary btn-sm"/>
+                        <button id="btnNavNext"
+                                label="Batch Status &#8594;"
+                                sclass="btn btn-primary btn-sm"/>
+                    </div>
+                </div>
+
+                <!-- Workflow progress bar - -->
+                <workflowprogressbar currentPage="dem"/>
+
+                <!-- ====================================================== -->
+                <!-- OUTWARD — CXF TRANSMISSION PANEL                        -->
+                <!-- ====================================================== -->
+                <div id="panelCxf" sclass="card-panel">
+
+                    <div sclass="card-panel-header">
+                        <label sclass="card-panel-title"
+                               value="OUTWARD — CXF TRANSMISSION"/>
+                    </div>
+
+                    <!-- ================================================== -->
+                    <!-- 4-STEP PROGRESS STEPPER                             -->
+                    <!--                                                     -->
+                    <!-- DemComposer sets the active step by toggling        -->
+                    <!-- sclass on each step div:                            -->
+                    <!--   idle    → sclass="dem-step"                       -->
+                    <!--   active  → sclass="dem-step dem-step-active"       -->
+                    <!--   done    → sclass="dem-step dem-step-done"         -->
+                    <!--                                                     -->
+                    <!-- Step labels:                                        -->
+                    <!--   1 Batch Created   2 CXF.xml Generated             -->
+                    <!--   3 NPCI Verification   4 BPXF.xml Generated        -->
+                    <!-- ================================================== -->
+                    <div sclass="dem-stepper">
+
+                        <div id="step1" sclass="dem-step dem-step-done">
+                            <label sclass="dem-step-number" value="STEP 1"/>
+                            <label sclass="dem-step-label"  value="Batch Created"/>
+                        </div>
+
+                        <div id="step2" sclass="dem-step">
+                            <label sclass="dem-step-number" value="STEP 2"/>
+                            <label sclass="dem-step-label"  value="CXF.xml Generated"/>
+                        </div>
+
+                        <div id="step3" sclass="dem-step">
+                            <label sclass="dem-step-number" value="STEP 3"/>
+                            <label sclass="dem-step-label"  value="NPCI Verification"/>
+                        </div>
+
+                        <div id="step4" sclass="dem-step">
+                            <label sclass="dem-step-number" value="STEP 4"/>
+                            <label sclass="dem-step-label"  value="BPXF.xml Generated"/>
+                        </div>
+
+                    </div>
+                    <!-- /dem-stepper -->
+
+                    <!-- ================================================== -->
+                    <!-- TOOLBAR : select-all checkbox + generate button     -->
+                    <!-- ================================================== -->
+                    <div sclass="dem-toolbar">
+
+                        <div sclass="dem-toolbar-left">
+                            <checkbox id="chkSelectAll"
+                                      sclass="dem-select-all-chk"/>
+                            <label id="lblSelCount"
+                                   sclass="dem-sel-count"
+                                   value="0 selected"/>
+                        </div>
+
+                        <!--
+                            Enabled only when lblSelCount > 0.
+                            DemComposer toggles disabled="true/false".
+                            onClick triggers the two-phase processing flow:
+                              Phase 1 → show dlgGenerating (spinner "Generating CXF.xml")
+                              Phase 2 → after ~2s, swap to dlgNpciPolling ("NPCI Grid Processing")
+                        -->
+                        <button id="btnGenerateCxf"
+                                label="Generate &amp; Send CXF.xml"
+                                sclass="btn btn-primary btn-generate-cxf"
+                                disabled="true"/>
+
+                    </div>
+
+                    <!-- ================================================== -->
+                    <!-- BATCH TABLE                                          -->
+                    <!-- ================================================== -->
+                    <div sclass="dem-table-controls">
+                        <textbox id="txtBatchSearch"
+                                 sclass="tbl-search"
+                                 placeholder="Search..."
+                                 instant="true"/>
+                        <label id="lblBatchCount"
+                               sclass="tbl-count"
+                               value=""/>
+                    </div>
+
+                    <listbox id="tblBatches"
+                             sclass="dem-batch-table"
+                             emptyMessage="No batches available for transmission.">
+
+                        <listhead sclass="dem-table-head">
+                            <!-- Empty header cell above the checkbox column -->
+                            <listheader width="44px"/>
+                            <listheader label="BATCH NO."      sort="auto" width="160px"/>
+                            <listheader label="CHEQUES"        sort="auto" width="100px"/>
+                            <listheader label="TOTAL"          sort="auto" width="140px"/>
+                            <listheader label="STATUS"         sort="auto" width="140px"/>
+                            <listheader label="SENT AT"        sort="auto"/>
+                            <listheader label="NPCI VERIFIED"  sort="auto" width="140px"/>
+                        </listhead>
+
+                        <!--
+                            Rows rendered by DemComposer ListitemRenderer.
+                            Each row:
+                              col 0 : <checkbox sclass="dem-row-chk"/>
+                              col 1 : batch number text
+                              col 2 : cheque count
+                              col 3 : total amount (₹ formatted)
+                              col 4 : status badge
+                                        CREATED    → sclass="badge badge-created"
+                                        DEM_SENT   → sclass="badge badge-dem-sent"
+                                        VERIFIED   → sclass="badge badge-verified"
+                                        FAILED     → sclass="badge badge-failed"
+                              col 5 : sent-at timestamp or "—"
+                              col 6 : NPCI verified timestamp or "—"
+                        -->
+
+                    </listbox>
+
+                </div>
+                <!-- /panelCxf -->
+
+            </div>
+            <!-- /main-content -->
+
+        </div>
+        <!-- /app-shell -->
+
+        <!-- ============================================================== -->
+        <!-- MODAL 1 : GENERATING CXF.xml (Phase 1)                         -->
+        <!--                                                                  -->
+        <!-- Shown immediately when btnGenerateCxf is clicked.              -->
+        <!-- DemComposer:                                                    -->
+        <!--   1. dlgGenerating.doModal()                                   -->
+        <!--   2. Kicks off background thread / timer                       -->
+        <!--   3. After ~2 s → dlgGenerating.setVisible(false)             -->
+        <!--                    dlgNpciPolling.doModal()                    -->
+        <!-- ============================================================== -->
+        <window id="dlgGenerating"
+                border="none"
+                sclass="cts-processing-dialog"
+                closable="false"
+                visible="false"
+                width="320px">
+
+            <div sclass="processing-dialog-body">
+                <div sclass="processing-spinner"/>
+                <label sclass="processing-title"
+                       value="Generating CXF.xml"/>
+                <label sclass="processing-sub"
+                       value="Packaging batch data"/>
+            </div>
+
+        </window>
+        <!-- /dlgGenerating -->
+
+        <!-- ============================================================== -->
+        <!-- MODAL 2 : NPCI GRID PROCESSING (Phase 2)                        -->
+        <!--                                                                  -->
+        <!-- Shown after CXF generation completes (~2 s after Phase 1).     -->
+        <!-- DemComposer:                                                    -->
+        <!--   - Starts NPCIResponsePoller thread                           -->
+        <!--   - Keeps dialog open while polling                            -->
+        <!--   - On response received → close dialog, refresh table,        -->
+        <!--     advance stepper to step 3 or 4                             -->
+        <!-- ============================================================== -->
+        <window id="dlgNpciPolling"
+
+                border="none"
+                sclass="cts-processing-dialog"
+                closable="false"
+                visible="false"
+                width="320px">
+
+            <div sclass="processing-dialog-body">
+                <div sclass="processing-spinner"/>
+                <label sclass="processing-title"
+                       value="NPCI Grid Processing"/>
+                <label sclass="processing-sub"
+                       value="Awaiting verification response"/>
+            </div>
+
+        </window>
+        <!-- /dlgNpciPolling -->
+
+    </div>
+    <!-- /cts-page-root -->
+
+</zk>

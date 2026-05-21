@@ -1,0 +1,433 @@
+/* ================================================
+   dem.css  —  File Processing (DEM / CXF Transmission)
+   ================================================
+   Design tokens consistent with the wider CTS system:
+     Navy bg       #0a2540
+     Blue accent   #1a6bcc
+     Text dark     #1e293b
+     Border        #e2e8f0
+     Surface       #f8fafc
+     Green         #16a34a  / bg #dcfce7
+     Red           #dc2626  / bg #fee2e2
+     Yellow/Warn   #d97706  / bg #fef3c7
+     Slate         #475569
+================================================ */
+
+/* --------------------------------------------------
+   PAGE SHELL
+-------------------------------------------------- */
+.cts-page-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f1f5f9;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1e293b;
+}
+
+.app-shell {
+    display: flex;
+    flex: 1;
+}
+
+.main-content {
+    flex: 1;
+    padding: 24px 28px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+/* --------------------------------------------------
+   PAGE HEADER
+-------------------------------------------------- */
+.page-hdr {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.page-hdr-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.page-hdr-breadcrumb {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.page-hdr-title {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -.01em;
+}
+
+.page-hdr-sub {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.page-hdr-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 4px;
+}
+
+/* --------------------------------------------------
+   SHARED BUTTON STYLES
+-------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: opacity .12s, filter .12s;
+    white-space: nowrap;
+}
+.btn:hover   { filter: brightness(1.06); }
+.btn:active  { filter: brightness(.96); }
+.btn:disabled,
+.btn[disabled] { opacity: .45; cursor: not-allowed; filter: none; }
+
+.btn-primary   { background: #1a6bcc; color: #fff; }
+.btn-secondary { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; }
+.btn-sm        { padding: 5px 12px; font-size: 11px; }
+
+/* --------------------------------------------------
+   CARD PANEL
+-------------------------------------------------- */
+.card-panel {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-panel-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.card-panel-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: #334155;
+}
+
+/* --------------------------------------------------
+   4-STEP STEPPER
+   States controlled by DemComposer via sclass:
+     dem-step           → idle (not yet reached)
+     dem-step-done      → completed
+     dem-step-active    → currently in progress
+-------------------------------------------------- */
+.dem-stepper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dem-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 18px 12px;
+    border-right: 1px solid #e2e8f0;
+    background: #fff;
+    transition: background .15s;
+}
+.dem-step:last-child { border-right: none; }
+
+.dem-step-number {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.dem-step-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* Done state — green tint */
+.dem-step-done {
+    background: #f0fdf4;
+}
+.dem-step-done .dem-step-number {
+    color: #16a34a;
+}
+.dem-step-done .dem-step-label {
+    color: #16a34a;
+}
+
+/* Active state — blue tint, bolder */
+.dem-step-active {
+    background: #eff6ff;
+}
+.dem-step-active .dem-step-number {
+    color: #1a6bcc;
+}
+.dem-step-active .dem-step-label {
+    color: #1a6bcc;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------
+   TOOLBAR  (select-all + generate button)
+-------------------------------------------------- */
+.dem-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #fafafa;
+    gap: 12px;
+}
+
+.dem-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dem-select-all-chk {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: #1a6bcc;
+}
+
+.dem-sel-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.btn-generate-cxf {
+    background: #1a6bcc;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: filter .12s;
+}
+.btn-generate-cxf:hover   { filter: brightness(1.08); }
+.btn-generate-cxf:disabled,
+.btn-generate-cxf[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+    filter: none;
+}
+
+/* --------------------------------------------------
+   TABLE CONTROLS  (search + record count)
+-------------------------------------------------- */
+.dem-table-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.tbl-search {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    width: 200px;
+    color: #1e293b;
+    background: #fff;
+    transition: border-color .12s;
+}
+.tbl-search:focus { border-color: #1a6bcc; outline: none; }
+
+.tbl-count {
+    font-size: 11px;
+    color: #94a3b8;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+}
+
+/* --------------------------------------------------
+   BATCH TABLE
+-------------------------------------------------- */
+.dem-batch-table {
+    width: 100%;
+}
+
+/* Listhead */
+.dem-table-head .z-listheader {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+    padding: 10px 14px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Rows */
+.dem-batch-table .z-listitem {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .1s;
+}
+.dem-batch-table .z-listitem:hover {
+    background: #f8fafc;
+}
+.dem-batch-table .z-listcell {
+    padding: 11px 14px !important;
+    font-size: 12px;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+/* Row checkbox */
+.dem-row-chk {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: #1a6bcc;
+}
+
+/* Batch number text */
+.dem-batch-no {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Amount */
+.dem-amount {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Status badges */
+.badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.badge-created  { background: #eff6ff; color: #1a6bcc; border: 1px solid #bfdbfe; }
+.badge-dem-sent { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.badge-verified { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-failed   { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+/* Timestamp cells */
+.dem-timestamp {
+    font-size: 11px;
+    color: #64748b;
+    font-family: 'IBM Plex Mono', monospace;
+}
+.dem-dash {
+    color: #cbd5e1;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* --------------------------------------------------
+   PROCESSING MODALS
+   Both dlgGenerating and dlgNpciPolling share these styles.
+   border="none" on the <window> removes ZK chrome;
+   the styles below create the clean card look from the screenshots.
+-------------------------------------------------- */
+.cts-processing-dialog {
+    background: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,.22) !important;
+    border: none !important;
+    overflow: hidden !important;
+}
+
+/* Remove any default ZK window padding/header remnants */
+.cts-processing-dialog .z-window-content {
+    padding: 0 !important;
+}
+
+.processing-dialog-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 40px 32px 36px;
+    text-align: center;
+}
+
+/* Spinner — CSS-only rotating circle */
+.processing-spinner {
+    width: 44px;
+    height: 44px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #1a6bcc;
+    border-radius: 50%;
+    animation: dem-spin .75s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes dem-spin {
+    to { transform: rotate(360deg); }
+}
+
+.processing-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -.01em;
+}
+
+.processing-sub {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: .01em;
+}
