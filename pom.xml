@@ -39,18 +39,30 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.9</version>
         </dependency>
-		
-		<dependency>
-    		<groupId>org.mindrot</groupId>
-    		<artifactId>jbcrypt</artifactId>
-    		<version>0.4</version>
-		</dependency>
-		
+
+        <!-- BCrypt -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
         <!-- ZK Jakarta Compatible -->
         <dependency>
-<<<<<<< Updated upstream
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zk</artifactId>
+            <version>10.0.0-jakarta</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zkoss.common</groupId>
+            <artifactId>zcommon</artifactId>
+            <version>10.0.0-jakarta</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zkoss.common</groupId>
+            <artifactId>zel</artifactId>
             <version>10.0.0-jakarta</version>
         </dependency>
 
@@ -59,36 +71,13 @@
             <artifactId>zul</artifactId>
             <version>10.0.0-jakarta</version>
         </dependency>
-<dependency>
-    <groupId>org.zkoss.zk</groupId>
-    <artifactId>zkbind</artifactId>
-    <version>10.0.0-jakarta</version>
-</dependency>
-=======
-    <groupId>org.zkoss.zk</groupId>
-    <artifactId>zk</artifactId>
-    <version>10.0.0-jakarta</version>
-</dependency>
 
-<dependency>
-    <groupId>org.zkoss.common</groupId>
-    <artifactId>zcommon</artifactId>
-    <version>10.0.0-jakarta</version>
-</dependency>
+        <dependency>
+            <groupId>org.zkoss.zk</groupId>
+            <artifactId>zkbind</artifactId>
+            <version>10.0.0-jakarta</version>
+        </dependency>
 
-<dependency>
-    <groupId>org.zkoss.common</groupId>
-    <artifactId>zel</artifactId>
-    <version>10.0.0-jakarta</version>
-</dependency>
-
-<dependency>
-    <groupId>org.zkoss.zk</groupId>
-    <artifactId>zul</artifactId>
-    <version>10.0.0-jakarta</version>
-</dependency>
-
->>>>>>> Stashed changes
         <!-- Jakarta Servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -105,7 +94,7 @@
 
         <plugins>
 
-            <!-- Compiler -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
