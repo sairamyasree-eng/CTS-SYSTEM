@@ -78,7 +78,7 @@ public class TopbarComponent extends HtmlMacroComponent {
         );
 
         // ── Role badge: get name from Role entity ─────────────────────────
-        String roleName  = (user.getRole() != null) ? user.getRole().getName() : "UNKNOWN";
+        String roleName  = (user.getRole() != null) ? user.getRole().getRoleName() : "UNKNOWN";
         String roleLabel = toRoleLabel(roleName);
         String roleCss   = toRoleCss(roleName);
 

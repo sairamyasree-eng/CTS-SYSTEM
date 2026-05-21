@@ -72,7 +72,7 @@ public class SidebarComponent extends HtmlMacroComponent {
         if (user == null) return;
 
         // Get role name from Role entity → Role.getName()
-        String roleName = (user.getRole() != null) ? user.getRole().getName() : "";
+        String roleName = (user.getRole() != null) ? user.getRole().getRoleName() : "";
 
         if ("ADMIN".equalsIgnoreCase(roleName)) {
             renderAdminMenu(activePage);

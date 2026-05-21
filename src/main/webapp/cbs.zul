@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PAGE : cbs.zul
+    ==============
+    CBS Processing — Post verified inward cheques to Core Banking System.
+
+    Role access  : CheckerInward only
+    Session attr : currentPage = "cbs"
+    Composer     : com.cts.web.composer.CbsComposer
+
+    Reusable components are declared with <?component?> inside <zk>
+    and used as custom XML tags with attributes — exactly like index.zul.
+    No <include> tags anywhere.
+-->
+<zk>
+
+    <!-- ================================================================== -->
+    <!-- COMPONENT DECLARATIONS                                              -->
+    <!-- name       = custom tag name used below                            -->
+    <!-- macroURI   = path to the reusable .zul template                   -->
+    <!-- class      = backing macro-component Java class                    -->
+    <!-- ================================================================== -->
+
+    <?component name="topbar"
+                macroURI="/components/topbar.zul"
+                class="com.cts.web.composer.components.TopbarComposer"?>
+
+    <?component name="sidebar"
+                macroURI="/components/sidebar.zul"
+                class="com.cts.web.composer.components.SidebarComposer"?>
+
+    <?component name="smarttable"
+                macroURI="/components/smartTable.zul"
+                class="com.cts.web.composer.components.SmartTableComposer"?>
+
+    <!-- ================================================================== -->
+    <!-- PAGE ROOT                                                           -->
+    <!-- ================================================================== -->
+    <div sclass="cts-page-root"
+         apply="com.cts.web.composer.CbsComposer">
+
+        <?link rel="stylesheet" href="/styling/cbs.css"?>
+
+        <!-- ============================================================== -->
+        <!-- TOP BAR                                                         -->
+        <!-- Passes currentPage so the role badge and session are shown.    -->
+        <!-- ============================================================== -->
+        <topbar currentPage="cbs"/>
+
+        <div sclass="app-shell">
+
+            <!-- ========================================================== -->
+            <!-- SIDEBAR                                                      -->
+            <!-- currentPage="cbs" tells SidebarComposer to highlight step 7 -->
+            <!-- ========================================================== -->
+            <sidebar currentPage="cbs"/>
+
+            <!-- ========================================================== -->
+            <!-- MAIN CONTENT                                                 -->
+            <!-- ========================================================== -->
+            <div sclass="main-content">
+
+                <!-- Page header ------------------------------------------ -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-hdr-breadcrumb" value="CTS / CBS PROCESSING"/>
+                        <label sclass="page-hdr-title"      value="CBS Processing"/>
+                        <label sclass="page-hdr-sub"
+                               value="Post verified inward cheques to Core Banking System"/>
+                    </div>
+
+                    <div sclass="page-hdr-nav">
+                        <button id="btnNavPrev"
+                                label="&#8592; Checker Inward Verification"
+                                sclass="btn btn-secondary btn-sm"
+                                onClick="@command('navTo', page='inward-verify')"/>
+                        <button id="btnNavNext"
+                                label="Batch Status &#8594;"
+                                sclass="btn btn-primary btn-sm"
+                                onClick="@command('navTo', page='view-batches')"/>
+                    </div>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- STAT CARDS                                               -->
+                <!-- ====================================================== -->
+                <div sclass="stat-row stat-row-3col">
+
+                    <div sclass="stat-box stat-box-green">
+                        <label id="lblVerifiedCount"  sclass="stat-val" value="0"/>
+                        <label                        sclass="stat-lbl" value="VERIFIED"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-slate">
+                        <label id="lblProcessedCount" sclass="stat-val" value="0"/>
+                        <label                        sclass="stat-lbl" value="CBS PROCESSED"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-red">
+                        <label id="lblRejectedCount"  sclass="stat-val" value="0"/>
+                        <label                        sclass="stat-lbl" value="REJECTED"/>
+                    </div>
+
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- ALERT — no cheques to post                              -->
+                <!-- CbsComposer sets visible="true" when both lists empty   -->
+                <!-- ====================================================== -->
+                <div id="alertNoCheques" sclass="alert alert-warning" visible="false">
+                    <label sclass="alert-icon" value="!"/>
+                    <label value="No verified cheques available. Complete Checker Inward Verification first."/>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- PANEL : VERIFIED — PENDING CBS                          -->
+                <!-- CbsComposer sets visible="true" when eligibleList > 0   -->
+                <!-- ====================================================== -->
+                <div id="panelEligible" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <label id="lblEligibleTitle"
+                               sclass="card-panel-title"
+                               value="VERIFIED — PENDING CBS"/>
+                    </div>
+
+                    <!-- Toolbar: select-all checkbox + count/amount + Post button -->
+                    <div sclass="cbs-toolbar">
+
+                        <div sclass="cbs-toolbar-left">
+                            <checkbox id="chkSelectAll"
+                                      sclass="cbs-select-all-chk"
+                                      onCheck="@command('onSelectAll')"/>
+                            <label id="lblSelCount"  sclass="cbs-sel-count"  value="0 selected"/>
+                            <label                   sclass="cbs-sel-sep"    value="&#183;"/>
+                            <label id="lblSelAmount" sclass="cbs-sel-amount" value="&#8377;0"/>
+                        </div>
+
+                        <button id="btnPostToCbs"
+                                label="Post to CBS (0)"
+                                sclass="btn btn-success btn-post-cbs"
+                                disabled="true"
+                                onClick="@command('postToCbs')"/>
+
+                    </div>
+
+                    <!--
+                        Eligible cheques table.
+                        Attributes are received by SmartTableComposer as macro params:
+                            tableId    -> used to @Wire the inner listbox
+                            dateField  -> activates the date-range filter panel
+                            pageSize   -> rows per page
+                            showFilter -> "false" suppresses the status dropdown
+                                         (all rows here are VERIFIED, no need to filter)
+                    -->
+                    <smarttable id="tblEligible"
+                                tableId="tblEligible"
+                                dateField="chequeDate"
+                                pageSize="8"
+                                showFilter="false"/>
+
+                </div>
+                <!-- /panelEligible -->
+
+                <!-- ====================================================== -->
+                <!-- PANEL : CBS PROCESSED (read-only history)               -->
+                <!-- CbsComposer sets visible="true" when processedList > 0  -->
+                <!-- ====================================================== -->
+                <div id="panelProcessed" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <label id="lblProcessedTitle"
+                               sclass="card-panel-title"
+                               value="CBS PROCESSED"/>
+                    </div>
+
+                    <!--
+                        Processed cheques table (no checkbox column, read-only).
+                        Same attributes pattern as tblEligible above.
+                    -->
+                    <smarttable id="tblProcessed"
+                                tableId="tblProcessed"
+                                dateField="chequeDate"
+                                pageSize="8"
+                                showFilter="false"/>
+
+                </div>
+                <!-- /panelProcessed -->
+
+            </div>
+            <!-- /main-content -->
+
+        </div>
+        <!-- /app-shell -->
+
+    </div>
+    <!-- /cts-page-root -->
+
+</zk>
