@@ -40,6 +40,7 @@
             <version>2.0.9</version>
         </dependency>
 
+<<<<<<< Updated upstream
         <!-- BCrypt -->
         <dependency>
             <groupId>org.mindrot</groupId>
@@ -71,6 +72,25 @@
             <artifactId>zul</artifactId>
             <version>10.0.0-jakarta</version>
         </dependency>
+=======
+            <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zul</artifactId>
+        <version>9.6.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.zkoss.common</groupId>
+        <artifactId>zcommon</artifactId>
+        <version>9.6.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.zkoss.common</groupId>
+        <artifactId>zel</artifactId>
+        <version>9.6.0.2</version>
+    </dependency>
+>>>>>>> Stashed changes
 
         <dependency>
             <groupId>org.zkoss.zk</groupId>

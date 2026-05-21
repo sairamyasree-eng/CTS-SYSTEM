@@ -1,0 +1,112 @@
+<!-- =========================================================
+FILE: admin-banks.zul
+========================================================= -->
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <?link rel="stylesheet" href="/styling/admin.css"?>
+
+    <!-- ── Register macro components ─────────────────────────────────── -->
+    <?component name="statcard"
+                macroURI="/reuseableComponents/statCard.zul"
+                class="com.iispl.cts.StatCard"?>
+
+    <?component name="pageheader"
+                macroURI="/reuseableComponents/pageHeader.zul"
+                class="com.iispl.cts.PageHeader"?>
+
+    <borderlayout width="100%" height="100%">
+
+        <west width="220px">
+            <include src="/reuseableComponents/sidebar.zul"/>
+        </west>
+
+        <center border="none">
+
+            <vlayout width="100%">
+
+                <include src="/reuseableComponents/topbar.zul"/>
+
+                <div sclass="admin-page">
+
+                    <!-- ── Page Header ────────────────────────────────── -->
+                    <pageheader breadcrumb="CTS / ADMIN / BANKS"
+                                pageTitle="Bank Management"
+                                pageSubtitle="Manage bank master, IFSC codes, MICR data"
+                                btnLabel="+ Add Bank"/>
+
+                    <!-- ── Stats ──────────────────────────────────────── -->
+                    <hlayout width="100%" spacing="15px" sclass="stats-layout">
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="6"
+                                  statLabel="TOTAL BANKS"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="6"
+                                  statLabel="ACTIVE BANKS"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="3"
+                                  statLabel="BRANCHES"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="6"
+                                  statLabel="IFSC CODES"/>
+
+                    </hlayout>
+
+                    <!-- ── Table Card ─────────────────────────────────── -->
+                    <div sclass="table-card">
+
+                        <hlayout width="100%" sclass="table-header">
+                            <label value="BANK MASTER (6)" sclass="table-title"/>
+                            <label value="6 active · 0 inactive" sclass="table-count"/>
+                        </hlayout>
+
+                        <!-- Filters -->
+                        <hlayout spacing="10px" sclass="filter-row">
+
+                            <textbox placeholder="Search banks..."
+                                     sclass="filter-input"/>
+
+                            <combobox sclass="filter-select">
+                                <comboitem label="All Status"/>
+                            </combobox>
+
+                            <label value="FROM" sclass="filter-label"/>
+                            <datebox format="dd/MM/yyyy" sclass="date-filter"/>
+
+                            <label value="TO" sclass="filter-label"/>
+                            <datebox format="dd/MM/yyyy" sclass="date-filter"/>
+
+                        </hlayout>
+
+                        <!-- Table -->
+                        <grid sclass="admin-table">
+                            <columns>
+                                <column label="BANK CODE"/>
+                                <column label="BANK NAME"/>
+                                <column label="IFSC PREFIX"/>
+                                <column label="MICR CODE"/>
+                                <column label="BRANCHES"/>
+                                <column label="STATUS"/>
+                                <column width="160px"/>
+                            </columns>
+
+                            <rows>
+                                <!-- Populated dynamically by controller -->
+                            </rows>
+                        </grid>
+
+                    </div>
+
+                </div>
+
+            </vlayout>
+
+        </center>
+
+    </borderlayout>
+
+</zk>

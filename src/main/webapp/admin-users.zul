@@ -1,0 +1,133 @@
+<!-- =========================================================
+FILE: admin-users.zul
+========================================================= -->
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <?link rel="stylesheet" href="/styling/admin.css"?>
+
+    <!-- ── Register macro components ─────────────────────────────────── -->
+    <?component name="statcard"
+                macroURI="/reuseableComponents/statCard.zul"
+                class="com.iispl.cts.StatCard"?>
+
+    <?component name="pageheader"
+                macroURI="/reuseableComponents/pageHeader.zul"
+                class="com.iispl.cts.PageHeader"?>
+
+    <borderlayout width="100%" height="100%">
+
+        <west width="220px">
+            <include src="/reuseableComponents/sidebar.zul"/>
+        </west>
+
+        <center border="none">
+
+            <vlayout width="100%">
+
+                <include src="/reuseableComponents/topbar.zul"/>
+
+                <div sclass="admin-page">
+
+                    <!-- ── Page Header ────────────────────────────────── -->
+                    <pageheader breadcrumb="CTS / ADMIN / USERS"
+                                pageTitle="User Management"
+                                pageSubtitle="Manage CTS system users, roles and branch assignments"
+                                btnLabel="+ Add User"/>
+
+                    <!-- ── Stats ──────────────────────────────────────── -->
+                    <hlayout width="100%" spacing="15px" sclass="stats-layout">
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="1"
+                                  statLabel="ADMIN"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="2"
+                                  statLabel="MAKER OUTWARD"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="1"
+                                  statLabel="CHECKER OUTWARD VERIFICATION"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="1"
+                                  statLabel="MAKER INWARD"/>
+
+                        <statcard cardColor="blue" cardSize="small"
+                                  statNumber="1"
+                                  statLabel="CHECKER INWARD VERIFICATION"/>
+
+                    </hlayout>
+
+                    <!-- ── Table Card ─────────────────────────────────── -->
+                    <div sclass="table-card">
+
+                        <hlayout width="100%" sclass="table-header">
+                            <label value="SYSTEM USERS (6)" sclass="table-title"/>
+                            <label value="6 active · 0 inactive" sclass="table-count"/>
+                        </hlayout>
+
+                        <!-- Filters -->
+                        <hlayout spacing="10px" sclass="filter-row">
+
+                            <textbox placeholder="Search users..."
+                                     sclass="filter-input"/>
+
+                            <combobox sclass="filter-select">
+                                <comboitem label="All Roles"/>
+                            </combobox>
+
+                            <label value="FROM" sclass="filter-label"/>
+                            <datebox format="dd/MM/yyyy" sclass="date-filter"/>
+
+                            <label value="TO" sclass="filter-label"/>
+                            <datebox format="dd/MM/yyyy" sclass="date-filter"/>
+
+                        </hlayout>
+
+                        <!-- Table -->
+                        <grid sclass="admin-table">
+                            <columns>
+                                <column label="USERNAME"/>
+                                <column label="FULL NAME"/>
+                                <column label="ROLE"/>
+                                <column label="BRANCH"/>
+                                <column label="STATUS"/>
+                                <column label="CREATED"/>
+                                <column width="160px"/>
+                            </columns>
+
+                            <rows>
+
+                                <row>
+                                    <label value="maker1"/>
+                                    <label value="Rajesh Kumar"/>
+                                    <label value="MAKER OUTWARD"
+                                           sclass="role-badge blue-badge"/>
+                                    <label value="Mumbai Central"/>
+                                    <label value="ACTIVE"
+                                           sclass="status-active"/>
+                                    <label value="2026-01-15"/>
+                                    <hlayout spacing="8px">
+                                        <button label="Edit"
+                                                sclass="btn-edit"/>
+                                        <button label="Deactivate"
+                                                sclass="btn-danger"/>
+                                    </hlayout>
+                                </row>
+
+                            </rows>
+                        </grid>
+
+                    </div>
+
+                </div>
+
+            </vlayout>
+
+        </center>
+
+    </borderlayout>
+
+</zk>

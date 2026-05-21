@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =========================================================
+  MACRO COMPONENT: moduleCard.zul
+  PARAMETERS:
+    icon        - emoji / text shown in the icon circle  (e.g. "👥")
+    moduleTitle - card heading                           (e.g. "User Management")
+    moduleDesc  - one-line description                   (e.g. "Manage system users...")
+    moduleHref  - navigation URL                         (e.g. "/admin-users.zul")
+  USAGE EXAMPLE:
+    <modulecard icon="👥"
+                moduleTitle="User Management"
+                moduleDesc="Manage system users, roles and permissions"
+                moduleHref="/admin-users.zul"/>
+========================================================= -->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div sclass="module-card">
+
+        <div sclass="module-icon">
+            <label value="${self.icon}"/>
+        </div>
+
+        <label value="${self.moduleTitle}"
+               sclass="module-title"/>
+
+        <label value="${self.moduleDesc}"
+               sclass="module-desc"/>
+
+        <a label="Open →"
+           href="${self.moduleHref}"
+           sclass="module-link"/>
+
+    </div>
+
+</zk>

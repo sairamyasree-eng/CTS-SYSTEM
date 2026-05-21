@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =========================================================
+  MACRO COMPONENT: statCard.zul
+  PARAMETERS:
+    cardColor  - CSS colour modifier: blue | green | purple | teal  (default: blue)
+    cardSize   - extra CSS modifier : small | ""                     (default: "")
+    statNumber - the big number shown on the card                   (default: "0")
+    statLabel  - the label text shown below the number              (default: "")
+  USAGE EXAMPLE:
+    <statcard cardColor="green" statNumber="6" statLabel="ACTIVE USERS"/>
+========================================================= -->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div sclass="stat-card ${self.cardColor} ${self.cardSize}">
+        <label value="${self.statNumber}" sclass="stat-number"/>
+        <label value="${self.statLabel}"  sclass="stat-label"/>
+    </div>
+
+</zk>

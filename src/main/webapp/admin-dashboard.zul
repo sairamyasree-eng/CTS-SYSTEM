@@ -1,0 +1,97 @@
+<!-- =========================================================
+FILE: admin-dashboard.zul
+========================================================= -->
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <?link rel="stylesheet" href="/styling/admin.css"?>
+
+    <!-- ── Register macro components ─────────────────────────────────── -->
+    <?component name="statcard"
+                macroURI="/reuseableComponents/statCard.zul"
+                class="com.iispl.cts.StatCard"?>
+
+    <?component name="pageheader"
+                macroURI="/reuseableComponents/pageHeader.zul"
+                class="com.iispl.cts.PageHeader"?>
+
+    <?component name="modulecard"
+                macroURI="/reuseableComponents/moduleCard.zul"
+                class="com.iispl.cts.ModuleCard"?>
+
+    <borderlayout width="100%" height="100%">
+
+        <!-- SIDEBAR -->
+        <west width="220px" splittable="false" collapsible="false">
+            <include src="/reuseableComponents/sidebar.zul"/>
+        </west>
+
+        <center border="none">
+
+            <vlayout width="100%" height="100%">
+
+                <!-- TOPBAR -->
+                <include src="/reuseableComponents/topbar.zul"/>
+
+                <!-- CONTENT -->
+                <div sclass="admin-page">
+
+                    <!-- ── Page Header (no action button on dashboard) ──── -->
+                    <pageheader breadcrumb="CTS / ADMIN"
+                                pageTitle="Administration Dashboard"
+                                pageSubtitle="User and Bank management"
+                                btnLabel=""/>
+
+                    <!-- Info Box -->
+                    <div sclass="info-box">
+                        <label value="As Admin, you have access to User Management and Bank Management only. Pipeline processing is restricted to operational roles."/>
+                    </div>
+
+                    <!-- ── Stats ──────────────────────────────────────── -->
+                    <hlayout width="100%" spacing="15px" sclass="stats-layout">
+
+                        <statcard cardColor="blue"
+                                  statNumber="6"
+                                  statLabel="SYSTEM USERS"/>
+
+                        <statcard cardColor="green"
+                                  statNumber="6"
+                                  statLabel="ACTIVE USERS"/>
+
+                        <statcard cardColor="purple"
+                                  statNumber="6"
+                                  statLabel="BANKS CONFIGURED"/>
+
+                        <statcard cardColor="teal"
+                                  statNumber="3"
+                                  statLabel="BRANCHES"/>
+
+                    </hlayout>
+
+                    <!-- ── Modules ────────────────────────────────────── -->
+                    <label value="ADMINISTRATION MODULES"
+                           sclass="section-title"/>
+
+                    <hlayout spacing="15px">
+
+                        <modulecard icon="👥"
+                                    moduleTitle="User Management"
+                                    moduleDesc="Manage system users, roles and permissions"
+                                    moduleHref="/admin-users.zul"/>
+
+                        <modulecard icon="🏦"
+                                    moduleTitle="Bank Management"
+                                    moduleDesc="Manage bank master, IFSC codes, MICR data"
+                                    moduleHref="/admin-banks.zul"/>
+
+                    </hlayout>
+
+                </div>
+
+            </vlayout>
+
+        </center>
+
+    </borderlayout>
+
+</zk>
