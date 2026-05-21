@@ -1,0 +1,201 @@
+<?page title="CTS — Checker Inward Dashboard" contentType="text/html;charset=UTF-8"?>
+<!--
+    PAGE: checkerInwardDashboard.zul
+    ==================================
+    Role     : CheckerInward
+    Modules  : Checker Inward Verification → CBS Processing → Batch Status
+    Composer : com.cts.web.composer.dashboard.CheckerInwardDashboardComposer
+-->
+<zk>
+
+    <!-- ── Declare reusable components ── -->
+    <?component name="ctstopbar"
+                macroURI="/components/topbar.zul"
+                class="com.cts.web.composer.components.TopbarComposer"?>
+
+    <?component name="ctssidebar"
+                macroURI="/components/sidebar.zul"
+                class="com.cts.web.composer.components.SidebarComposer"?>
+
+    <?component name="workflowbar"
+                macroURI="/components/workflowProgressBar.zul"
+                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+
+    <?component name="smarttable"
+                macroURI="/components/smartTable.zul"
+                class="com.cts.web.composer.components.SmartTableComposer"?>
+
+    <?component name="imageviewer"
+                macroURI="/components/imageViewerPanel.zul"
+                class="com.cts.web.composer.components.ImageViewerComposer"?>
+
+    <!-- ── Page shell window ── -->
+    <window id="winCheckerInward"
+            border="none"
+            width="100%"
+            height="100%"
+            sclass="cts-page-shell"
+            apply="com.cts.web.composer.dashboard.CheckerInwardDashboardComposer">
+
+        <!-- TOP BAR -->
+        <ctstopbar/>
+
+        <!-- APP SHELL -->
+        <hlayout sclass="app-shell" spacing="0px" width="100%">
+
+            <!-- SIDEBAR — currentPage = "dashboard" -->
+            <ctssidebar/>
+
+            <!-- MAIN CONTENT -->
+            <div sclass="main-content" vflex="1">
+
+                <!-- ── Page Header ── -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-breadcrumb" value="CTS / Dashboard"/>
+                        <label sclass="page-title"      value="Checker Inward — Dashboard"/>
+                        <label sclass="page-sub"
+                               value="Final verification of inward cheques and CBS posting"/>
+                    </div>
+                    <button id="btnGoVerify"
+                            label="Open Inward Verification"
+                            sclass="btn btn-primary"
+                            onClick="@command('navigate', page='inward-verify')"/>
+                </div>
+
+                <!-- ── Workflow Progress Bar ── -->
+                <!--
+                    Composer sets: bar.setActiveStep("inward-verify")
+                    so: steps 1-5 = done, step 6 = active, step 7 = pending
+                -->
+                <workflowbar id="wfBar"/>
+
+                <!-- ── KPI Stat Row ── -->
+                <hlayout sclass="stat-row" spacing="12px">
+                    <div sclass="stat-box amber">
+                        <label id="lblPendingVerify" sclass="stat-val" value="0"/>
+                        <label sclass="stat-lbl"     value="Pending Verification"/>
+                    </div>
+                    <div sclass="stat-box green">
+                        <label id="lblVerified" sclass="stat-val" value="0"/>
+                        <label sclass="stat-lbl" value="Verified"/>
+                    </div>
+                    <div sclass="stat-box red">
+                        <label id="lblInwardRejected" sclass="stat-val" value="0"/>
+                        <label sclass="stat-lbl"      value="Inward Rejected"/>
+                    </div>
+                    <div sclass="stat-box teal">
+                        <label id="lblCbsReady" sclass="stat-val" value="0"/>
+                        <label sclass="stat-lbl" value="CBS Ready"/>
+                    </div>
+                    <div sclass="stat-box slate">
+                        <label id="lblCbsPosted" sclass="stat-val" value="0"/>
+                        <label sclass="stat-lbl"  value="CBS Processed"/>
+                    </div>
+                </hlayout>
+
+                <!-- ── Quick-Access Module Tiles ── -->
+                <div sclass="section-lbl"><label value="YOUR MODULES"/></div>
+                <hlayout sclass="mod-grid" spacing="12px">
+
+                    <div sclass="mod-tile" onClick="@command('navigate', page='inward-verify')">
+                        <label sclass="mod-tile-step"  value="STEP 6"/>
+                        <label sclass="mod-tile-title" value="Checker Inward Verification"/>
+                        <label sclass="mod-tile-desc"
+                               value="Verify or reject inward cheques one by one with cheque image, MICR, and edit history."/>
+                        <label sclass="mod-tile-action" value="Go to Verification →"/>
+                    </div>
+
+                    <div sclass="mod-tile" onClick="@command('navigate', page='cbs')">
+                        <label sclass="mod-tile-step"  value="STEP 7"/>
+                        <label sclass="mod-tile-title" value="CBS Processing"/>
+                        <label sclass="mod-tile-desc"
+                               value="Post verified inward cheques to Core Banking System. Select and bulk-process in one click."/>
+                        <label sclass="mod-tile-action" value="Go to CBS →"/>
+                    </div>
+
+                    <div sclass="mod-tile" onClick="@command('navigate', page='view-batches')">
+                        <label sclass="mod-tile-step"  value="STEP 8"/>
+                        <label sclass="mod-tile-title" value="Batch Status"/>
+                        <label sclass="mod-tile-desc"
+                               value="Full pipeline batch status view — outward and inward, current session."/>
+                        <label sclass="mod-tile-action" value="View Batches →"/>
+                    </div>
+
+                </hlayout>
+
+                <!-- ── Two-column layout: table + quick image preview ── -->
+                <hlayout sclass="dashboard-bottom-row" spacing="16px">
+
+                    <!-- Left: Pending verification table -->
+                    <div sclass="card-panel" style="flex:1">
+                        <div sclass="card-panel-header">
+                            <label sclass="card-panel-title"
+                                   value="INWARD CHEQUES — PENDING VERIFICATION"/>
+                        </div>
+                        <div sclass="card-panel-body">
+                            <!--
+                                Composer:
+                                    tableComp.setColumns(List.of(
+                                        new ColumnDef("chequeNumber","Cheque No.",true,true),
+                                        new ColumnDef("payeeName","Payee",true,false),
+                                        new ColumnDef("amount","Amount (₹)",true,true),
+                                        new ColumnDef("drawerBank","Drawer Bank",true,false),
+                                        new ColumnDef("inwardStatus","Status",false,false)
+                                    ));
+                                    tableComp.setData(pendingCheques);
+                                    tableComp.setRowClickListener(row -> showPreview(row));
+                                    tableComp.refresh();
+                            -->
+                            <smarttable id="tblPendingInward"/>
+                        </div>
+                    </div>
+
+                    <!-- Right: Cheque image quick-preview (shown when row is clicked) -->
+                    <div id="previewPanel" sclass="card-panel" width="420px" visible="false">
+                        <div sclass="card-panel-header">
+                            <label sclass="card-panel-title" value="CHEQUE PREVIEW"/>
+                            <button id="btnClosePreview"
+                                    label="✕"
+                                    sclass="btn btn-xs btn-secondary"
+                                    onClick="@command('closePreview')"/>
+                        </div>
+                        <div sclass="card-panel-body" style="padding:0">
+                            <!--
+                                Composer:
+                                    viewer.setChequeId(selectedCheque.getId());
+                                    viewer.setFrontImagePath(...);
+                                    viewer.setBackImagePath(...);
+                                    viewer.setGrayscaleImagePath(...);
+                                    viewer.setShowSignature(true);
+                                    viewer.refresh();
+                            -->
+                            <imageviewer id="imgPreview"/>
+                        </div>
+                        <div sclass="card-panel-footer" style="padding:12px 16px;display:flex;gap:8px">
+                            <button id="btnVerify"
+                                    label="Verify &amp; Approve"
+                                    sclass="btn btn-success"
+                                    onClick="@command('quickVerify')"/>
+                            <button id="btnReject"
+                                    label="Reject"
+                                    sclass="btn btn-danger"
+                                    onClick="@command('quickReject')"/>
+                            <button id="btnFullReview"
+                                    label="Full Review →"
+                                    sclass="btn btn-outline"
+                                    onClick="@command('navigate', page='inward-verify')"/>
+                        </div>
+                    </div>
+
+                </hlayout>
+
+            </div>
+            <!-- /main-content -->
+
+        </hlayout>
+        <!-- /app-shell -->
+
+    </window>
+
+</zk>

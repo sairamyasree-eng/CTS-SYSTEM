@@ -1,6 +1,7 @@
 package com.iispl.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.iispl.enums.BatchStatus;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,7 +22,7 @@ import jakarta.persistence.Table;
 public class Batch {
 
 	@Id
-	@Column(name = "id", nullable = false, insertable = false, updatable = false)
+	@Column(name = "id", nullable = false, updatable = false)
 	private String id;
 
 	@Column(name = "batch_name", nullable = false)
@@ -33,7 +35,7 @@ public class Batch {
 	private String createdByUserId;
 
 	@Column(name = "batch_date", nullable = false)
-	private String batchDate;
+	private LocalDate batchDate;
 
 	@Column(name = "expected_cheque_count")
 	private int expectedChequeCount;
@@ -42,13 +44,13 @@ public class Batch {
 	private BigDecimal expectedAmount;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "Status", nullable = false)
+	@Column(name = "status", nullable = false)
 	private BatchStatus status;
 
 	@Column(name = "dem_file_path")
 	private String demFilePath;
 
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -56,16 +58,15 @@ public class Batch {
 	private CtsSession session;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "session_id", nullable = false)
+	@JoinColumn(name = "created_by_user_id", nullable = false)
 	private User createdByUser;
 
 	public Batch() {
-	};
+	}
 
-	public Batch(String id, String batchName, String sessionId, String createdByUserId, String batchDate,
+	public Batch(String id, String batchName, String sessionId, String createdByUserId, LocalDate batchDate,
 			int expectedChequeCount, BigDecimal expectedAmount, BatchStatus status, String demFilePath,
 			LocalDateTime createdAt) {
-		super();
 		this.id = id;
 		this.batchName = batchName;
 		this.sessionId = sessionId;
@@ -90,72 +91,87 @@ public class Batch {
 		return batchName;
 	}
 
-	public void setBatchName(String batchName) {
-		this.batchName = batchName;
+	public void setBatchName(String n) {
+		this.batchName = n;
 	}
 
 	public String getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setSessionId(String s) {
+		this.sessionId = s;
 	}
 
 	public String getCreatedByUserId() {
 		return createdByUserId;
 	}
 
-	public void setCreatedByUserId(String createdByUserId) {
-		this.createdByUserId = createdByUserId;
+	public void setCreatedByUserId(String uid) {
+		this.createdByUserId = uid;
 	}
 
-	public String getBatchDate() {
+	public LocalDate getBatchDate() {
 		return batchDate;
 	}
 
-	public void setBatchDate(String batchDate) {
-		this.batchDate = batchDate;
+	public void setBatchDate(LocalDate d) {
+		this.batchDate = d;
 	}
 
 	public int getExpectedChequeCount() {
 		return expectedChequeCount;
 	}
 
-	public void setExpectedChequeCount(int expectedChequeCount) {
-		this.expectedChequeCount = expectedChequeCount;
+	public void setExpectedChequeCount(int c) {
+		this.expectedChequeCount = c;
 	}
 
 	public BigDecimal getExpectedAmount() {
 		return expectedAmount;
 	}
 
-	public void setExpectedAmount(BigDecimal expectedAmount) {
-		this.expectedAmount = expectedAmount;
+	public void setExpectedAmount(BigDecimal a) {
+		this.expectedAmount = a;
 	}
 
 	public BatchStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(BatchStatus status) {
-		this.status = status;
+	public void setStatus(BatchStatus s) {
+		this.status = s;
 	}
 
 	public String getDemFilePath() {
 		return demFilePath;
 	}
 
-	public void setDemFilePath(String demFilePath) {
-		this.demFilePath = demFilePath;
+	public void setDemFilePath(String p) {
+		this.demFilePath = p;
 	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedAt(LocalDateTime t) {
+		this.createdAt = t;
 	}
 
+	public CtsSession getSession() {
+		return session;
+	}
+
+	public void setSession(CtsSession s) {
+		this.session = s;
+	}
+
+	public User getCreatedByUser() {
+		return createdByUser;
+	}
+
+	public void setCreatedByUser(User u) {
+		this.createdByUser = u;
+	}
 }

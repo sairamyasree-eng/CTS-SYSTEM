@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PAGE : inwardRepair.zul
+    ========================
+    Inward Repair — Review BPXF cheques, correct MICR, reject suspect instruments.
+
+    Role access  : MakerInward only
+    Session attr : currentPage = "inward-repair"
+    Composer     : com.cts.web.composer.InwardRepairComposer
+
+    Reusable components declared with <?component?> inside <zk>
+    and used as custom XML tags with attributes — exactly like cbs.zul.
+
+    Reusable components used:
+        <topbar>              → /components/topbar.zul
+        <sidebar>             → /components/sidebar.zul
+        <imageviewerpanel>    → /components/imageViewerPanel.zul
+        <workflowprogressbar> → /components/workflowProgressBar.zul
+        <smarttable>          → /components/smartTable.zul
+-->
+<zk>
+
+    <!-- ================================================================== -->
+    <!-- COMPONENT DECLARATIONS                                              -->
+    <!-- ================================================================== -->
+
+    <?component name="topbar"
+                macroURI="/components/topbar.zul"
+                class="com.cts.web.composer.components.TopbarComposer"?>
+
+    <?component name="sidebar"
+                macroURI="/components/sidebar.zul"
+                class="com.cts.web.composer.components.SidebarComposer"?>
+
+    <?component name="imageviewerpanel"
+                macroURI="/components/imageViewerPanel.zul"
+                class="com.cts.web.composer.components.ImageViewerComposer"?>
+
+    <?component name="workflowprogressbar"
+                macroURI="/components/workflowProgressBar.zul"
+                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+
+    <?component name="smarttable"
+                macroURI="/components/smartTable.zul"
+                class="com.cts.web.composer.components.SmartTableComposer"?>
+
+    <!-- ================================================================== -->
+    <!-- PAGE ROOT                                                            -->
+    <!-- ================================================================== -->
+    <div sclass="cts-page-root"
+         apply="com.cts.web.composer.InwardRepairComposer">
+
+        <?link rel="stylesheet" href="/styling/inwardRepair.css"?>
+
+        <!-- ============================================================== -->
+        <!-- TOP BAR                                                         -->
+        <!-- ============================================================== -->
+        <topbar currentPage="inward-repair"/>
+
+        <div sclass="app-shell">
+
+            <!-- ========================================================== -->
+            <!-- SIDEBAR                                                      -->
+            <!-- currentPage="inward-repair" highlights step 5 in sidebar   -->
+            <!-- ========================================================== -->
+            <sidebar currentPage="inward-repair"/>
+
+            <!-- ========================================================== -->
+            <!-- MAIN CONTENT                                                 -->
+            <!-- ========================================================== -->
+            <div sclass="main-content">
+
+                <!-- Page header ------------------------------------------ -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-hdr-breadcrumb"
+                               value="CTS / INWARD REPAIR"/>
+                        <label sclass="page-hdr-title"
+                               value="Inward Repair"/>
+                        <label sclass="page-hdr-sub"
+                               value="Review BPXF cheques — correct MICR, reject suspect instruments"/>
+                    </div>
+
+                    <!-- Nav buttons: matching HTML ← File Processing / Batch Status → -->
+                    <div sclass="page-hdr-nav">
+                        <button id="btnNavPrev"
+                                label="&#8592; File Processing"
+                                sclass="btn btn-secondary btn-sm"
+                                onClick="@command('navTo', page='file-processing')"/>
+                        <button id="btnNavNext"
+                                label="Batch Status &#8594;"
+                                sclass="btn btn-primary btn-sm"
+                                onClick="@command('navTo', page='view-batches')"/>
+                    </div>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- WORKFLOW PROGRESS BAR                                   -->
+                <!-- InwardRepairComposer calls bar.setActiveStep(          -->
+                <!--   "inward-repair") to auto-set done/active/pending     -->
+                <!-- ====================================================== -->
+                <workflowprogressbar id="pgBar"/>
+
+                <!-- ====================================================== -->
+                <!-- STAT CARDS  (Total / Pending / Repaired / Rejected)    -->
+                <!-- InwardRepairComposer populates lbl* values on load     -->
+                <!-- ====================================================== -->
+                <div sclass="stat-row stat-row-4col">
+
+                    <div sclass="stat-box stat-box-blue">
+                        <label id="lblTotalCount"    sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="TOTAL"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-amber">
+                        <label id="lblPendingCount"  sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="PENDING"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-green">
+                        <label id="lblRepairedCount" sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="REPAIRED"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-red">
+                        <label id="lblRejectedCount" sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="REJECTED"/>
+                    </div>
+
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- INWARD CHEQUE REVIEW PANEL                              -->
+                <!-- Shows one cheque at a time — navigator + status badge  -->
+                <!-- InwardRepairComposer drives visibility and content      -->
+                <!-- ====================================================== -->
+                <div id="panelReview" sclass="card-panel" visible="false">
+
+                    <!-- Panel header: title + navigator + status badge -->
+                    <div sclass="card-panel-header">
+
+                        <!-- Left: title + cheque counter  e.g. "3 of 3" -->
+                        <div sclass="review-hdr-left">
+                            <label sclass="card-panel-title"
+                                   value="INWARD CHEQUE REVIEW"/>
+                            <label id="lblChequeCounter"
+                                   sclass="review-counter"
+                                   value="1 of 1"/>
+                        </div>
+
+                        <!-- Centre: workflow dot progress  ← / dots / → -->
+                        <div sclass="review-nav-centre">
+                            <button id="btnPrev"
+                                    label="&#8592;"
+                                    sclass="btn btn-sm btn-nav-dot"
+                                    disabled="true"
+                                    onClick="@command('prevCheque')"/>
+
+                            <!--
+                                Dot indicators injected by InwardRepairComposer.
+                                Each dot gets sclass "dot-done", "dot-active",
+                                or "dot-pending" based on repair_status.
+                            -->
+                            <div id="dotsContainer" sclass="review-dots"/>
+
+                            <button id="btnNext"
+                                    label="&#8594;"
+                                    sclass="btn btn-sm btn-nav-dot"
+                                    onClick="@command('nextCheque')"/>
+                        </div>
+
+                        <!-- Right: repair status badge (REPAIRED / PENDING / REJECTED) -->
+                        <label id="lblRepairBadge"
+                               sclass="badge-pill badge-repaired"
+                               value="PENDING"/>
+
+                    </div>
+                    <!-- /card-panel-header -->
+
+                    <!-- Split layout: left = cheque image | right = details + actions -->
+                    <div sclass="review-body">
+
+                        <!-- ================================================ -->
+                        <!-- LEFT COLUMN — Cheque Image Viewer                 -->
+                        <!-- Uses imageViewerPanel reusable component          -->
+                        <!-- Front / Back / Grayscale tabs built-in            -->
+                        <!-- ================================================ -->
+                        <div sclass="review-left">
+
+                            <!--
+                                imageviewerpanel reusable component.
+                                InwardRepairComposer wires it and calls:
+                                    viewer.setChequeId(id);
+                                    viewer.setFrontImagePath(path);
+                                    viewer.setBackImagePath(path);
+                                    viewer.setGrayscaleImagePath(path);
+                                    viewer.refresh();
+                            -->
+                            <imageviewerpanel id="imgViewer"/>
+
+                            <!-- IQA + MICR status badges below the image -->
+                            <div sclass="status-badge-row">
+
+                                <div id="badgeIqa" sclass="status-badge status-badge-pass">
+                                    <label sclass="status-badge-icon"  value="&#10003;"/>
+                                    <div>
+                                        <label sclass="status-badge-key"   value="IQA"/>
+                                        <label id="lblIqaStatus"
+                                               sclass="status-badge-val"
+                                               value="Pass"/>
+                                    </div>
+                                </div>
+
+                                <div id="badgeMicr" sclass="status-badge status-badge-pass">
+                                    <label sclass="status-badge-icon"  value="&#10003;"/>
+                                    <div>
+                                        <label sclass="status-badge-key"   value="MICR"/>
+                                        <label id="lblMicrStatus"
+                                               sclass="status-badge-val"
+                                               value="Pass"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- MICR Band display bar -->
+                            <div sclass="micr-band-wrap">
+                                <label sclass="micr-band-label" value="MICR BAND"/>
+                                <div sclass="micr-band-display">
+                                    <label id="lblMicrBand"
+                                           sclass="micr-band-value"
+                                           value=""/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /review-left -->
+
+                        <!-- ================================================ -->
+                        <!-- RIGHT COLUMN — Cheque Details + Repair Actions    -->
+                        <!-- ================================================ -->
+                        <div sclass="review-right">
+
+                            <!-- Section title -->
+                            <label sclass="details-section-title" value="DETAILS"/>
+
+                            <!-- Cheque detail rows -->
+                            <div sclass="details-grid">
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="CHEQUE NO."/>
+                                    <label id="lblChequeNumber"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="PAYEE"/>
+                                    <label id="lblPayeeName"
+                                           sclass="detail-val"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="DRAWER BANK"/>
+                                    <label id="lblDrawerBank"
+                                           sclass="detail-val"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="DATE"/>
+                                    <label id="lblChequeDate"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="ACCOUNT"/>
+                                    <label id="lblAccountNumber"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"   value="IFSC"/>
+                                    <label id="lblIfscCode"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                            </div>
+                            <!-- /details-grid -->
+
+                            <!-- Amount box -->
+                            <div sclass="amount-box">
+                                <label sclass="amount-box-label" value="AMOUNT"/>
+                                <label id="lblAmount"
+                                       sclass="amount-box-value"
+                                       value="&#8377;0"/>
+                                <label id="lblAmountWords"
+                                       sclass="amount-box-words"
+                                       value=""/>
+                            </div>
+
+                            <!-- ============================================ -->
+                            <!-- REPAIR ACTION PANEL                          -->
+                            <!-- Shown when repairStatus = Pending            -->
+                            <!-- InwardRepairComposer toggles visibility      -->
+                            <!-- ============================================ -->
+                            <div id="panelActions" sclass="repair-action-panel" visible="true">
+
+                                <!-- MICR correction input -->
+                                <div sclass="micr-edit-wrap">
+                                    <label sclass="micr-edit-label"
+                                           value="Correct MICR Code"/>
+                                    <textbox id="txtMicrCode"
+                                             sclass="micr-edit-input"
+                                             placeholder="Enter corrected MICR code"
+                                             onChange="@command('onMicrChange')"/>
+                                    <label id="lblMicrOriginal"
+                                           sclass="micr-edit-original"
+                                           value=""/>
+                                </div>
+
+                                <!-- Reject reason dropdown -->
+                                <div sclass="form-group">
+                                    <label sclass="form-label"
+                                           value="Rejection Reason"/>
+                                    <label sclass="form-label-hint"
+                                           value="(required to reject)"/>
+                                    <listbox id="cmbRejectReason"
+                                             sclass="form-control"
+                                             mold="select"
+                                             onSelect="@command('onRejectReasonChange')">
+                                        <listitem label="— Select reason —" value=""/>
+                                        <!--
+                                            Remaining items injected by
+                                            InwardRepairComposer from REJECT_REPAIR_REASONS list
+                                        -->
+                                    </listbox>
+                                </div>
+
+                                <!-- Repair / Reject action buttons -->
+                                <div sclass="action-btn-row">
+
+                                    <button id="btnRepair"
+                                            label="Repair MICR"
+                                            sclass="btn btn-action btn-repair"
+                                            onClick="@command('repairCheque')"/>
+
+                                    <button id="btnReject"
+                                            label="Reject Cheque"
+                                            sclass="btn btn-action btn-reject"
+                                            disabled="true"
+                                            onClick="@command('rejectCheque')"/>
+
+                                </div>
+
+                            </div>
+                            <!-- /panelActions -->
+
+                            <!-- ============================================ -->
+                            <!-- RESULT BANNER                                -->
+                            <!-- Shown after decision (Repaired / Rejected)   -->
+                            <!-- InwardRepairComposer toggles visibility      -->
+                            <!-- ============================================ -->
+                            <div id="panelResult" sclass="result-banner" visible="false">
+
+                                <!-- Repaired banner (green) -->
+                                <div id="bannerRepaired"
+                                     sclass="result-banner-repaired"
+                                     visible="false">
+                                    <label sclass="result-banner-icon"  value="&#10003;"/>
+                                    <label sclass="result-banner-text"  value="MICR repaired."/>
+                                </div>
+
+                                <!-- Rejected banner (red) -->
+                                <div id="bannerRejected"
+                                     sclass="result-banner-rejected"
+                                     visible="false">
+                                    <label sclass="result-banner-icon"  value="&#10007;"/>
+                                    <label sclass="result-banner-text"  value="Cheque rejected."/>
+                                    <label id="lblRejectReasonDisplay"
+                                           sclass="result-banner-reason"
+                                           value=""/>
+                                </div>
+
+                                <!-- Prev / Next nav buttons after decision -->
+                                <div sclass="post-decision-nav">
+                                    <button id="btnResultPrev"
+                                            label="&#8592; Prev"
+                                            sclass="btn btn-secondary btn-sm"
+                                            visible="false"
+                                            onClick="@command('prevCheque')"/>
+                                    <button id="btnResultNext"
+                                            label="Next &#8594;"
+                                            sclass="btn btn-secondary btn-sm"
+                                            onClick="@command('nextCheque')"/>
+                                </div>
+
+                            </div>
+                            <!-- /panelResult -->
+
+                        </div>
+                        <!-- /review-right -->
+
+                    </div>
+                    <!-- /review-body -->
+
+                </div>
+                <!-- /panelReview -->
+
+                <!-- ====================================================== -->
+                <!-- PANEL : NO CHEQUES ALERT                                -->
+                <!-- Shown when inward list is empty                         -->
+                <!-- ====================================================== -->
+                <div id="alertNoCheques" sclass="alert alert-warning" visible="false">
+                    <label sclass="alert-icon" value="!"/>
+                    <label value="No inward cheques available for repair. Complete File Processing first."/>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- PANEL : REPAIR SUMMARY TABLE                            -->
+                <!-- Shown after at least one cheque is decided              -->
+                <!-- Uses smarttable reusable component — same as cbs.zul   -->
+                <!-- ====================================================== -->
+                <div id="panelSummary" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <label sclass="card-panel-title" value="REPAIR SUMMARY"/>
+                    </div>
+
+                    <!--
+                        smarttable reusable component.
+                        Attributes match what SmartTableComposer expects:
+                            tableId    → @Wire the inner listbox
+                            dateField  → activates date-range filter
+                            pageSize   → rows per page
+                            showFilter → false: all rows already filtered
+                    -->
+                    <smarttable id="tblSummary"
+                                tableId="tblSummary"
+                                dateField="chequeDate"
+                                pageSize="8"
+                                showFilter="false"/>
+
+                </div>
+                <!-- /panelSummary -->
+
+            </div>
+            <!-- /main-content -->
+
+        </div>
+        <!-- /app-shell -->
+
+    </div>
+    <!-- /cts-page-root -->
+
+</zk>

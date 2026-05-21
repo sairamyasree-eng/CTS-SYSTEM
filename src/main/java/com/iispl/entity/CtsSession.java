@@ -17,7 +17,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cts_session")
-
 public class CtsSession {
 
 	@Id
@@ -25,7 +24,7 @@ public class CtsSession {
 	private String id;
 
 	@Column(name = "opened_by_user_id", nullable = false, insertable = false, updatable = false)
-	private String openedByUserID;
+	private String openedByUserId; // FIX-2: "openedByUserID" → "openedByUserId" (Java naming convention)
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
@@ -43,20 +42,17 @@ public class CtsSession {
 	@Column(name = "branch", nullable = false)
 	private String branch;
 
-	// hibernate relation MANY TO ONE RELATION
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "opened_by_user_id", nullable = false)
 	private User openedByUser;
 
-	// default constructor
 	public CtsSession() {
 	}
 
-	public CtsSession(String id, String openedByUserID, SessionStatus status, LocalDate sessionDate,
+	public CtsSession(String id, String openedByUserId, SessionStatus status, LocalDate sessionDate,
 			LocalDateTime openedAt, LocalDateTime closedAt, String branch) {
-		super();
 		this.id = id;
-		this.openedByUserID = openedByUserID;
+		this.openedByUserId = openedByUserId;
 		this.status = status;
 		this.sessionDate = sessionDate;
 		this.openedAt = openedAt;
@@ -72,60 +68,59 @@ public class CtsSession {
 		this.id = id;
 	}
 
-	public String getOpenedByUserID() {
-		return openedByUserID;
+	public String getOpenedByUserId() {
+		return openedByUserId;
 	}
 
-	public void setOpenedByUserID(String openedByUserID) {
-		this.openedByUserID = openedByUserID;
+	public void setOpenedByUserId(String uid) {
+		this.openedByUserId = uid;
 	}
 
 	public SessionStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(SessionStatus status) {
-		this.status = status;
+	public void setStatus(SessionStatus s) {
+		this.status = s;
 	}
 
 	public LocalDate getSessionDate() {
 		return sessionDate;
 	}
 
-	public void setSessionDate(LocalDate sessionDate) {
-		this.sessionDate = sessionDate;
+	public void setSessionDate(LocalDate d) {
+		this.sessionDate = d;
 	}
 
 	public LocalDateTime getOpenedAt() {
 		return openedAt;
 	}
 
-	public void setOpenedAt(LocalDateTime openedAt) {
-		this.openedAt = openedAt;
+	public void setOpenedAt(LocalDateTime t) {
+		this.openedAt = t;
 	}
 
 	public LocalDateTime getClosedAt() {
 		return closedAt;
 	}
 
-	public void setClosedAt(LocalDateTime closedAt) {
-		this.closedAt = closedAt;
+	public void setClosedAt(LocalDateTime t) {
+		this.closedAt = t;
 	}
 
 	public String getBranch() {
 		return branch;
 	}
 
-	public void setBranch(String branch) {
-		this.branch = branch;
+	public void setBranch(String b) {
+		this.branch = b;
 	}
 
 	public User getOpenedByUser() {
 		return openedByUser;
 	}
 
-	public void setOpenedByUser(User openedByUser) {
-		this.openedByUser = openedByUser;
+	public void setOpenedByUser(User u) {
+		this.openedByUser = u;
 	}
-
 }

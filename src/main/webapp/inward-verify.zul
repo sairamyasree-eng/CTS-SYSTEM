@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PAGE : checkerInwardVerification.zul
+    ======================================
+    Checker Inward Verification — Final verification before CBS posting.
+    Approve or reject inward cheques one by one.
+
+    Role access  : CheckerInward only
+    Session attr : currentPage = "inward-verify"
+    Composer     : com.cts.web.composer.CheckerInwardComposer
+
+    Screenshots merged:
+        Image 1 — topbar, sidebar, page-hdr, stat cards (3-col),
+                  verification progress panel (numbered step boxes + progress bar),
+                  cheque viewer (left image | right details + actions)
+        Image 2 — scrolled: MICR band, cheque summary card, "1 of 3" counter,
+                  Verify & Approve / Reject Cheque buttons
+
+    Reusable components declared with <?component?> inside <zk>
+    and used as custom XML tags — exactly like cbs.zul and inwardRepair.zul.
+-->
+<zk>
+
+    <!-- ================================================================== -->
+    <!-- COMPONENT DECLARATIONS                                              -->
+    <!-- ================================================================== -->
+
+    <?component name="topbar"
+                macroURI="/components/topbar.zul"
+                class="com.cts.web.composer.components.TopbarComposer"?>
+
+    <?component name="sidebar"
+                macroURI="/components/sidebar.zul"
+                class="com.cts.web.composer.components.SidebarComposer"?>
+
+    <?component name="imageviewerpanel"
+                macroURI="/components/imageViewerPanel.zul"
+                class="com.cts.web.composer.components.ImageViewerComposer"?>
+
+    <?component name="smarttable"
+                macroURI="/components/smartTable.zul"
+                class="com.cts.web.composer.components.SmartTableComposer"?>
+
+    <!-- ================================================================== -->
+    <!-- PAGE ROOT                                                            -->
+    <!-- ================================================================== -->
+    <div sclass="cts-page-root"
+         apply="com.cts.web.composer.CheckerInwardComposer">
+
+        <?link rel="stylesheet" href="/styling/checkerInwardVerification.css"?>
+
+        <!-- ============================================================== -->
+        <!-- TOP BAR                                                         -->
+        <!-- ============================================================== -->
+        <topbar currentPage="inward-verify"/>
+
+        <div sclass="app-shell">
+
+            <!-- ========================================================== -->
+            <!-- SIDEBAR                                                      -->
+            <!-- currentPage="inward-verify" highlights step 6 in sidebar   -->
+            <!-- ========================================================== -->
+            <sidebar currentPage="inward-verify"/>
+
+            <!-- ========================================================== -->
+            <!-- MAIN CONTENT                                                 -->
+            <!-- ========================================================== -->
+            <div sclass="main-content">
+
+                <!-- Page header ------------------------------------------ -->
+                <div sclass="page-hdr">
+                    <div sclass="page-hdr-left">
+                        <label sclass="page-hdr-breadcrumb"
+                               value="CTS / CHECKER INWARD VERIFICATION"/>
+                        <label sclass="page-hdr-title"
+                               value="Checker Inward Verification"/>
+                        <label sclass="page-hdr-sub"
+                               value="Final verification — approve or reject before CBS posting"/>
+                    </div>
+
+                    <!-- Nav button: CBS Processing → (top-right, Image 1) -->
+                    <div sclass="page-hdr-nav">
+                        <button id="btnNavNext"
+                                label="CBS Processing &#8594;"
+                                sclass="btn btn-primary btn-sm"
+                                onClick="@command('navTo', page='cbs')"/>
+                    </div>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- STAT CARDS — 3 col: Pending / Verified / Rejected      -->
+                <!-- Image 1: "3 PENDING | 0 VERIFIED | 0 REJECTED"         -->
+                <!-- ====================================================== -->
+                <div sclass="stat-row stat-row-3col">
+
+                    <div sclass="stat-box stat-box-blue">
+                        <label id="lblPendingCount"  sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="PENDING"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-green">
+                        <label id="lblVerifiedCount" sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="VERIFIED"/>
+                    </div>
+
+                    <div sclass="stat-box stat-box-red">
+                        <label id="lblRejectedCount" sclass="stat-val" value="0"/>
+                        <label                       sclass="stat-lbl" value="REJECTED"/>
+                    </div>
+
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- VERIFICATION PROGRESS PANEL                             -->
+                <!-- Image 1: "Verification Progress — 0/3"                 -->
+                <!--   numbered step boxes [1][2][3]  + "0%" progress bar   -->
+                <!-- CheckerInwardComposer builds step boxes dynamically    -->
+                <!--   and sets the progress bar width via lblProgressPct   -->
+                <!-- ====================================================== -->
+                <div id="panelProgress" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <div sclass="progress-hdr-left">
+                            <label sclass="card-panel-title"
+                                   value="VERIFICATION PROGRESS"/>
+                            <!-- e.g. "— 0/3" -->
+                            <label id="lblProgressFraction"
+                                   sclass="progress-fraction"
+                                   value="— 0/0"/>
+                        </div>
+                        <!-- Percentage label top-right: "0%" -->
+                        <label id="lblProgressPct"
+                               sclass="progress-pct-label"
+                               value="0%"/>
+                    </div>
+
+                    <div sclass="card-panel-body">
+
+                        <!-- Numbered step boxes [1][2][3]                  -->
+                        <!-- Each box gets sclass "step-box-pending",       -->
+                        <!-- "step-box-active", or "step-box-done"          -->
+                        <!-- Injected dynamically by CheckerInwardComposer  -->
+                        <div id="stepBoxesContainer" sclass="step-boxes-row"/>
+
+                        <!-- Progress bar track + fill -->
+                        <div sclass="progress-track">
+                            <div id="progressFill"
+                                 sclass="progress-fill"
+                                 style="width:0%"/>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /panelProgress -->
+
+                <!-- ====================================================== -->
+                <!-- ALERT — no cheques to verify                            -->
+                <!-- ====================================================== -->
+                <div id="alertNoCheques" sclass="alert alert-warning" visible="false">
+                    <label sclass="alert-icon" value="!"/>
+                    <label value="No inward cheques pending verification. Complete Inward Repair first."/>
+                </div>
+
+                <!-- ====================================================== -->
+                <!-- CHEQUE REVIEW PANEL                                     -->
+                <!-- Image 1 + Image 2 merged:                               -->
+                <!--   Dark header bar: "INWARD CHEQUE — 000012345"          -->
+                <!--   Front/Back/Grayscale image tabs (left column)         -->
+                <!--   Cheque image + MICR band (left, Image 2)              -->
+                <!--   Cheque summary card (bottom-left, Image 2)            -->
+                <!--   Details panel + actions (right column, both images)   -->
+                <!-- ====================================================== -->
+                <div id="panelReview" sclass="card-panel review-card" visible="false">
+
+                    <!-- Dark header bar: "INWARD CHEQUE — 000012345" -->
+                    <div sclass="review-dark-header">
+                        <label sclass="review-dark-header-label"
+                               value="INWARD CHEQUE —"/>
+                        <label id="lblHeaderChequeNo"
+                               sclass="review-dark-header-num"
+                               value=""/>
+                    </div>
+
+                    <!-- Split body: left = image | right = details + actions -->
+                    <div sclass="review-body">
+
+                        <!-- ============================================== -->
+                        <!-- LEFT COLUMN                                     -->
+                        <!-- ============================================== -->
+                        <div sclass="review-left">
+
+                            <!--
+                                imageviewerpanel — Front / Back / Grayscale tabs.
+                                CheckerInwardComposer wires and calls:
+                                    viewer.setChequeId(id);
+                                    viewer.setFrontImagePath(path);
+                                    viewer.setBackImagePath(path);
+                                    viewer.setGrayscaleImagePath(path);
+                                    viewer.refresh();
+                            -->
+                            <imageviewerpanel id="imgViewer"/>
+
+                            <!-- MICR Band bar (Image 2 bottom of cheque image) -->
+                            <div sclass="micr-band-wrap">
+                                <div sclass="micr-band-display">
+                                    <label sclass="micr-band-icon"  value="&#58381;"/>
+                                    <label id="lblMicrBand"
+                                           sclass="micr-band-value"
+                                           value=""/>
+                                    <label sclass="micr-band-icon"  value="&#58381;"/>
+                                    <label sclass="micr-band-tag"   value="MICR BAND"/>
+                                </div>
+                            </div>
+
+                            <!-- ========================================== -->
+                            <!-- CHEQUE SUMMARY CARD (Image 2 bottom-left)  -->
+                            <!-- Dark card showing cheque number, payee,    -->
+                            <!-- amount, date, and amount in words          -->
+                            <!-- ========================================== -->
+                            <div sclass="cheque-summary-card">
+
+                                <label id="lblSummaryChequeNo"
+                                       sclass="summary-cheque-no"
+                                       value=""/>
+                                <label id="lblSummaryPayee"
+                                       sclass="summary-payee"
+                                       value=""/>
+
+                                <div sclass="summary-meta-row">
+                                    <div sclass="summary-meta-box">
+                                        <label sclass="summary-meta-key"   value="AMOUNT"/>
+                                        <label id="lblSummaryAmount"
+                                               sclass="summary-meta-val"
+                                               value=""/>
+                                    </div>
+                                    <div sclass="summary-meta-sep"/>
+                                    <div sclass="summary-meta-box">
+                                        <label sclass="summary-meta-key"   value="DATE"/>
+                                        <label id="lblSummaryDate"
+                                               sclass="summary-meta-val"
+                                               value=""/>
+                                    </div>
+                                </div>
+
+                                <label id="lblSummaryWords"
+                                       sclass="summary-words"
+                                       value=""/>
+
+                            </div>
+                            <!-- /cheque-summary-card -->
+
+                        </div>
+                        <!-- /review-left -->
+
+                        <!-- ============================================== -->
+                        <!-- RIGHT COLUMN — Details + Actions               -->
+                        <!-- ============================================== -->
+                        <div sclass="review-right">
+
+                            <!-- Section title -->
+                            <label sclass="details-section-title" value="DETAILS"/>
+
+                            <!-- Detail rows grid -->
+                            <div sclass="details-grid">
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="CHEQUE NO."/>
+                                    <label id="lblChequeNumber"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="PAYEE"/>
+                                    <label id="lblPayeeName"
+                                           sclass="detail-val"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="DRAWER BANK"/>
+                                    <label id="lblDrawerBank"
+                                           sclass="detail-val"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="AMOUNT"/>
+                                    <label id="lblAmount"
+                                           sclass="detail-val detail-mono detail-amount"
+                                           value=""/>
+                                </div>
+
+                                <!-- Amount in words spans full width -->
+                                <div sclass="detail-row detail-row-full">
+                                    <label sclass="detail-key"  value="AMOUNT IN WORDS"/>
+                                    <label id="lblAmountWords"
+                                           sclass="detail-val detail-words"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="DATE"/>
+                                    <label id="lblChequeDate"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="ACCOUNT NO."/>
+                                    <label id="lblAccountNumber"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="IFSC"/>
+                                    <label id="lblIfscCode"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="MICR"/>
+                                    <label id="lblMicrCode"
+                                           sclass="detail-val detail-mono"
+                                           value=""/>
+                                </div>
+
+                                <!-- MICR Repair status row -->
+                                <div sclass="detail-row">
+                                    <label sclass="detail-key"  value="MICR REPAIR"/>
+                                    <label id="lblMicrRepair"
+                                           sclass="detail-val detail-badge"
+                                           value=""/>
+                                </div>
+
+                            </div>
+                            <!-- /details-grid -->
+
+                            <!-- ========================================== -->
+                            <!-- ACTION PANEL                                -->
+                            <!-- Shown when inwardStatus = SentForVerif..   -->
+                            <!-- ========================================== -->
+                            <div id="panelActions" sclass="action-panel" visible="true">
+
+                                <!-- Rejection reason dropdown             -->
+                                <!-- Image 1: "REJECTION REASON            -->
+                                <!--           (REQUIRED TO REJECT)"       -->
+                                <div sclass="form-group">
+                                    <div sclass="form-label-row">
+                                        <label sclass="form-label"
+                                               value="REJECTION REASON"/>
+                                        <label sclass="form-label-hint"
+                                               value="(REQUIRED TO REJECT)"/>
+                                    </div>
+                                    <listbox id="cmbRejectReason"
+                                             sclass="form-control form-select"
+                                             mold="select"
+                                             onSelect="@command('onRejectReasonChange')">
+                                        <listitem label="— Select reason —" value=""/>
+                                        <!--
+                                            Remaining items injected by
+                                            CheckerInwardComposer from REJECT_REPAIR_REASONS
+                                        -->
+                                    </listbox>
+                                </div>
+
+                                <!-- Verify & Approve  /  Reject Cheque buttons -->
+                                <!-- Image 1 + 2: green outline / red outline   -->
+                                <div sclass="action-btn-row">
+
+                                    <button id="btnVerify"
+                                            label="Verify &amp; Approve"
+                                            sclass="btn btn-action btn-verify"
+                                            onClick="@command('verifyCheque')"/>
+
+                                    <button id="btnReject"
+                                            label="Reject Cheque"
+                                            sclass="btn btn-action btn-reject"
+                                            disabled="true"
+                                            onClick="@command('rejectCheque')"/>
+
+                                </div>
+
+                            </div>
+                            <!-- /panelActions -->
+
+                            <!-- ========================================== -->
+                            <!-- RESULT BANNER                               -->
+                            <!-- Shown after Verified or Rejected decision   -->
+                            <!-- CheckerInwardComposer toggles visibility    -->
+                            <!-- ========================================== -->
+                            <div id="panelResult" sclass="result-banner" visible="false">
+
+                                <!-- Verified banner (green) -->
+                                <div id="bannerVerified"
+                                     sclass="result-banner-verified"
+                                     visible="false">
+                                    <label sclass="result-banner-icon" value="&#10003;"/>
+                                    <label sclass="result-banner-text" value="Cheque Verified &amp; Approved."/>
+                                </div>
+
+                                <!-- Rejected banner (red) -->
+                                <div id="bannerRejected"
+                                     sclass="result-banner-rejected"
+                                     visible="false">
+                                    <label sclass="result-banner-icon" value="&#10007;"/>
+                                    <label sclass="result-banner-text" value="Cheque Rejected."/>
+                                    <label id="lblRejectReasonDisplay"
+                                           sclass="result-banner-reason"
+                                           value=""/>
+                                </div>
+
+                                <!-- Prev / Next nav after decision -->
+                                <div sclass="post-decision-nav">
+                                    <button id="btnResultPrev"
+                                            label="&#8592; Prev"
+                                            sclass="btn btn-secondary btn-sm"
+                                            visible="false"
+                                            onClick="@command('prevCheque')"/>
+                                    <button id="btnResultNext"
+                                            label="Next &#8594;"
+                                            sclass="btn btn-secondary btn-sm"
+                                            onClick="@command('nextCheque')"/>
+                                </div>
+
+                            </div>
+                            <!-- /panelResult -->
+
+                            <!-- "1 of 3" counter (Image 2, bottom of right col) -->
+                            <label id="lblChequeCounter"
+                                   sclass="cheque-counter"
+                                   value="1 of 1"/>
+
+                        </div>
+                        <!-- /review-right -->
+
+                    </div>
+                    <!-- /review-body -->
+
+                </div>
+                <!-- /panelReview -->
+
+                <!-- ====================================================== -->
+                <!-- VERIFICATION SUMMARY TABLE                              -->
+                <!-- Shown once at least one cheque is decided               -->
+                <!-- Uses smarttable — same pattern as cbs.zul              -->
+                <!-- ====================================================== -->
+                <div id="panelSummary" sclass="card-panel" visible="false">
+
+                    <div sclass="card-panel-header">
+                        <label sclass="card-panel-title"
+                               value="VERIFICATION SUMMARY"/>
+                    </div>
+
+                    <!--
+                        smarttable reusable component.
+                        CheckerInwardComposer configures:
+                            tableComp.setColumns(...)  chequeNumber, payee,
+                                                       amount, micrEdit,
+                                                       inwardStatus, rejectReason
+                            tableComp.setData(decidedList)
+                            tableComp.setPageSize(8)
+                            tableComp.refresh()
+                    -->
+                    <smarttable id="tblSummary"
+                                tableId="tblSummary"
+                                dateField="chequeDate"
+                                pageSize="8"
+                                showFilter="false"/>
+
+                </div>
+                <!-- /panelSummary -->
+
+            </div>
+            <!-- /main-content -->
+
+        </div>
+        <!-- /app-shell -->
+
+    </div>
+    <!-- /cts-page-root -->
+
+</zk>

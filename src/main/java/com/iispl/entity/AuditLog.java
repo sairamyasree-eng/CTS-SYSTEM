@@ -13,63 +13,68 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="audit_log")
+@Table(name = "audit_log")
 public class AuditLog {
+
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
-	@Column(name="user_id")
+
+	@Column(name = "user_id", insertable = false, updatable = false)
 	private String userId;
-	@Column(name="session_id")
+
+	@Column(name = "session_id", insertable = false, updatable = false)
 	private String sessionId;
-	@Column(name="action")
+
+	@Column(name = "action", nullable = false)
 	private String action;
-	@Column(name="entity_type")
+
+	@Column(name = "entity_type")
 	private String entityType;
-	@Column(name="entity_id")
+
+	@Column(name = "entity_id")
 	private String entityId;
-	@Column(name="old_value")
-	private String odlValue;
-	@Column(name="new_value")
+
+	@Column(name = "old_value", length = 2000)
+	private String oldValue;
+
+	@Column(name = "new_value", length = 2000)
 	private String newValue;
-	@Column(name="ip_address")
+
+	@Column(name = "ip_address", length = 45)
 	private String ipAddress;
-	@Column(name="created_at")
+
+	@Column(name = "created_at", updatable = false, nullable = false)
 	private LocalDateTime createdAt;
-	
-	
-	
-	public AuditLog() {	}
 
-	public AuditLog(Long id, String userId, String sessionId, String action, String entityType, String entityId,
-			String odlValue, String newValue, String ipAddress, LocalDateTime createdAt, String description) {
+	@Column(name = "description", length = 1000)
+	private String description;
 
-		this.id = id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = true)
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "session_id", nullable = true)
+	private CtsSession session;
+
+	public AuditLog() {
+	}
+
+	public AuditLog(String userId, String sessionId, String action, String entityType, String entityId, String oldValue,
+			String newValue, String ipAddress, LocalDateTime createdAt, String description) {
 		this.userId = userId;
 		this.sessionId = sessionId;
 		this.action = action;
 		this.entityType = entityType;
 		this.entityId = entityId;
-		this.odlValue = odlValue;
+		this.oldValue = oldValue;
 		this.newValue = newValue;
 		this.ipAddress = ipAddress;
 		this.createdAt = createdAt;
 		this.description = description;
 	}
-
-	@Column(name="description")
-	private String description;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id",nullable=true)
-	private User user;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="session_id",nullable=true)
-	private CtsSession session;
-
-
 
 	public Long getId() {
 		return id;
@@ -83,98 +88,95 @@ public class AuditLog {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserId(String uid) {
+		this.userId = uid;
 	}
 
 	public String getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setSessionId(String sid) {
+		this.sessionId = sid;
 	}
 
 	public String getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
-		this.action = action;
+	public void setAction(String a) {
+		this.action = a;
 	}
 
 	public String getEntityType() {
 		return entityType;
 	}
 
-	public void setEntityType(String entityType) {
-		this.entityType = entityType;
+	public void setEntityType(String t) {
+		this.entityType = t;
 	}
 
 	public String getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId(String entityId) {
-		this.entityId = entityId;
+	public void setEntityId(String eid) {
+		this.entityId = eid;
 	}
 
-	public String getOdlValue() {
-		return odlValue;
+	public String getOldValue() {
+		return oldValue;
 	}
 
-	public void setOdlValue(String odlValue) {
-		this.odlValue = odlValue;
+	public void setOldValue(String v) {
+		this.oldValue = v;
 	}
 
 	public String getNewValue() {
 		return newValue;
 	}
 
-	public void setNewValue(String newValue) {
-		this.newValue = newValue;
+	public void setNewValue(String v) {
+		this.newValue = v;
 	}
 
 	public String getIpAddress() {
 		return ipAddress;
 	}
 
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+	public void setIpAddress(String ip) {
+		this.ipAddress = ip;
 	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedAt(LocalDateTime t) {
+		this.createdAt = t;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription(String d) {
+		this.description = d;
 	}
 
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(User u) {
+		this.user = u;
 	}
 
 	public CtsSession getSession() {
 		return session;
 	}
 
-	public void setSession(CtsSession session) {
-		this.session = session;
+	public void setSession(CtsSession s) {
+		this.session = s;
 	}
-	
-	
-	
 }

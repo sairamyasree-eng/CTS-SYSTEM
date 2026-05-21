@@ -1,13 +1,11 @@
 package com.iispl.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import com.iispl.enums.CheckerStatus;
 import com.iispl.enums.IqaStatus;
 import com.iispl.enums.MicrStatus;
 import com.iispl.enums.RepairStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,224 +14,176 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "outward_cheque")
 public class OutwardCheque {
-	  @Id
-	  @Column(name = "id")
-	  private String id;
-	  
-	  @ManyToOne(fetch = FetchType.LAZY)
-	  @JoinColumn(name = "batch_id", nullable = false)
-	  private Batch batch;
-	  
-	  @Column(name = "cheque_number")
-	  private String chequeNumber;
-	  @Column(name = "micr_code")
-	  private String micrCode;
-	  @Column(name = "original_micr_code")
-	  private String originalMicrCode;
-	  @Column(name = "amount")
-	  private BigDecimal amount; 
-	  @Column(name = "drawer_bank")
-	  private String drawerBank;
-	  @Column(name = "drawer_branch")
-	  private String drawerBranch;
-	  @Column(name = "payee_name")
-	  private String payeeName;
-	  @Column(name = "account_number")
-	  private String accountNumber;
-	  @Column(name = "ifsc_code")
-	  private String ifscCode;
-	  @Column(name = "cheque_date")
-	  private LocalDate chequeDate;
-	  @Enumerated(EnumType.STRING)
-	  @Column(name = "iqa_status")
-	  private IqaStatus iqaStatus;
-	  @Enumerated(EnumType.STRING)
-	  @Column(name = "micr_status")
-	  private MicrStatus micrStatus;
-	  @Enumerated(EnumType.STRING)
-	  @Column(name = "repair_status")
-	  private RepairStatus repairStatus;
-	  @Enumerated(EnumType.STRING)
-	  @Column(name = "checker_status")
-      private CheckerStatus checkerStatus;
-	  @Column(name = "reject_reason")
-	  private String rejectReason;
-	  @Column(name = "refer_note")
-	  private String referNote;
-	  
-	  public OutwardCheque() { }
 
-	  public OutwardCheque(String id, String chequeNumber, String micrCode, String originalMicrCode,
-			BigDecimal amount, String drawerBank, String drawerBranch, String payeeName, String accountNumber,
-			String ifscCode, LocalDate chequeDate, IqaStatus iqaStatus, MicrStatus micrStatus,
+	@Id
+	@Column(name = "id", nullable = false, updatable = false)
+	private String id;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@MapsId
+	@JoinColumn(name = "id")
+	private Cheque cheque;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "batch_id", nullable = false)
+	private Batch batch;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "iqa_status")
+	private IqaStatus iqaStatus;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "micr_status")
+	private MicrStatus micrStatus;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "repair_status")
+	private RepairStatus repairStatus;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "checker_status")
+	private CheckerStatus checkerStatus;
+
+	@Column(name = "reject_reason")
+	private String rejectReason;
+
+	@Column(name = "refer_note")
+	private String referNote;
+
+	public OutwardCheque() {
+	}
+
+	public OutwardCheque(Cheque cheque, Batch batch, IqaStatus iqaStatus, MicrStatus micrStatus,
 			RepairStatus repairStatus, CheckerStatus checkerStatus, String rejectReason, String referNote) {
-		this.id = id;
-		this.chequeNumber = chequeNumber;
-		this.micrCode = micrCode;
-		this.originalMicrCode = originalMicrCode;
-		this.amount = amount;
-		this.drawerBank = drawerBank;
-		this.drawerBranch = drawerBranch;
-		this.payeeName = payeeName;
-		this.accountNumber = accountNumber;
-		this.ifscCode = ifscCode;
-		this.chequeDate = chequeDate;
+		this.cheque = cheque;
+		this.id = cheque.getId();
+		this.batch = batch;
 		this.iqaStatus = iqaStatus;
 		this.micrStatus = micrStatus;
 		this.repairStatus = repairStatus;
 		this.checkerStatus = checkerStatus;
 		this.rejectReason = rejectReason;
 		this.referNote = referNote;
-	  }
+	}
 
-	  public String getId() {
-		  return id;
-	  }
+	public String getChequeNumber() {
+		return cheque != null ? cheque.getChequeNumber() : null;
+	}
 
-	  public void setId(String id) {
-		  this.id = id;
-	  }
+	public String getMicrCode() {
+		return cheque != null ? cheque.getMicrCode() : null;
+	}
 
-	  public Batch getBatch() {
-		  return batch;
-	  }
+	public String getOriginalMicrCode() {
+		return cheque != null ? cheque.getOriginalMicrCode() : null;
+	}
 
-	  public void setBatch(Batch batch) {
-		  this.batch = batch;
-	  }
+	public java.math.BigDecimal getAmount() {
+		return cheque != null ? cheque.getAmount() : null;
+	}
 
-	  public String getChequeNumber() {
-		  return chequeNumber;
-	  }
+	public String getDrawerBank() {
+		return cheque != null ? cheque.getDrawerBank() : null;
+	}
 
-	  public void setChequeNumber(String chequeNumber) {
-		  this.chequeNumber = chequeNumber;
-	  }
+	public String getDrawerBranch() {
+		return cheque != null ? cheque.getDrawerBranch() : null;
+	}
 
-	  public String getMicrCode() {
-		  return micrCode;
-	  }
+	public String getPayeeName() {
+		return cheque != null ? cheque.getPayeeName() : null;
+	}
 
-	  public void setMicrCode(String micrCode) {
-		  this.micrCode = micrCode;
-	  }
+	public String getAccountNumber() {
+		return cheque != null ? cheque.getAccountNumber() : null;
+	}
 
-	  public String getOriginalMicrCode() {
-		  return originalMicrCode;
-	  }
+	public String getIfscCode() {
+		return cheque != null ? cheque.getIfscCode() : null;
+	}
 
-	  public void setOriginalMicrCode(String originalMicrCode) {
-		  this.originalMicrCode = originalMicrCode;
-	  }
+	public java.time.LocalDate getChequeDate() {
+		return cheque != null ? cheque.getChequeDate() : null;
+	}
 
-	  public BigDecimal getAmount() {
-		  return amount;
-	  }
+	public String getId() {
+		return id;
+	}
 
-	  public void setAmount(BigDecimal amount) {
-		  this.amount = amount;
-	  }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-	  public String getDrawerBank() {
-		  return drawerBank;
-	  }
+	public Cheque getCheque() {
+		return cheque;
+	}
 
-	  public void setDrawerBank(String drawerBank) {
-		  this.drawerBank = drawerBank;
-	  }
+	public void setCheque(Cheque cheque) {
+		this.cheque = cheque;
+		if (cheque != null)
+			this.id = cheque.getId();
+	}
 
-	  public String getDrawerBranch() {
-		  return drawerBranch;
-	  }
+	public Batch getBatch() {
+		return batch;
+	}
 
-	  public void setDrawerBranch(String drawerBranch) {
-		  this.drawerBranch = drawerBranch;
-	  }
+	public void setBatch(Batch batch) {
+		this.batch = batch;
+	}
 
-	  public String getPayeeName() {
-		  return payeeName;
-	  }
+	public IqaStatus getIqaStatus() {
+		return iqaStatus;
+	}
 
-	  public void setPayeeName(String payeeName) {
-		  this.payeeName = payeeName;
-	  }
+	public void setIqaStatus(IqaStatus iqaStatus) {
+		this.iqaStatus = iqaStatus;
+	}
 
-	  public String getAccountNumber() {
-		  return accountNumber;
-	  }
+	public MicrStatus getMicrStatus() {
+		return micrStatus;
+	}
 
-	  public void setAccountNumber(String accountNumber) {
-		  this.accountNumber = accountNumber;
-	  }
+	public void setMicrStatus(MicrStatus micrStatus) {
+		this.micrStatus = micrStatus;
+	}
 
-	  public String getIfscCode() {
-		  return ifscCode;
-	  }
+	public RepairStatus getRepairStatus() {
+		return repairStatus;
+	}
 
-	  public void setIfscCode(String ifscCode) {
-		  this.ifscCode = ifscCode;
-	  }
+	public void setRepairStatus(RepairStatus repairStatus) {
+		this.repairStatus = repairStatus;
+	}
 
-	  public LocalDate getChequeDate() {
-		  return chequeDate;
-	  }
+	public CheckerStatus getCheckerStatus() {
+		return checkerStatus;
+	}
 
-	  public void setChequeDate(LocalDate chequeDate) {
-		  this.chequeDate = chequeDate;
-	  }
+	public void setCheckerStatus(CheckerStatus checkerStatus) {
+		this.checkerStatus = checkerStatus;
+	}
 
-	  public IqaStatus getIqaStatus() {
-		  return iqaStatus;
-	  }
+	public String getRejectReason() {
+		return rejectReason;
+	}
 
-	  public void setIqaStatus(IqaStatus iqaStatus) {
-		  this.iqaStatus = iqaStatus;
-	  }
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
 
-	  public MicrStatus getMicrStatus() {
-		  return micrStatus;
-	  }
+	public String getReferNote() {
+		return referNote;
+	}
 
-	  public void setMicrStatus(MicrStatus micrStatus) {
-		  this.micrStatus = micrStatus;
-	  }
-
-	  public RepairStatus getRepairStatus() {
-		  return repairStatus;
-	  }
-
-	  public void setRepairStatus(RepairStatus repairStatus) {
-		  this.repairStatus = repairStatus;
-	  }
-
-	  public CheckerStatus getCheckerStatus() {
-		  return checkerStatus;
-	  }
-
-	  public void setCheckerStatus(CheckerStatus checkerStatus) {
-		  this.checkerStatus = checkerStatus;
-	  }
-
-	  public String getRejectReason() {
-		  return rejectReason;
-	  }
-
-	  public void setRejectReason(String rejectReason) {
-		  this.rejectReason = rejectReason;
-	  }
-
-	  public String getReferNote() {
-		  return referNote;
-	  }
-
-	  public void setReferNote(String referNote) {
-		  this.referNote = referNote;
-	  }
-	  
-	  
+	public void setReferNote(String referNote) {
+		this.referNote = referNote;
+	}
 }
