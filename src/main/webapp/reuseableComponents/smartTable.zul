@@ -42,7 +42,7 @@
     <?link rel="stylesheet" href="/styling/smartTable.css"?>
 
     <div id="smartTableRoot" sclass="smart-table-wrap"
-         apply="com.cts.web.composer.components.SmartTableComposer">
+         apply="com.iispl.composer.SmartTableComponent">
 
         <!-- Controls: search + filter + date range -->
         <div sclass="tbl-controls">

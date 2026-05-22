@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  FILE: dashboard.zul
+  Role-based dashboard dispatcher.
+  After successful login, LoginController redirects here.
+  This page reads the sessionUser role and forwards to the correct dashboard.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <zscript><![CDATA[
+        import com.iispl.dto.SessionUserDTO;
+
+        SessionUserDTO sessionUser = (SessionUserDTO)
+                session.getAttribute(SessionUserDTO.SESSION_KEY);
+
+        if (sessionUser == null) {
+            execution.sendRedirect("/login.zul");
+        } else {
+            String role = sessionUser.getRoleName();
+            if (role == null) role = "";
+
+            switch (role.toUpperCase()) {
+                case "ADMIN":
+                    execution.sendRedirect("/admin-dashboard.zul");
+                    break;
+                case "MAKER_OUTWARD":
+                    execution.sendRedirect("/maker-outward-dashboard.zul");
+                    break;
+                case "CHECKER_OUTWARD":
+                    execution.sendRedirect("/checker-outward-dashboard.zul");
+                    break;
+                case "MAKER_INWARD":
+                    execution.sendRedirect("/maker-inward-dashboard.zul");
+                    break;
+                case "CHECKER_INWARD":
+                    execution.sendRedirect("/checker-inward-dashboard.zul");
+                    break;
+                default:
+                    execution.sendRedirect("/login.zul");
+                    break;
+            }
+        }
+    ]]></zscript>
+
+</zk>

@@ -4,26 +4,26 @@
     ================================
     Role     : MakerInward
     Modules  : File Processing (DEM receive) → Inward Repair → Batch Status
-    Composer : com.cts.web.composer.dashboard.MakerInwardDashboardComposer
+    Composer : com.iispl.controller.dashboard.MakerInwardDashboardComposer
 -->
 <zk>
 
     <!-- ── Declare reusable components ── -->
     <?component name="ctstopbar"
                 macroURI="/components/topbar.zul"
-                class="com.cts.web.composer.components.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="ctssidebar"
                 macroURI="/components/sidebar.zul"
-                class="com.cts.web.composer.components.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="workflowbar"
                 macroURI="/components/workflowProgressBar.zul"
-                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+                class="com.iispl.composer.WorkflowProgressBarComponent"?>
 
     <?component name="smarttable"
                 macroURI="/components/smartTable.zul"
-                class="com.cts.web.composer.components.SmartTableComposer"?>
+                class="com.iispl.composer.SmartTableComponent"?>
 
     <!-- ── Page shell window ── -->
     <window id="winMakerInward"
@@ -31,7 +31,7 @@
             width="100%"
             height="100%"
             sclass="cts-page-shell"
-            apply="com.cts.web.composer.dashboard.MakerInwardDashboardComposer">
+            apply="com.iispl.controller.DashboardController">
 
         <!-- TOP BAR -->
         <ctstopbar/>

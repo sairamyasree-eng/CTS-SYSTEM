@@ -7,7 +7,7 @@
 
     Role access  : CheckerInward only
     Session attr : currentPage = "inward-verify"
-    Composer     : com.cts.web.composer.CheckerInwardComposer
+    Composer     : com.iispl.controller.CheckerInwardComposer
 
     Screenshots merged:
         Image 1 — topbar, sidebar, page-hdr, stat cards (3-col),
@@ -27,25 +27,25 @@
 
     <?component name="topbar"
                 macroURI="/components/topbar.zul"
-                class="com.cts.web.composer.components.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="sidebar"
                 macroURI="/components/sidebar.zul"
-                class="com.cts.web.composer.components.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="imageviewerpanel"
                 macroURI="/components/imageViewerPanel.zul"
-                class="com.cts.web.composer.components.ImageViewerComposer"?>
+                class="com.iispl.composer.ImageViewerComponent"?>
 
     <?component name="smarttable"
                 macroURI="/components/smartTable.zul"
-                class="com.cts.web.composer.components.SmartTableComposer"?>
+                class="com.iispl.composer.SmartTableComponent"?>
 
     <!-- ================================================================== -->
     <!-- PAGE ROOT                                                            -->
     <!-- ================================================================== -->
     <div sclass="cts-page-root"
-         apply="com.cts.web.composer.CheckerInwardComposer">
+         apply="com.iispl.controller.InwardVerifyController">
 
         <?link rel="stylesheet" href="/styling/checkerInwardVerification.css"?>
 

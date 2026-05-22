@@ -6,7 +6,7 @@
 
     Role access  : MakerInward only
     Session attr : currentPage = "inward-repair"
-    Composer     : com.cts.web.composer.InwardRepairComposer
+    Composer     : com.iispl.controller.InwardRepairComposer
 
     Reusable components declared with <?component?> inside <zk>
     and used as custom XML tags with attributes — exactly like cbs.zul.
@@ -26,29 +26,29 @@
 
     <?component name="topbar"
                 macroURI="/components/topbar.zul"
-                class="com.cts.web.composer.components.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="sidebar"
                 macroURI="/components/sidebar.zul"
-                class="com.cts.web.composer.components.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="imageviewerpanel"
                 macroURI="/components/imageViewerPanel.zul"
-                class="com.cts.web.composer.components.ImageViewerComposer"?>
+                class="com.iispl.composer.ImageViewerComponent"?>
 
     <?component name="workflowprogressbar"
                 macroURI="/components/workflowProgressBar.zul"
-                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+                class="com.iispl.composer.WorkflowProgressBarComponent"?>
 
     <?component name="smarttable"
                 macroURI="/components/smartTable.zul"
-                class="com.cts.web.composer.components.SmartTableComposer"?>
+                class="com.iispl.composer.SmartTableComponent"?>
 
     <!-- ================================================================== -->
     <!-- PAGE ROOT                                                            -->
     <!-- ================================================================== -->
     <div sclass="cts-page-root"
-         apply="com.cts.web.composer.InwardRepairComposer">
+         apply="com.iispl.controller.InwardRepairController">
 
         <?link rel="stylesheet" href="/styling/inwardRepair.css"?>
 

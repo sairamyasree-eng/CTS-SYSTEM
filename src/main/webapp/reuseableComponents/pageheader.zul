@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    REUSABLE MACRO COMPONENT: pageHeader.zul
+    =========================================
+    Place this file at:
+      src/main/webapp/reuseableComponents/pageHeader.zul
+      target/CTS-SYSTEM/reuseableComponents/pageHeader.zul
+
+    Registration in any page ZUL:
+        <?component name="pageheader"
+                    macroURI="/reuseableComponents/pageHeader.zul"
+                    class="com.iispl.composer.PageHeader"?>
+
+    Usage:
+        <pageheader breadcrumb="CTS / ADMIN / USERS"
+                    pageTitle="User Management"
+                    pageSubtitle="Manage CTS system users, roles and branch assignments"
+                    btnLabel="+ Add User"/>
+
+    NOTE: Uses ${self.xxx} because PageHeader extends HtmlMacroComponent
+          with real Java getters — same pattern as statCard.zul / moduleCard.zul
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div sclass="cts-page-header">
+
+        <!-- Left: Breadcrumb + Title block -->
+        <div sclass="page-header-left">
+
+            <label value="${self.breadcrumb}"   sclass="page-header-breadcrumb"/>
+            <label value="${self.pageTitle}"     sclass="page-header-title"/>
+            <label value="${self.pageSubtitle}"  sclass="page-header-subtitle"/>
+
+        </div>
+
+        <!-- Right: Primary action button — hidden when btnLabel is empty string -->
+        <div sclass="page-header-right"
+             visible="${not empty self.btnLabel}">
+
+            <button label="${self.btnLabel}"
+                    sclass="btn-primary-action"/>
+
+        </div>
+
+    </div>
+
+    <style>
+        .cts-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 28px 14px 28px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8ecf0;
+            min-height: 72px;
+            box-sizing: border-box;
+        }
+
+        .page-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .page-header-breadcrumb {
+            font-size: 11px;
+            font-weight: 500;
+            color: #8d9aaa;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .page-header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2332;
+            line-height: 1.2;
+        }
+
+        .page-header-subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: #5f6d7e;
+            margin-top: 1px;
+        }
+
+        .page-header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-primary-action {
+            background: #1565c0;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary-action:hover {
+            background: #0d47a1;
+        }
+    </style>
+
+</zk>

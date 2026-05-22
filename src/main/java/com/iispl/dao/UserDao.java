@@ -5,13 +5,12 @@ import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.iispl.entity.Batch;
 import com.iispl.entity.User;
 import com.iispl.enums.Status;
 import com.iispl.util.HibernateUtil;
 
 
-public class UserDao extends GenericDao<Batch, Long>{
+public class UserDao extends GenericDao<User, String>{
 	//findByUsername()
 	public Optional<User> findActiveByUsername(String username) {
 
@@ -21,8 +20,11 @@ public class UserDao extends GenericDao<Batch, Long>{
 
 	    try {
 
+	        // BUG-FIX: Added JOIN FETCH u.role to avoid LazyInitializationException
+	        // when LoginService accesses user.getRole() after session is closed
 	        String hql =
 	                "FROM User u "
+	              + "JOIN FETCH u.role "
 	              + "WHERE u.username = :username "
 	              + "AND u.status = :status";
 

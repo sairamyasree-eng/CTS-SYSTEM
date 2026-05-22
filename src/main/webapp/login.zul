@@ -6,7 +6,7 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
 <?link rel="stylesheet" type="text/css" href="/styling/login.css"?>
 
-    <div sclass="cts-body">
+    <div sclass="cts-body" apply="com.iispl.controller.LoginController">
 
         <!-- Background -->
         <div sclass="bg-overlay"/>
@@ -89,14 +89,14 @@
                         <listitem label="Maker Outward"
                                   value="MAKER_OUTWARD"/>
 
-                        <listitem label="Checker Outward Verification"
-                                  value="CHECKER_OUTWARD_VERIFICATION"/>
+                        <listitem label="Checker Outward"
+                                  value="CHECKER_OUTWARD"/>
 
                         <listitem label="Maker Inward"
                                   value="MAKER_INWARD"/>
 
-                        <listitem label="Checker Inward Verification"
-                                  value="CHECKER_INWARD_VERIFICATION"/>
+                        <listitem label="Checker Inward"
+                                  value="CHECKER_INWARD"/>
 
                     </listbox>
 

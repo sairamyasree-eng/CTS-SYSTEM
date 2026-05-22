@@ -4,30 +4,30 @@
     ==================================
     Role     : CheckerInward
     Modules  : Checker Inward Verification → CBS Processing → Batch Status
-    Composer : com.cts.web.composer.dashboard.CheckerInwardDashboardComposer
+    Composer : com.iispl.controller.dashboard.CheckerInwardDashboardComposer
 -->
 <zk>
 
     <!-- ── Declare reusable components ── -->
     <?component name="ctstopbar"
                 macroURI="/components/topbar.zul"
-                class="com.cts.web.composer.components.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="ctssidebar"
                 macroURI="/components/sidebar.zul"
-                class="com.cts.web.composer.components.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="workflowbar"
                 macroURI="/components/workflowProgressBar.zul"
-                class="com.cts.web.composer.components.WorkflowProgressBarComposer"?>
+                class="com.iispl.composer.WorkflowProgressBarComponent"?>
 
     <?component name="smarttable"
                 macroURI="/components/smartTable.zul"
-                class="com.cts.web.composer.components.SmartTableComposer"?>
+                class="com.iispl.composer.SmartTableComponent"?>
 
     <?component name="imageviewer"
                 macroURI="/components/imageViewerPanel.zul"
-                class="com.cts.web.composer.components.ImageViewerComposer"?>
+                class="com.iispl.composer.ImageViewerComponent"?>
 
     <!-- ── Page shell window ── -->
     <window id="winCheckerInward"
@@ -35,7 +35,7 @@
             width="100%"
             height="100%"
             sclass="cts-page-shell"
-            apply="com.cts.web.composer.dashboard.CheckerInwardDashboardComposer">
+            apply="com.iispl.controller.DashboardController">
 
         <!-- TOP BAR -->
         <ctstopbar/>

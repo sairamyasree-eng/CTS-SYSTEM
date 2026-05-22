@@ -14,7 +14,7 @@ import org.zkoss.zk.ui.HtmlMacroComponent;
  * ZUL registration:
  *   <?component name="pageheader"
  *               macroURI="/reuseableComponents/pageHeader.zul"
- *               class="com.iispl.cts.PageHeader"?>
+ *               class="com.iispl.composer.PageHeader"?>
  */
 public class PageHeader extends HtmlMacroComponent {
 

@@ -3,7 +3,14 @@ package com.iispl.util;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-
+import com.iispl.entity.AuditLog;
+import com.iispl.entity.Batch;
+import com.iispl.entity.Cheque;
+import com.iispl.entity.CtsSession;
+import com.iispl.entity.InwardCheque;
+import com.iispl.entity.OutwardCheque;
+import com.iispl.entity.Role;
+import com.iispl.entity.User;
 
 public class HibernateUtil {
 
@@ -15,7 +22,7 @@ public class HibernateUtil {
 
             // ── Database connection ──────────────────────────────────────────
             cfg.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-            cfg.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/HibernatePractice");
+            cfg.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/finalproject");
             cfg.setProperty("hibernate.connection.username", "postgres");
             cfg.setProperty("hibernate.connection.password", "password");
 
@@ -31,7 +38,18 @@ public class HibernateUtil {
             cfg.setProperty("hibernate.show_sql",   "false");
             cfg.setProperty("hibernate.format_sql", "false");
 
-            
+            // ── BUG-FIX: Register all entity classes ─────────────────────────
+            // Without these, Hibernate cannot discover the entities and will
+            // throw "Unknown entity" / "Table not found" errors at runtime.
+            cfg.addAnnotatedClass(Role.class);
+            cfg.addAnnotatedClass(User.class);
+            cfg.addAnnotatedClass(CtsSession.class);
+            cfg.addAnnotatedClass(Batch.class);
+            cfg.addAnnotatedClass(Cheque.class);
+            cfg.addAnnotatedClass(OutwardCheque.class);
+            cfg.addAnnotatedClass(InwardCheque.class);
+            cfg.addAnnotatedClass(AuditLog.class);
+
             return cfg.buildSessionFactory();
 
         } catch (Exception e) {

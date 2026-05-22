@@ -6,7 +6,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 
-import com.iispl.entity.User;
+import com.iispl.dto.SessionUserDTO;
 
 /**
  * SidebarComponent
@@ -15,7 +15,7 @@ import com.iispl.entity.User;
  * renders only the menu items that role is allowed to access.
  *
  * Usage in ZUL:
- *   <?component name="sidebar" macroURI="/components/sidebar.zul"
+ *   <?component name="sidebar" macroURI="/reuseableComponents/sidebar.zul"
  *               class="com.iispl.composer.SidebarComponent"?>
  *   <sidebar/>
  *
@@ -24,7 +24,7 @@ import com.iispl.entity.User;
  *  - Locked items     → shown with "locked" style, not clickable
  *  - Admin role       → shows admin-only items (Users, Banks)
  *
- * NOTE: Role is an entity with a String name field.
+ * NOTE: Session key is SessionUserDTO.SESSION_KEY ("sessionUser").
  *       Role names used: "ADMIN", "MAKER_OUTWARD", "CHECKER_OUTWARD",
  *                        "MAKER_INWARD", "CHECKER_INWARD"
  */
@@ -37,7 +37,6 @@ public class SidebarComponent extends HtmlMacroComponent {
     @Wire private Label mc_lblSection;
 
     // ── All pipeline steps: { stepNumber, pageId, label, allowedRoleNames[] } ──
-    // allowedRoleNames → matches Role.getName() values stored in DB
     private static final Object[][] PIPELINE_STEPS = {
         {1, "scan",          "Scan Service",    new String[]{"MAKER_OUTWARD"}},
         {2, "repair",        "Reject & Repair", new String[]{"MAKER_OUTWARD"}},
@@ -64,15 +63,16 @@ public class SidebarComponent extends HtmlMacroComponent {
     public void afterCompose() {
         super.afterCompose();
 
-        // Read User entity from ZK session
-        // Stored by login controller as: session.setAttribute("currentUser", user)
-        User   user       = (User)   Sessions.getCurrent().getAttribute("currentUser");
+        // BUG-FIX: Read SessionUserDTO (not User entity) from the correct session key.
+        // LoginController stores a SessionUserDTO under SessionUserDTO.SESSION_KEY ("sessionUser").
+        // Old code read "currentUser" as User entity → ClassCastException / null → NPE.
+        SessionUserDTO sessionUser = (SessionUserDTO) Sessions.getCurrent()
+                .getAttribute(SessionUserDTO.SESSION_KEY);
         String activePage = (String) Sessions.getCurrent().getAttribute("currentPage");
 
-        if (user == null) return;
+        if (sessionUser == null) return;
 
-        // Get role name from Role entity → Role.getName()
-        String roleName = (user.getRole() != null) ? user.getRole().getRoleName() : "";
+        String roleName = sessionUser.getRoleName();
 
         if ("ADMIN".equalsIgnoreCase(roleName)) {
             renderAdminMenu(activePage);

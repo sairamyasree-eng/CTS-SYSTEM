@@ -14,7 +14,7 @@ import org.zkoss.zk.ui.HtmlMacroComponent;
  * ZUL registration:
  *   <?component name="statcard"
  *               macroURI="/reuseableComponents/statCard.zul"
- *               class="com.iispl.cts.StatCard"?>
+ *               class="com.iispl.composer.StatCard"?>
  */
 public class StatCard extends HtmlMacroComponent {
 

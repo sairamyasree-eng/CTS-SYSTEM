@@ -6,7 +6,7 @@
 
     Role access  : CHECKER_OUTWARD_VERIFICATION
     Session attr : currentPage = "checker-out"
-    Composer     : com.iispl.composer.CheckerOutComponents
+    Composer     : com.iispl.controller.CheckerOutControllers
 
     Reusable components declared with <?component?> and used as custom XML tags.
     No <include> tags anywhere — same convention as cbs.zul.
@@ -30,21 +30,21 @@
 
     <?component name="topbar"
                 macroURI="/composer/topbar.zul"
-                class="com.iispl.composer.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="sidebar"
                 macroURI="/composer/sidebar.zul"
-                class="com.iispl.composer.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="workflowprogressbar"
                 macroURI="/composer/workflowProgressBar.zul"
-                class="com.iispl.composer.WorkflowProgressBarComposer"?>
+                class="com.iispl.composer.WorkflowProgressBarComponent"?>
 
     <!-- ================================================================== -->
     <!-- PAGE ROOT                                                           -->
     <!-- ================================================================== -->
     <div sclass="cts-page-root"
-         apply="com.iispl.composer.CheckerOutComponent">
+         apply="com.iispl.controller.CheckerOutController">
 
         <?link rel="stylesheet" href="/styling/checker-out.css"?>
 

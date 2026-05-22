@@ -6,7 +6,6 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
@@ -26,8 +25,10 @@ public class LoginController extends SelectorComposer<Component>{
 	
 	@Wire private Label lblError;
 	
-	@WireVariable
-    private LoginService loginService;
+	// BUG-FIX: Removed @WireVariable — ZK has no Spring integration here,
+	// so @WireVariable never resolves and loginService stays null → NPE.
+	// Instantiate the service directly instead.
+	private final LoginService loginService = new LoginService();
 	
 	private static final String DASHBOARD_URL = "/dashboard.zul";
 	

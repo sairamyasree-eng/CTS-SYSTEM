@@ -6,7 +6,7 @@
 
     Role access  : CheckerInward only
     Session attr : currentPage = "cbs"
-    Composer     : com.cts.web.composer.CbsComposer
+    Composer     : com.iispl.controller.CbsComposer
 
     Reusable components are declared with <?component?> inside <zk>
     and used as custom XML tags with attributes — exactly like index.zul.
@@ -23,21 +23,21 @@
 
     <?component name="topbar"
                 macroURI="/components/topbar.zul"
-                class="com.cts.web.composer.components.TopbarComposer"?>
+                class="com.iispl.composer.TopbarComponent"?>
 
     <?component name="sidebar"
                 macroURI="/components/sidebar.zul"
-                class="com.cts.web.composer.components.SidebarComposer"?>
+                class="com.iispl.composer.SidebarComponent"?>
 
     <?component name="smarttable"
                 macroURI="/components/smartTable.zul"
-                class="com.cts.web.composer.components.SmartTableComposer"?>
+                class="com.iispl.composer.SmartTableComponent"?>
 
     <!-- ================================================================== -->
     <!-- PAGE ROOT                                                           -->
     <!-- ================================================================== -->
     <div sclass="cts-page-root"
-         apply="com.cts.web.composer.CbsComposer">
+         apply="com.iispl.controller.CbsController">
 
         <?link rel="stylesheet" href="/styling/cbs.css"?>
 

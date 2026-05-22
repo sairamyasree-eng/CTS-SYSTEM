@@ -9,11 +9,11 @@ FILE: admin-banks.zul
     <!-- ── Register macro components ─────────────────────────────────── -->
     <?component name="statcard"
                 macroURI="/reuseableComponents/statCard.zul"
-                class="com.iispl.cts.StatCard"?>
+                class="com.iispl.composer.StatCard"?>
 
     <?component name="pageheader"
                 macroURI="/reuseableComponents/pageHeader.zul"
-                class="com.iispl.cts.PageHeader"?>
+                class="com.iispl.composer.PageHeader"?>
 
     <borderlayout width="100%" height="100%">
 
