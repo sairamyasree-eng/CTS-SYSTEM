@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div id="mc_statCard" sclass="stat-card">
+        <label id="mc_statNumber" sclass="stat-number"/>
+        <label id="mc_statLabel"  sclass="stat-label"/>
+    </div>
+
+</zk>

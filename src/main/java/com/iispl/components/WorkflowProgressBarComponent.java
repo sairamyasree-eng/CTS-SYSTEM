@@ -1,4 +1,4 @@
-package com.iispl.composer;
+package com.iispl.components;
 
 import org.zkoss.zk.ui.HtmlMacroComponent;
 import org.zkoss.zk.ui.select.annotation.Wire;

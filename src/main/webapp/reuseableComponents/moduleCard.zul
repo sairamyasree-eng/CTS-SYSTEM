@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div id="mc_moduleCard" sclass="module-card">
+
+        <div sclass="module-icon">
+            <label id="mc_icon"/>
+        </div>
+
+        <label id="mc_moduleTitle" sclass="module-title"/>
+        <label id="mc_moduleDesc"  sclass="module-desc"/>
+        <a     id="mc_moduleLink"  label="Open →" sclass="module-link"/>
+
+    </div>
+
+</zk>

@@ -133,3 +133,32 @@
         .footer-sep {
             margin: 0 10px;
         }
+        
+        .register-link-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.register-hint {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.btn-register-link {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #3b82f6 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    text-decoration: underline;
+}
+
+.btn-register-link:hover {
+    color: #1d4ed8 !important;
+}

@@ -13,20 +13,20 @@
 
     <!-- ── Declare reusable components ── -->
     <?component name="ctstopbar"
-                macroURI="/components/topbar.zul"
-                class="com.iispl.composer.TopbarComponent"?>
+                macroURI="/reuseableComponents/topbar.zul"
+                class="com.iispl.components.TopbarComponent"?>
 
     <?component name="ctssidebar"
-                macroURI="/components/sidebar.zul"
-                class="com.iispl.composer.SidebarComponent"?>
+                macroURI="/reuseableComponents/sidebar.zul"
+                class="com.iispl.components.SidebarComponent"?>
 
     <?component name="workflowbar"
-                macroURI="/components/workflowProgressBar.zul"
-                class="com.iispl.composer.WorkflowProgressBarComponent"?>
+                macroURI="/reuseableComponents/workflowProgressBar.zul"
+                class="com.iispl.components.WorkflowProgressBarComponent"?>
 
     <?component name="smarttable"
-                macroURI="/components/smartTable.zul"
-                class="com.iispl.composer.SmartTableComponent"?>
+                macroURI="/reuseableComponents/smartTable.zul"
+                class="com.iispl.components.SmartTableComponent"?>
 
     <!-- ── Page shell window ── -->
     <window id="winMakerOutward"

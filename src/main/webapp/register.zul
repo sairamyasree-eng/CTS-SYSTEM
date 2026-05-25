@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?page title="Cheque Truncation System - Login"
+<?page title="Cheque Truncation System - Register"
       contentType="text/html;charset=UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
     <?link rel="stylesheet" type="text/css" href="/styling/login.css"?>
 
-    <div sclass="cts-body" apply="com.iispl.controller.LoginController">
+    <div sclass="cts-body" apply="com.iispl.controller.RegisterController">
 
         <div sclass="bg-overlay"/>
 
@@ -26,7 +26,7 @@
                        sclass="login-subtitle"/>
             </div>
 
-            <!-- Login Card -->
+            <!-- Register Card -->
             <div sclass="login-card">
 
                 <!-- Username -->
@@ -50,28 +50,57 @@
                              placeholder="Enter password"/>
                 </div>
 
+                <!-- Confirm Password -->
+                <div sclass="form-group">
+                    <label value="CONFIRM PASSWORD" sclass="form-label"/>
+                    <textbox id="txtConfirmPassword"
+                             type="password"
+                             sclass="form-input"
+                             width="100%"
+                             maxlength="50"
+                             placeholder="Confirm password"/>
+                </div>
+
+                <!-- Role -->
+                <div sclass="form-group">
+                    <label value="ROLE" sclass="form-label"/>
+                    <listbox id="cmbRole"
+                             mold="select"
+                             width="100%"
+                             sclass="form-select">
+                        <listitem label="Select Role"     value=""/>
+                        <listitem label="Admin"           value="ADMIN"/>
+                        <listitem label="Maker Outward"   value="MAKER_OUTWARD"/>
+                        <listitem label="Checker Outward" value="CHECKER_OUTWARD"/>
+                        <listitem label="Maker Inward"    value="MAKER_INWARD"/>
+                        <listitem label="Checker Inward"  value="CHECKER_INWARD"/>
+                    </listbox>
+                </div>
+
                 <div sclass="form-divider"/>
 
-                <!-- Sign In Button -->
-                <button id="btnSignIn"
-                        label="SIGN IN"
+                <!-- Register Button -->
+                <button id="btnRegister"
+                        label="REGISTER"
                         width="100%"
                         sclass="btn-signin"/>
 
-                <!-- Register Link -->
-                <div sclass="register-link-row">
-                    <label value="Don't have an account?"
-                           sclass="register-hint"/>
-                    <button id="btnGoRegister"
-                            label="Register"
-                            sclass="btn-link"/>
-                </div>
+                <!-- Back to Login -->
+                <button id="btnGoLogin"
+                        label="Back to Login"
+                        width="100%"
+                        sclass="btn-secondary"/>
 
-                <!-- Error Label -->
+                <!-- Messages -->
                 <label id="lblError"
                        visible="false"
                        value=""
                        sclass="error-message"/>
+
+                <label id="lblSuccess"
+                       visible="false"
+                       value=""
+                       sclass="success-message"/>
 
             </div>
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <?link rel="stylesheet" href="/styling/pageHeader.css"?>
+
+    <div sclass="cts-page-header">
+
+        <!-- LEFT -->
+        <div sclass="page-header-left">
+
+            <label id="mc_breadcrumb"
+                   sclass="page-header-breadcrumb"/>
+
+            <label id="mc_pageTitle"
+                   sclass="page-header-title"/>
+
+            <label id="mc_pageSubtitle"
+                   sclass="page-header-subtitle"/>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div id="mc_btnPanel"
+             sclass="page-header-right"
+             visible="false">
+
+            <button id="mc_btnAction"
+                    sclass="btn-primary-action"/>
+
+        </div>
+
+    </div>
+
+</zk>
