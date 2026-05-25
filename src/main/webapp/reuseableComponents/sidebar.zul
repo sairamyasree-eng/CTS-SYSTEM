@@ -13,7 +13,8 @@
         Sessions.getCurrent().setAttribute("currentPage", "scan");
 -->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <?link rel="stylesheet" href="/styling/sidebar.css"?>
+    
+ <style src="/styling/sidebar.css"/>
 
     <div sclass="cts-sidebar">
 

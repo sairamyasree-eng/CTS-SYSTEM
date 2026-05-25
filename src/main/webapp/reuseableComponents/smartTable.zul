@@ -39,7 +39,8 @@
     ──────────────────────────────────────────────────────────
 -->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <?link rel="stylesheet" href="/styling/smartTable.css"?>
+    <style src="/styling/smartTable.css"/>
+
 
     <div id="smartTableRoot" sclass="smart-table-wrap">
 

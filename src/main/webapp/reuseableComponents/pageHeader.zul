@@ -3,6 +3,7 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
     <?link rel="stylesheet" href="/styling/pageHeader.css"?>
+ <style src="/styling/pageHeader.css"/>
 
     <div sclass="cts-page-header">
 

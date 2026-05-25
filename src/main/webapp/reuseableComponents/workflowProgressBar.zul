@@ -25,7 +25,8 @@
         bar.setActiveStep("checker-out");  // sets done/active/pending automatically
 -->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <?link rel="stylesheet" href="/styling/workflowProgressBar.css"?>
+    <style src="/styling/workflowProgressBar.css"/>
+
 
     <div id="pgBarRoot"
          sclass="workflow-bar">

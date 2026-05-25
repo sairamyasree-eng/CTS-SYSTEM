@@ -1,48 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<zk xmlns="http://www.zkoss.org/2005/zul">
-    <?link rel="stylesheet" href="/styling/topbar.css"?>
+<?page contentType="text/html;charset=UTF-8"?>
 
+
+<zk>
+ <style src="/styling/topbar.css"/>
     <div sclass="cts-topbar">
 
-        <!-- Left: Brand -->
+        <!-- Brand -->
         <div sclass="topbar-brand">
             <div sclass="topbar-logo">
-                <label value="CTS" sclass="topbar-logo-text"/>
+                <label sclass="topbar-logo-text" value="CTS"/>
             </div>
-            <div>
-                <label value="Cheque Truncation System" sclass="topbar-title"/>
-                <label value="NPCI · CTS Grid Processing" sclass="topbar-subtitle"/>
-            </div>
+            <vlayout spacing="0px">
+                <label sclass="topbar-title"    value="CTS Portal"/>
+                <label sclass="topbar-subtitle" value="CHEQUE TRUNCATION SYSTEM"/>
+            </vlayout>
         </div>
 
-        <!-- Right: Session info + user + logout -->
+        <!-- Right section -->
         <div sclass="topbar-right">
 
-            <!-- Session badge (hidden when no session open) -->
+            <!-- Session badge (hidden by default) -->
             <div id="mc_sessionBadge" sclass="topbar-session" visible="false">
                 <label id="mc_lblSessionId"   sclass="session-id"/>
-                <label value="|"              sclass="session-sep"/>
+                <label sclass="session-sep"   value="|"/>
                 <label id="mc_lblSessionTime" sclass="session-time"/>
-                <label value="|"              sclass="session-sep"/>
+                <label sclass="session-sep"   value="|"/>
                 <label id="mc_lblSessionDate" sclass="session-date"/>
             </div>
 
             <!-- User info -->
             <div sclass="topbar-user">
-                <div>
+                <vlayout spacing="0px">
                     <label id="mc_lblUserName"   sclass="topbar-user-name"/>
                     <label id="mc_lblUserBranch" sclass="topbar-user-branch"/>
-                </div>
-                <label id="mc_lblRoleBadge" sclass="topbar-role-badge"/>
+                </vlayout>
+                <label id="mc_lblRoleBadge" sclass="topbar-role-badge role-default"/>
             </div>
 
             <!-- Sign out -->
-            <button id="mc_btnSignOut"
-                    label="Sign Out"
-                    sclass="btn-signout"/>
+            <button id="mc_btnSignOut" sclass="btn-signout" label="Sign Out"/>
 
         </div>
-
     </div>
-
 </zk>

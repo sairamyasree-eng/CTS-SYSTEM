@@ -1,0 +1,959 @@
+/* ═══════════════════════════════════════════════════════════════
+   CTS — Maker Outward Dashboard
+   makeroutwarddashboard.css
+   Reference: cts_v2_updated.html design system
+   Fonts: IBM Plex Sans (sans) + IBM Plex Mono (mono)
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS
+   ───────────────────────────────────────────────────────────── */
+:root {
+    --primary:        #0a2540;
+    --primary-mid:    #0e3460;
+    --accent:         #1a6bcc;
+    --accent-light:   #e8f0fb;
+    --success:        #0d6e4a;
+    --success-bg:     #e6f5ef;
+    --danger:         #b91c1c;
+    --danger-bg:      #fef2f2;
+    --warning:        #92400e;
+    --warning-bg:     #fffbeb;
+    --border:         #d1d9e6;
+    --bg:             #f0f4f8;
+    --surface:        #ffffff;
+    --surface2:       #f8fafc;
+    --text:           #0f172a;
+    --text-mid:       #334155;
+    --text-muted:     #64748b;
+    --mono:           'IBM Plex Mono', monospace;
+    --sans:           'IBM Plex Sans', sans-serif;
+    --radius:         4px;
+    --radius-lg:      8px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESET / BASE
+   ───────────────────────────────────────────────────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+.z-page,
+.z-client {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    min-height: 100vh;
+}
+
+/* ZK resets — remove default borders/backgrounds injected by ZK */
+.z-window,
+.z-window-content {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.z-hlayout,
+.z-hlayout-inner {
+    vertical-align: top;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar               { width: 6px; height: 6px; }
+::-webkit-scrollbar-track         { background: var(--bg); }
+::-webkit-scrollbar-thumb         { background: #b0bec5; border-radius: 3px; }
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE SHELL
+   ───────────────────────────────────────────────────────────── */
+.cts-page-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOP BAR
+   ───────────────────────────────────────────────────────────── */
+.topbar {
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 52px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    flex-shrink: 0;
+}
+
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.topbar-logo {
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.topbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    display: block;
+}
+
+.topbar-subtitle {
+    font-size: 10px;
+    color: rgba(255, 255, 255, .45);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 1px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar-session {
+    font-size: 11px;
+    color: rgba(255, 255, 255, .55);
+    font-family: var(--mono);
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-user-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    display: block;
+}
+
+.topbar-user-branch {
+    font-size: 10px;
+    color: rgba(255, 255, 255, .45);
+    display: block;
+}
+
+/* Role tag — MakerOutward specific */
+.role-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.role-MakerOutward {
+    background: #1a4060;
+    color: #7dd3fc;
+}
+
+/* Logout button */
+.btn-logout,
+.z-button.btn-logout {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 14px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .2);
+    color: rgba(255, 255, 255, .7);
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.btn-logout:hover,
+.z-button.btn-logout:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   APP SHELL — sidebar + main
+   ───────────────────────────────────────────────────────────── */
+.app-shell {
+    display: flex;
+    height: calc(100vh - 52px);
+    overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SIDEBAR
+   ───────────────────────────────────────────────────────────── */
+.sidebar {
+    width: 220px;
+    background: var(--primary-mid);
+    flex-shrink: 0;
+    overflow-y: auto;
+    border-right: 1px solid rgba(0, 0, 0, .15);
+    height: 100%;
+}
+
+.sidebar-section {
+    padding: 16px 16px 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .28);
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px;
+    font-weight: 500;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+}
+
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, .06);
+    color: rgba(255, 255, 255, .9);
+}
+
+.sidebar-item.active {
+    background: rgba(255, 255, 255, .1);
+    color: #fff;
+    border-left-color: var(--accent);
+    font-weight: 600;
+}
+
+.sidebar-item.locked {
+    opacity: .35;
+    cursor: default;
+    pointer-events: none;
+}
+
+.sidebar-step {
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, .1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: var(--mono);
+    color: rgba(255, 255, 255, .5);
+    flex-shrink: 0;
+}
+
+.sidebar-item.active .sidebar-step {
+    background: var(--accent);
+    color: #fff;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, .07);
+    margin: 8px 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MAIN CONTENT
+   ───────────────────────────────────────────────────────────── */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    background: var(--bg);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE HEADER
+   ───────────────────────────────────────────────────────────── */
+.page-hdr {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.page-hdr-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+/* ZK Label sclasses */
+.page-breadcrumb {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+    display: block;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -.01em;
+    display: block;
+}
+
+.page-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BUTTONS
+   ───────────────────────────────────────────────────────────── */
+.btn,
+.z-button.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--sans);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all .15s;
+    letter-spacing: .02em;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-primary,
+.z-button.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.btn-primary:hover,
+.z-button.btn-primary:hover {
+    background: #155bb5;
+    border-color: #155bb5;
+}
+
+.btn-secondary,
+.z-button.btn-secondary {
+    background: var(--surface);
+    color: var(--text-mid);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover,
+.z-button.btn-secondary:hover {
+    background: var(--surface2);
+    border-color: #aab4c4;
+}
+
+.btn-success,
+.z-button.btn-success {
+    background: var(--success);
+    color: #fff;
+    border-color: var(--success);
+}
+
+.btn-success:hover,
+.z-button.btn-success:hover {
+    background: #0a5a3c;
+}
+
+.btn-danger,
+.z-button.btn-danger {
+    background: var(--danger);
+    color: #fff;
+    border-color: var(--danger);
+}
+
+.btn-danger:hover,
+.z-button.btn-danger:hover {
+    background: #991b1b;
+}
+
+.btn[disabled],
+.z-button.btn[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   WORKFLOW PROGRESS BAR
+   ───────────────────────────────────────────────────────────── */
+.flow-bar {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    gap: 0;
+    overflow-x: auto;
+}
+
+.flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 80px;
+    position: relative;
+}
+
+/* Connector line between steps */
+.flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: calc(50% + 12px);
+    right: calc(-50% + 12px);
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+}
+
+.flow-step.done:not(:last-child)::after {
+    background: var(--success);
+}
+
+.flow-step.active:not(:last-child)::after {
+    background: var(--border);
+}
+
+.flow-step-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: var(--mono);
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+}
+
+.flow-step.done .flow-step-dot {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+}
+
+.flow-step.active .flow-step-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+.flow-step-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.flow-step.active .flow-step-label {
+    color: var(--accent);
+}
+
+.flow-step.done .flow-step-label {
+    color: var(--success);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   KPI STAT ROW
+   ───────────────────────────────────────────────────────────── */
+.stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    border-top: 3px solid var(--accent);
+}
+
+.stat-box.blue   { border-top-color: var(--accent); }
+.stat-box.green  { border-top-color: #059669; }
+.stat-box.red    { border-top-color: #dc2626; }
+.stat-box.amber  { border-top-color: #d97706; }
+.stat-box.purple { border-top-color: #7c3aed; }
+.stat-box.slate  { border-top-color: #475569; }
+.stat-box.teal   { border-top-color: #0d9488; }
+
+/* ZK Label sclasses inside stat-box */
+.stat-val {
+    font-size: 26px;
+    font-weight: 700;
+    font-family: var(--mono);
+    color: var(--primary);
+    line-height: 1;
+    display: block;
+}
+
+.stat-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-top: 6px;
+    display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION LABEL
+   ───────────────────────────────────────────────────────────── */
+.section-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+/* ZK Label inside section-lbl */
+.section-lbl .z-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MODULE TILES (YOUR MODULES grid)
+   ───────────────────────────────────────────────────────────── */
+.mod-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.mod-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    flex-direction: column;
+}
+
+.mod-tile:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(26, 107, 204, .1);
+    transform: translateY(-1px);
+}
+
+/* ZK Label sclasses inside mod-tile */
+.mod-tile-step {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.mod-tile-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+    display: block;
+}
+
+.mod-tile-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: block;
+    flex: 1;
+}
+
+.mod-tile-action {
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARD PANEL (Recent Cheques table wrapper)
+   ───────────────────────────────────────────────────────────── */
+.card-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.card-panel-header {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ZK Label sclass inside card-panel-header */
+.card-panel-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    display: block;
+}
+
+.card-panel-body {
+    padding: 18px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SMART TABLE (reusable component)
+   ───────────────────────────────────────────────────────────── */
+.smart-table-wrap {
+    overflow-x: auto;
+}
+
+/* ZK Grid / Listbox used inside smarttable component */
+.z-listbox,
+.z-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.z-listhead,
+.z-columns {
+    background: var(--surface2);
+    border-bottom: 2px solid var(--border);
+}
+
+.z-listheader,
+.z-column {
+    padding: 9px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-muted);
+    text-align: left;
+    white-space: nowrap;
+    user-select: none;
+    border: none;
+}
+
+.z-listheader:hover,
+.z-column:hover {
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.z-listitem,
+.z-row {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .1s;
+}
+
+.z-listitem:hover,
+.z-row:hover {
+    background: #fafbfd;
+}
+
+.z-listitem:last-child,
+.z-row:last-child {
+    border-bottom: none;
+}
+
+.z-listcell,
+.z-cell {
+    padding: 9px 14px;
+    font-size: 12px;
+    color: var(--text-mid);
+    vertical-align: middle;
+    border: none;
+}
+
+/* Monospace cells (cheque numbers, account numbers) */
+.td-mono,
+.z-listcell.td-mono,
+.z-cell.td-mono {
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 32px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   STATUS BADGE PILLS
+   ───────────────────────────────────────────────────────────── */
+.badge-pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.pill-pending        { background: #f1f5f9;            color: #475569; }
+.pill-repaired       { background: var(--success-bg);  color: var(--success); }
+.pill-rejected       { background: var(--danger-bg);   color: var(--danger); }
+.pill-approved       { background: var(--success-bg);  color: var(--success); }
+.pill-batch          { background: #ede9fe;             color: #5b21b6; }
+.pill-dem            { background: #dbeafe;             color: #1d4ed8; }
+.pill-npci           { background: #d1fae5;             color: #065f46; }
+.pill-verified       { background: var(--success-bg);  color: var(--success); }
+.pill-auto-approved  { background: #eff6ff;             color: #1d4ed8; }
+.pill-scanning       { background: var(--warning-bg);  color: var(--warning); }
+
+/* ─────────────────────────────────────────────────────────────
+   TOOLBAR (above smart tables)
+   ───────────────────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    font-size: 12px;
+    color: var(--text-mid);
+}
+
+/* ZK search textbox in toolbar */
+.toolbar .z-textbox,
+.toolbar input[type="text"] {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+    font-family: var(--sans);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    width: 200px;
+}
+
+.toolbar .z-textbox:focus,
+.toolbar input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SESSION BANNER (open / closed scan session)
+   ───────────────────────────────────────────────────────────── */
+.session-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 16px;
+    border: 1.5px solid;
+}
+
+.session-banner.open {
+    background: #e6f5ef;
+    border-color: #a7f3d0;
+}
+
+.session-banner.closed {
+    background: #fef9c3;
+    border-color: #fcd34d;
+}
+
+.session-banner-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.session-banner.open  .session-banner-dot { background: #059669; box-shadow: 0 0 0 3px #a7f3d0; }
+.session-banner.closed .session-banner-dot { background: #d97706; box-shadow: 0 0 0 3px #fcd34d; }
+
+.session-banner-text {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    display: block;
+}
+
+.session-banner-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 1px;
+    display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   UTILITY CLASSES
+   ───────────────────────────────────────────────────────────── */
+.divider          { height: 1px; background: var(--border); margin: 20px 0; }
+.text-mono        { font-family: var(--mono); }
+.text-muted       { color: var(--text-muted); }
+.text-success     { color: var(--success); }
+.text-danger      { color: var(--danger); }
+.text-accent      { color: var(--accent); }
+.d-flex           { display: flex; }
+.gap-2            { gap: 8px; }
+.gap-3            { gap: 12px; }
+.align-center     { align-items: center; }
+.justify-between  { justify-content: space-between; }
+.ml-auto          { margin-left: auto; }
+.mt-3             { margin-top: 12px; }
+.mt-4             { margin-top: 20px; }
+.mb-3             { margin-bottom: 12px; }
+.mb-4             { margin-bottom: 20px; }
+.fw-bold          { font-weight: 700; }
+.small            { font-size: 11px; }
+.w-100            { width: 100%; }
+
+/* ─────────────────────────────────────────────────────────────
+   ZK LABEL / INPUT RESETS
+   Labels in ZK render as <span> — ensure they inherit correctly
+   ───────────────────────────────────────────────────────────── */
+.z-label {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.z-textbox,
+.z-intbox,
+.z-decimalbox,
+.z-datebox {
+    font-family: var(--sans);
+    font-size: 12px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    width: 100%;
+}
+
+.z-textbox:focus,
+.z-intbox:focus,
+.z-decimalbox:focus,
+.z-datebox:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+.z-combobox,
+.z-selectbox {
+    font-family: var(--sans);
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px 10px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ZK BUTTON RESETS (so .btn sclass works cleanly)
+   ───────────────────────────────────────────────────────────── */
+.z-button {
+    font-family: var(--sans);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all .15s;
+}
+
+.z-button .z-button-cm {
+    /* remove ZK default gradient */
+    background: none;
+    border: none;
+    padding: 0;
+}

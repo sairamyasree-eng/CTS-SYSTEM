@@ -33,7 +33,7 @@ public class TopbarComponent extends HtmlMacroComponent {
 
     @Override
     public void afterCompose() {
-        super.afterCompose(); // this triggers @Wire injection — must be first
+        super.afterCompose(); // triggers @Wire injection — must be first
 
         SessionUserDTO sessionUser = (SessionUserDTO) Sessions.getCurrent()
                 .getAttribute(SessionUserDTO.SESSION_KEY);

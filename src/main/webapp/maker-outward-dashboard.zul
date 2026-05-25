@@ -1,17 +1,10 @@
 <?page title="CTS — Maker Outward Dashboard" contentType="text/html;charset=UTF-8"?>
-<!--
-    PAGE: makerOutwardDashboard.zul
-    ================================
-    Role     : MakerOutward
-    Modules  : Scan Service → Reject & Repair → Batch Status
-    Composer : com.iispl.controller.dashboard.MakerOutwardDashboardComposer
 
-    Reusable components declared below via <?component?> and used as custom tags.
-    Each component maps to its macroURI file and a backing Java composer class.
--->
 <zk>
 
-    <!-- ── Declare reusable components ── -->
+
+	<style src="/styling/makeroutwarddashboard.css"/>
+ <!-- ── Declare reusable components ── -->
     <?component name="ctstopbar"
                 macroURI="/reuseableComponents/topbar.zul"
                 class="com.iispl.components.TopbarComponent"?>
@@ -27,7 +20,7 @@
     <?component name="smarttable"
                 macroURI="/reuseableComponents/smartTable.zul"
                 class="com.iispl.components.SmartTableComponent"?>
-	<?link rel="stylesheet" type="text/css" href="styling/makeroutwarddashbaord.css" />
+	
     <!-- ── Page shell window ── -->
     <window id="winMakerOutward"
             border="none"
@@ -156,4 +149,5 @@
 
     </window>
 
+   
 </zk>
