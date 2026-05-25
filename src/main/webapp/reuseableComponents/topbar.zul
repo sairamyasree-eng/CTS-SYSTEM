@@ -19,25 +19,25 @@
         <div sclass="topbar-right">
 
             <!-- Session badge (hidden when no session open) -->
-            <div id="sessionBadge" sclass="topbar-session" visible="false">
-                <label id="lblSessionId"   sclass="session-id"/>
-                <label value="|"           sclass="session-sep"/>
-                <label id="lblSessionTime" sclass="session-time"/>
-                <label value="|"           sclass="session-sep"/>
-                <label id="lblSessionDate" sclass="session-date"/>
+            <div id="mc_sessionBadge" sclass="topbar-session" visible="false">
+                <label id="mc_lblSessionId"   sclass="session-id"/>
+                <label value="|"              sclass="session-sep"/>
+                <label id="mc_lblSessionTime" sclass="session-time"/>
+                <label value="|"              sclass="session-sep"/>
+                <label id="mc_lblSessionDate" sclass="session-date"/>
             </div>
 
             <!-- User info -->
             <div sclass="topbar-user">
                 <div>
-                    <label id="lblUserName"   sclass="topbar-user-name"/>
-                    <label id="lblUserBranch" sclass="topbar-user-branch"/>
+                    <label id="mc_lblUserName"   sclass="topbar-user-name"/>
+                    <label id="mc_lblUserBranch" sclass="topbar-user-branch"/>
                 </div>
-                <label id="lblRoleBadge" sclass="topbar-role-badge"/>
+                <label id="mc_lblRoleBadge" sclass="topbar-role-badge"/>
             </div>
 
-            <!-- Sign out — no onClick needed, @Listen in Java handles it -->
-            <button id="btnSignOut"
+            <!-- Sign out -->
+            <button id="mc_btnSignOut"
                     label="Sign Out"
                     sclass="btn-signout"/>
 

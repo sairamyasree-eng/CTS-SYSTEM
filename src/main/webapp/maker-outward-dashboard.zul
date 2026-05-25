@@ -27,14 +27,14 @@
     <?component name="smarttable"
                 macroURI="/reuseableComponents/smartTable.zul"
                 class="com.iispl.components.SmartTableComponent"?>
-
+	<?link rel="stylesheet" type="text/css" href="styling/makeroutwarddashbaord.css" />
     <!-- ── Page shell window ── -->
     <window id="winMakerOutward"
             border="none"
             width="100%"
             height="100%"
             sclass="cts-page-shell"
-            apply="com.iispl.controller.DashboardController">
+            apply="com.iispl.controller.MakerOutwardController">
 
         <!-- ════════════════════════════════════
              TOP BAR  (reusable)

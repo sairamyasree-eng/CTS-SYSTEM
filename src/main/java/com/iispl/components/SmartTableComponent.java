@@ -12,41 +12,10 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-/**
- * SmartTableComponent
- * ===================
- * Macro component that handles: search, status filter,
- * date range, column sort, and pagination.
- *
- * Usage in ZUL:
- *   <?component name="smartTable" macroURI="/components/smartTable.zul"
- *               class="com.iispl.demo.SmartTableComponent"?>
- *   <smartTable id="tbl"/>
- *
- * Setup from your page composer:
- *   tbl.setColumns(columns)
- *   tbl.setData(data)
- *   tbl.setFilterKey("status")
- *   tbl.setFilterOptions(options)
- *   tbl.setDateField("date")
- *   tbl.setRowClickListener(row -> ...)
- *   tbl.refresh()
- *
- * ColumnDef — describes one column:
- *   key      → field name in the data Map
- *   label    → header display text
- *   sortable → whether the column header is clickable for sort
- *   mono     → whether cell uses monospace font (codes/numbers)
- *   renderer → optional: (Object value, Map row) → String html
- *
- * Data format: List<Map<String, Object>>
- *   Each Map is one row. Keys match ColumnDef.key.
- */
 public class SmartTableComponent extends HtmlMacroComponent {
 
     private static final long serialVersionUID = 1L;
 
-    // ── Wired components ──
     @Wire private Textbox  mc_txtSearch;
     @Wire private Listbox  mc_cmbFilter;
     @Wire private Div      mc_dateRangePanel;
@@ -63,7 +32,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
     @Wire private Button   mc_btnLast;
     @Wire private Label    mc_lblPgInfo;
 
-    // ── Configuration ──
     private List<ColumnDef>              columns          = new ArrayList<>();
     private List<Map<String, Object>>    allData          = new ArrayList<>();
     private List<Map<String, Object>>    filteredData     = new ArrayList<>();
@@ -72,7 +40,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
     private int                          pageSize         = 8;
     private Consumer<Map<String,Object>> rowClickListener = null;
 
-    // ── State ──
     private String    searchText  = "";
     private String    filterValue = "";
     private LocalDate dateFrom    = null;
@@ -80,8 +47,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
     private String    sortCol     = null;
     private boolean   sortAsc     = true;
     private int       currentPage = 1;
-
-    // ── ColumnDef inner class ─────────────────────────────────────────────
 
     public static class ColumnDef {
         public final String  key;
@@ -103,7 +68,7 @@ public class SmartTableComponent extends HtmlMacroComponent {
     }
 
     public SmartTableComponent() {
-        compose();
+        // DO NOT call compose() here — ZK calls it automatically
     }
 
     @Override
@@ -124,12 +89,10 @@ public class SmartTableComponent extends HtmlMacroComponent {
         currentPage  = 1;
     }
 
-    /** Column key to filter on (must match a key in data map) */
     public void setFilterKey(String key) {
         this.filterKey = key;
     }
 
-    /** Options for the status dropdown: each String[] is {value, displayLabel} */
     public void setFilterOptions(List<String[]> options) {
         if (options == null || options.isEmpty()) return;
         mc_cmbFilter.getItems().clear();
@@ -143,7 +106,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
         mc_cmbFilter.setSelectedIndex(0);
     }
 
-    /** Field name in data map to use for date range filtering */
     public void setDateField(String field) {
         this.dateField = field;
         mc_dateRangePanel.setVisible(field != null);
@@ -157,7 +119,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
         this.rowClickListener = listener;
     }
 
-    /** Call this after setColumns + setData to render the table */
     public void refresh() {
         applyFiltersAndSort();
         renderPage();
@@ -180,8 +141,19 @@ public class SmartTableComponent extends HtmlMacroComponent {
         refresh();
     }
 
-    @Listen("onChange = #mc_dtFrom, onChange = #mc_dtTo")
-    public void onDateChange() {
+    // FIX: split into two separate @Listen methods — ZK does not allow
+    // multiple event=selector pairs in a single @Listen annotation
+    @Listen("onChange = #mc_dtFrom")
+    public void onDateFromChange() {
+        onDateChange();
+    }
+
+    @Listen("onChange = #mc_dtTo")
+    public void onDateToChange() {
+        onDateChange();
+    }
+
+    private void onDateChange() {
         dateFrom = mc_dtFrom.getValue() != null
             ? mc_dtFrom.getValue().toInstant()
                        .atZone(java.time.ZoneId.systemDefault()).toLocalDate()
@@ -196,8 +168,10 @@ public class SmartTableComponent extends HtmlMacroComponent {
 
     @Listen("onClick = #mc_btnClearDate")
     public void clearDateRange() {
-        mc_dtFrom.setValue(null); mc_dtTo.setValue(null);
-        dateFrom    = null; dateTo = null;
+        mc_dtFrom.setValue(null);
+        mc_dtTo.setValue(null);
+        dateFrom    = null;
+        dateTo      = null;
         currentPage = 1;
         refresh();
     }
@@ -355,8 +329,6 @@ public class SmartTableComponent extends HtmlMacroComponent {
     private int totalPages() {
         return Math.max(1, (int) Math.ceil((double) filteredData.size() / pageSize));
     }
-
-    // ── Getters ───────────────────────────────────────────────────────────
 
     public int    getCurrentPage()   { return currentPage; }
     public int    getTotalRecords()  { return filteredData.size(); }

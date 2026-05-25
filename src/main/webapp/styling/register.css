@@ -91,80 +91,58 @@
     border-radius: 8px;
 }
 
+.form-select {
+    height: 46px;
+    border-radius: 8px;
+}
+
 .form-divider {
     height: 1px;
     background: #e2e8f0;
     margin: 25px 0;
 }
 
-/* ── Sign In button ── */
-.z-button.btn-signin,
-.z-button.btn-signin:visited {
-    display: block;
-    width: 100%;
+.btn-signin {
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
     height: 48px;
-    background: #2563eb !important;
-    color: white !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    border: none !important;
-    border-radius: 8px !important;
-    box-shadow: none !important;
-    cursor: pointer;
-    text-align: center;
+    margin-bottom: 10px;
 }
 
-.z-button.btn-signin:hover {
-    background: #1d4ed8 !important;
+.btn-signin:hover {
+    background: #1d4ed8;
 }
 
-/* ── Register link row ── */
-.register-link-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-}
-
-.register-hint {
-    font-size: 13px;
-    color: #6b7280;
-}
-
-/* ── Register text-link button (fallback, inline style on ZUL is primary) ── */
-.z-button.btn-link,
-.z-button.btn-link:link,
-.z-button.btn-link:visited,
-.z-button.btn-link:active {
-    background: none !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    color: #3b82f6 !important;
-    font-size: 13px !important;
+.btn-secondary,
+.z-button.btn-secondary {
+    background: transparent !important;
+    color: #2563eb !important;
     font-weight: 600 !important;
-    cursor: pointer !important;
-    padding: 0 2px !important;
-    margin: 0 !important;
-    text-decoration: underline !important;
-    height: auto !important;
-    min-width: unset !important;
-    width: auto !important;
-    line-height: normal !important;
-    display: inline !important;
-    outline: none !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #2563eb !important;
+    height: 48px;
+    box-shadow: none !important;
 }
 
-.z-button.btn-link:hover {
+.btn-secondary:hover,
+.z-button.btn-secondary:hover {
+    background: #eff6ff !important;
     color: #1d4ed8 !important;
-    background: none !important;
-    background-color: transparent !important;
+    border-color: #1d4ed8 !important;
 }
 
 .error-message {
     color: #dc2626;
+    font-size: 13px;
+    margin-top: 12px;
+    display: block;
+}
+
+.success-message {
+    color: #16a34a;
     font-size: 13px;
     margin-top: 12px;
     display: block;

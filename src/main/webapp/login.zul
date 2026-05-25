@@ -56,7 +56,8 @@
                 <button id="btnSignIn"
                         label="SIGN IN"
                         width="100%"
-                        sclass="btn-signin"/>
+                        sclass="btn-signin"
+                        style="margin-bottom: 16px;"/>
 
                 <!-- Register Link -->
                 <div sclass="register-link-row">
@@ -64,7 +65,8 @@
                            sclass="register-hint"/>
                     <button id="btnGoRegister"
                             label="Register"
-                            sclass="btn-link"/>
+                            sclass="btn-link"
+                            style="background:none; border:none; box-shadow:none; color:#3b82f6; font-size:13px; font-weight:600; text-decoration:underline; cursor:pointer; padding:0; height:auto; min-width:unset;"/>
                 </div>
 
                 <!-- Error Label -->
@@ -73,13 +75,6 @@
                        value=""
                        sclass="error-message"/>
 
-            </div>
-
-            <!-- Footer -->
-            <div sclass="login-footer">
-                <label value="CTS V3.1"/>
-                <label value="·" sclass="footer-sep"/>
-                <label value="NPCI GRID NODE"/>
             </div>
 
         </div>

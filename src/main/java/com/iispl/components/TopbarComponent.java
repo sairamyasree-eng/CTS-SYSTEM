@@ -11,25 +11,6 @@ import org.zkoss.zul.Label;
 
 import com.iispl.dto.SessionUserDTO;
 
-/**
- * TopbarComponent
- * ===============
- * Macro component that populates the top navigation bar with:
- *  - Logged-in user's name, branch, and role badge
- *  - CTS session info read from ZK session as plain strings
- *  - Sign Out button which clears session and redirects to login
- *
- * Usage in ZUL:
- *   <?component name="topbar" macroURI="/reuseableComponents/topbar.zul"
- *               class="com.iispl.composer.TopbarComponent"?>
- *   <topbar/>
- *
- * Session attributes expected (set by LoginController):
- *   SessionUserDTO.SESSION_KEY ("sessionUser") → SessionUserDTO
- *   "sessionId"   → String  (optional — CTS batch session ID)
- *   "sessionTime" → String  (optional — e.g. "09:00 - 11:00")
- *   "sessionDate" → String  (optional — e.g. "19-05-2026")
- */
 public class TopbarComponent extends HtmlMacroComponent {
 
     private static final long serialVersionUID = 1L;
@@ -46,16 +27,14 @@ public class TopbarComponent extends HtmlMacroComponent {
     @Wire private Button mc_btnSignOut;
 
     public TopbarComponent() {
-        compose();
+        // DO NOT call compose() here — ZK calls it automatically.
+        // Calling it manually causes @Wire fields to be null in afterCompose().
     }
 
     @Override
     public void afterCompose() {
-        super.afterCompose();
+        super.afterCompose(); // this triggers @Wire injection — must be first
 
-        // BUG-FIX: Read SessionUserDTO (not User entity) from the correct session key.
-        // LoginController stores SessionUserDTO under SessionUserDTO.SESSION_KEY ("sessionUser").
-        // Old code read "currentUser" as User entity → ClassCastException / null → redirect loop.
         SessionUserDTO sessionUser = (SessionUserDTO) Sessions.getCurrent()
                 .getAttribute(SessionUserDTO.SESSION_KEY);
 
@@ -65,7 +44,6 @@ public class TopbarComponent extends HtmlMacroComponent {
         }
 
         // ── Populate user info ────────────────────────────────────────────
-
         String displayName = (sessionUser.getFullName() != null && !sessionUser.getFullName().isEmpty())
             ? sessionUser.getFullName()
             : sessionUser.getUsername();
@@ -83,7 +61,7 @@ public class TopbarComponent extends HtmlMacroComponent {
         mc_lblRoleBadge.setValue(roleLabel);
         mc_lblRoleBadge.setSclass("topbar-role-badge " + roleCss);
 
-        // ── CTS session info (optional — stored as plain strings) ─────────
+        // ── CTS session info ──────────────────────────────────────────────
         String sessionId   = (String) Sessions.getCurrent().getAttribute("sessionId");
         String sessionTime = (String) Sessions.getCurrent().getAttribute("sessionTime");
         String sessionDate = (String) Sessions.getCurrent().getAttribute("sessionDate");
@@ -98,15 +76,11 @@ public class TopbarComponent extends HtmlMacroComponent {
         }
     }
 
-    // ── Sign Out ──────────────────────────────────────────────────────────
-
     @Listen("onClick = #mc_btnSignOut")
     public void signOut() {
         Sessions.getCurrent().invalidate();
         Executions.sendRedirect("/login.zul");
     }
-
-    // ── Role name → human-readable label ─────────────────────────────────
 
     private String toRoleLabel(String roleName) {
         if (roleName == null) return "Unknown";
@@ -119,8 +93,6 @@ public class TopbarComponent extends HtmlMacroComponent {
             default:                 return roleName;
         }
     }
-
-    // ── Role name → CSS badge class ───────────────────────────────────────
 
     private String toRoleCss(String roleName) {
         if (roleName == null) return "role-default";

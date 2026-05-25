@@ -3,27 +3,20 @@
     <?link rel="stylesheet" href="/styling/imageViewerPanel.css"?>
 
     <div id="imgPanelRoot"
-         sclass="img-viewer-wrap"
-         apply="com.iispl.composer.ImageViewerComponent">
+         sclass="img-viewer-wrap">
 
         <!-- Tab bar -->
         <div sclass="img-viewer-tabs">
 
-            <!-- Removed onClick="@command('switchTab', tab='front')"
-                 Click handling is done in ImageViewerComponent.java using @Listen -->
-            <div id="tabFront" sclass="img-tab active">
+            <div id="mc_tabFront" sclass="img-tab active">
                 <label value="Front"/>
             </div>
 
-            <!-- Removed onClick="@command('switchTab', tab='back')"
-                 Click handling is done in ImageViewerComponent.java using @Listen -->
-            <div id="tabBack" sclass="img-tab">
+            <div id="mc_tabBack" sclass="img-tab">
                 <label value="Back"/>
             </div>
 
-            <!-- Removed onClick="@command('switchTab', tab='grayscale')"
-                 Click handling is done in ImageViewerComponent.java using @Listen -->
-            <div id="tabGrayscale" sclass="img-tab">
+            <div id="mc_tabGrayscale" sclass="img-tab">
                 <label value="Grayscale"/>
             </div>
 
@@ -33,27 +26,44 @@
         <div sclass="img-viewer-body">
 
             <!-- Front image panel -->
-            <div id="panelFront" sclass="img-panel">
-                <image id="imgFront" sclass="cheque-img"/>
-                <div sclass="img-placeholder" id="placeholderFront">
+            <div id="mc_panelFront" sclass="img-panel">
+                <image id="mc_imgFront" sclass="cheque-img"/>
+
+                <div sclass="img-placeholder"
+                     id="mc_placeholderFront">
+
                     <label value="No front image available"
                            sclass="img-placeholder-text"/>
                 </div>
             </div>
 
             <!-- Back image panel -->
-            <div id="panelBack" sclass="img-panel" visible="false">
-                <image id="imgBack" sclass="cheque-img"/>
-                <div sclass="img-placeholder" id="placeholderBack">
+            <div id="mc_panelBack"
+                 sclass="img-panel"
+                 visible="false">
+
+                <image id="mc_imgBack"
+                       sclass="cheque-img"/>
+
+                <div sclass="img-placeholder"
+                     id="mc_placeholderBack">
+
                     <label value="No back image available"
                            sclass="img-placeholder-text"/>
                 </div>
             </div>
 
             <!-- Grayscale image panel -->
-            <div id="panelGrayscale" sclass="img-panel" visible="false">
-                <image id="imgGrayscale" sclass="cheque-img grayscale"/>
-                <div sclass="img-placeholder" id="placeholderGrayscale">
+            <div id="mc_panelGrayscale"
+                 sclass="img-panel"
+                 visible="false">
+
+                <image id="mc_imgGrayscale"
+                       sclass="cheque-img grayscale"/>
+
+                <div sclass="img-placeholder"
+                     id="mc_placeholderGrayscale">
+
                     <label value="No grayscale image available"
                            sclass="img-placeholder-text"/>
                 </div>
@@ -62,7 +72,7 @@
         </div>
 
         <!-- Signature comparison panel -->
-        <div id="signaturePanel"
+        <div id="mc_signaturePanel"
              sclass="sig-panel"
              visible="false">
 
@@ -72,47 +82,53 @@
             <div sclass="sig-row">
 
                 <div sclass="sig-box">
+
                     <label value="PRESENTED"
                            sclass="sig-box-label"/>
 
                     <div sclass="sig-img-wrap">
-                        <image id="imgSig"
+
+                        <image id="mc_imgSig"
                                sclass="sig-img"/>
 
-                        <div id="placeholderSig"
+                        <div id="mc_placeholderSig"
                              sclass="sig-placeholder">
 
                             <label value="No signature"
                                    sclass="sig-placeholder-text"/>
                         </div>
+
                     </div>
                 </div>
 
                 <div sclass="sig-box">
+
                     <label value="BANK RECORD"
                            sclass="sig-box-label"/>
 
                     <div sclass="sig-img-wrap">
-                        <image id="imgBankSig"
+
+                        <image id="mc_imgBankSig"
                                sclass="sig-img"/>
 
-                        <div id="placeholderBankSig"
+                        <div id="mc_placeholderBankSig"
                              sclass="sig-placeholder">
 
                             <label value="No reference"
                                    sclass="sig-placeholder-text"/>
                         </div>
+
                     </div>
                 </div>
 
             </div>
 
             <!-- Match result badge -->
-            <div id="sigMatchBadge"
+            <div id="mc_sigMatchBadge"
                  sclass="sig-match-badge"
                  visible="false">
 
-                <label id="lblSigMatch"
+                <label id="mc_lblSigMatch"
                        sclass="sig-match-label"/>
             </div>
 

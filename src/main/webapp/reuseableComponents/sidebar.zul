@@ -34,7 +34,7 @@
         <label sclass="sidebar-section-label" value="NAVIGATION"/>
 
         <!-- Dashboard item (always visible for all non-admin roles) -->
-        <div id="itemDashboard" sclass="sidebar-item">
+        <div id="mc_itemDashboard" sclass="sidebar-item">
             <div sclass="sidebar-step">
                 <label value="D"/>
             </div>

@@ -56,7 +56,7 @@ public class SidebarComponent extends HtmlMacroComponent {
     };
 
     public SidebarComponent() {
-        compose();
+    
     }
 
     @Override

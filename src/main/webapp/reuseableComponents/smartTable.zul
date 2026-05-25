@@ -41,8 +41,7 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
     <?link rel="stylesheet" href="/styling/smartTable.css"?>
 
-    <div id="smartTableRoot" sclass="smart-table-wrap"
-         apply="com.iispl.composer.SmartTableComponent">
+    <div id="smartTableRoot" sclass="smart-table-wrap">
 
         <!-- Controls: search + filter + date range -->
         <div sclass="tbl-controls">
