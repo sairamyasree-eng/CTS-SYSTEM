@@ -8,26 +8,6 @@ import org.zkoss.zul.Label;
 
 import com.iispl.dto.SessionUserDTO;
 
-/**
- * SidebarComponent
- * ================
- * Macro component that reads the current user's role from session and
- * renders only the menu items that role is allowed to access.
- *
- * Usage in ZUL:
- *   <?component name="sidebar" macroURI="/reuseableComponents/sidebar.zul"
- *               class="com.iispl.composer.SidebarComponent"?>
- *   <sidebar/>
- *
- * HOW LOCKING WORKS:
- *  - Accessible items → clickable, navigates to page
- *  - Locked items     → shown with "locked" style, not clickable
- *  - Admin role       → shows admin-only items (Users, Banks)
- *
- * NOTE: Session key is SessionUserDTO.SESSION_KEY ("sessionUser").
- *       Role names used: "ADMIN", "MAKER_OUTWARD", "CHECKER_OUTWARD",
- *                        "MAKER_INWARD", "CHECKER_INWARD"
- */
 public class SidebarComponent extends HtmlMacroComponent {
 
     private static final long serialVersionUID = 1L;
