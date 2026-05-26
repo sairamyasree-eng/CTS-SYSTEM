@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- =========================================================
-FILE: admin-dashboard.zul
-========================================================= -->
-
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
     <?link rel="stylesheet" href="/styling/admin.css"?>
-
-    <!-- ── Register Macro Components ───────────────────────── -->
 
     <?component name="statcard"
         macroURI="/reuseableComponents/statCard.zul"
@@ -22,98 +16,73 @@ FILE: admin-dashboard.zul
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
 
-    <!-- ────────────────────────────────────────────────────── -->
+    <?component name="sidebar"
+        macroURI="/reuseableComponents/sidebar.zul"
+        class="com.iispl.components.SidebarComponent"?>
 
-    <borderlayout width="100%" height="100%">
+    <!-- Root: sidebar left, main right — no borderlayout -->
+    <hlayout hflex="1" vflex="1" style="margin:0;padding:0;overflow:hidden;height:100vh;">
 
         <!-- SIDEBAR -->
-        <west width="220px"
-              splittable="false"
-              collapsible="false">
+        <div sclass="cts-sidebar-wrapper">
+            <sidebar itemUserMgmt="true"
+                     itemBankMgmt="true"
+                     activeItem="dashboard"/>
+        </div>
 
-            <include src="/reuseableComponents/sidebar.zul"/>
+        <!-- MAIN: topbar + scrollable content -->
+        <vlayout hflex="1" vflex="1" style="margin:0;padding:0;display:flex;flex-direction:column;height:100vh;">
 
-        </west>
+            <!-- TOPBAR -->
+            <include src="/reuseableComponents/topbar.zul"/>
 
-        <!-- CENTER -->
-        <center border="none">
+            <!-- SCROLLABLE SURFACE -->
+            <div sclass="admin-surface" vflex="1">
 
-            <vlayout width="100%"
-                      height="100%">
-
-                <!-- TOPBAR -->
-                <include src="/reuseableComponents/topbar.zul"/>
-
-                <!-- PAGE CONTENT -->
-                <div sclass="admin-page">
+                <div sclass="admin-body">
 
                     <!-- PAGE HEADER -->
                     <pageheader
                         breadcrumb="CTS / ADMIN"
                         pageTitle="Administration Dashboard"
                         pageSubtitle="User and Bank management"
-                        btnLabel=""/>
+                        btnLabel="" style = "padding : 30px;"/>
 
                     <!-- INFO BOX -->
-                    <div sclass="info-box">
-
+                    <div sclass="info-box" style = "margin : 30px;">
                         <label value="As Admin, you have access to User Management and Bank Management only. Pipeline processing is restricted to operational roles."/>
-
                     </div>
 
                     <!-- STATS -->
-                    <hlayout width="100%"
-                              spacing="15px"
-                              sclass="stats-layout">
-
-                        <statcard
-                            cardColor="blue"
-                            statNumber="6"
-                            statLabel="SYSTEM USERS"/>
-
-                        <statcard
-                            cardColor="green"
-                            statNumber="6"
-                            statLabel="ACTIVE USERS"/>
-
-                        <statcard
-                            cardColor="purple"
-                            statNumber="6"
-                            statLabel="BANKS CONFIGURED"/>
-
-                        <statcard
-                            cardColor="teal"
-                            statNumber="3"
-                            statLabel="BRANCHES"/>
-
+                    <hlayout width="100%" spacing="15px" sclass="stats-layout" style = "padding : 30px;">
+                        <statcard cardColor="blue"   statNumber="6" statLabel="SYSTEM USERS"/>
+                        <statcard cardColor="green"  statNumber="6" statLabel="ACTIVE USERS"/>
+                        <statcard cardColor="purple" statNumber="6" statLabel="BANKS CONFIGURED"/>
+                        <statcard cardColor="teal"   statNumber="3" statLabel="BRANCHES"/>
                     </hlayout>
 
                     <!-- MODULE SECTION -->
-                    <label value="ADMINISTRATION MODULES"
-                           sclass="section-title"/>
+                    <label value="ADMINISTRATION MODULES" sclass="section-title" style = "padding : 30px;"/>
 
-                    <hlayout spacing="15px">
-
+                    <hlayout spacing="15px" style = "padding : 30px;">
                         <modulecard
                             icon="👥"
                             moduleTitle="User Management"
                             moduleDesc="Manage system users, roles and permissions"
                             moduleHref="/admin-users.zul"/>
-
                         <modulecard
                             icon="🏦"
                             moduleTitle="Bank Management"
                             moduleDesc="Manage bank master, IFSC codes, MICR data"
                             moduleHref="/admin-banks.zul"/>
-
                     </hlayout>
 
                 </div>
 
-            </vlayout>
+            </div>
 
-        </center>
+        </vlayout>
 
-    </borderlayout>
-    
+    </hlayout>
+
 </zk>

@@ -1,54 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    REUSABLE COMPONENT: sidebar.zul
-    ================================
-    Usage in any page:
-        <include src="/components/sidebar.zul"/>
-
-    Reads from session:
-        session["currentUser"]  → UserDTO  (fullName, role, branch)
-        session["currentPage"]  → String   (active page id e.g. "scan")
-
-    How to set active page in your page composer:
-        Sessions.getCurrent().setAttribute("currentPage", "scan");
--->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    
- <style src="/styling/sidebar.css"/>
-
+	<style src="/styling/sidebar.css"/>
     <div sclass="cts-sidebar">
 
-        <!-- Brand / Logo -->
+        <!-- Brand -->
         <div sclass="sidebar-brand">
             <div sclass="sidebar-logo">
-                <label value="C" sclass="sidebar-logo-letter"/>
+                <label sclass="sidebar-logo-letter" value="II"/>
             </div>
             <div sclass="sidebar-brand-text">
-                <label value="CTS" sclass="sidebar-brand-title"/>
-                <label value="Grid Processing" sclass="sidebar-brand-sub"/>
+                <label sclass="sidebar-brand-title" value="CHEQUE TRUNCATION"/>
+                <label sclass="sidebar-brand-sub"   value="NPCI · CTS GRID"/>
             </div>
         </div>
 
         <div sclass="sidebar-divider"/>
 
-        <!-- Section label: Navigation -->
-        <label sclass="sidebar-section-label" value="NAVIGATION"/>
+        <!-- Section Label -->
+        <div sclass="sidebar-section-label">
+            <label id="mc_lblSection" value="MENU"/>
+        </div>
 
-        <!-- Dashboard item (always visible for all non-admin roles) -->
+        <!-- Dashboard — always visible, always enabled -->
         <div id="mc_itemDashboard" sclass="sidebar-item">
-            <div sclass="sidebar-step">
-                <label value="D"/>
-            </div>
-            <label value="Dashboard" sclass="sidebar-item-label"/>
+            <div sclass="sidebar-step"><label value="D"/></div>
+            <label sclass="sidebar-item-label" value="Dashboard"/>
+        </div>
+
+        <!-- Admin Items -->
+        <div id="mc_itemUserMgmt" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="👥"/></div>
+            <label sclass="sidebar-item-label" value="User Management"/>
+        </div>
+
+        <div id="mc_itemBankMgmt" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="🏦"/></div>
+            <label sclass="sidebar-item-label" value="Bank Management"/>
         </div>
 
         <div sclass="sidebar-divider"/>
 
-        <!-- Section label: Pipeline / Admin -->
-        <label id="lblSection" sclass="sidebar-section-label" value="PIPELINE STEPS"/>
+        <!-- Pipeline Items -->
+        <div id="mc_item1" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="1"/></div>
+            <label sclass="sidebar-item-label" value="Scan"/>
+        </div>
 
-        <!-- Dynamic menu items — rendered by SidebarComponent -->
-        <div id="menuContainer" sclass="sidebar-menu-container"/>
+        <div id="mc_item2" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="2"/></div>
+            <label sclass="sidebar-item-label" value="Reject &amp; Repair"/>
+        </div>
+
+        <div id="mc_item3" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="3"/></div>
+            <label sclass="sidebar-item-label" value="Checker Outward"/>
+        </div>
+
+        <div id="mc_item4" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="4"/></div>
+            <label sclass="sidebar-item-label" value="File Processing"/>
+        </div>
+
+        <div id="mc_item5" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="5"/></div>
+            <label sclass="sidebar-item-label" value="Inward Repair"/>
+        </div>
+
+        <div id="mc_item6" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="6"/></div>
+            <label sclass="sidebar-item-label" value="Checker Inward"/>
+        </div>
+
+        <div id="mc_item7" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="7"/></div>
+            <label sclass="sidebar-item-label" value="CBS Processing"/>
+        </div>
+
+        <div id="mc_item8" sclass="sidebar-item sidebar-disabled">
+            <div sclass="sidebar-step"><label value="8"/></div>
+            <label sclass="sidebar-item-label" value="Batch Status"/>
+        </div>
 
     </div>
 

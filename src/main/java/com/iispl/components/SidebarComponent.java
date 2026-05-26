@@ -12,131 +12,110 @@ public class SidebarComponent extends HtmlMacroComponent {
 
     private static final long serialVersionUID = 1L;
 
-    @Wire private Div   mc_menuContainer;
-    @Wire private Div   mc_itemDashboard;
     @Wire private Label mc_lblSection;
 
-    // ── All pipeline steps: { stepNumber, pageId, label, allowedRoleNames[] } ──
-    private static final Object[][] PIPELINE_STEPS = {
-        {1, "scan",          "Scan Service",    new String[]{"MAKER_OUTWARD"}},
-        {2, "repair",        "Reject & Repair", new String[]{"MAKER_OUTWARD"}},
-        {3, "checker-out",   "Checker Outward", new String[]{"CHECKER_OUTWARD"}},
-        {4, "dem",           "File Processing", new String[]{"CHECKER_OUTWARD", "MAKER_INWARD"}},
-        {5, "inward-repair", "Inward Repair",   new String[]{"MAKER_INWARD"}},
-        {6, "inward-verify", "Checker Inward",  new String[]{"CHECKER_INWARD"}},
-        {7, "cbs",           "CBS Processing",  new String[]{"CHECKER_INWARD"}},
-        {8, "view-batches",  "Batch Status",    new String[]{"CHECKER_OUTWARD", "MAKER_OUTWARD",
-                                                              "MAKER_INWARD",   "CHECKER_INWARD"}},
-    };
+    // ── Admin items ───────────────────────────────────────────────────────
+    @Wire private Div mc_itemDashboard;
+    @Wire private Div mc_itemUserMgmt;
+    @Wire private Div mc_itemBankMgmt;
 
-    // ── Admin-only items ──
-    private static final Object[][] ADMIN_ITEMS = {
-        {"admin-users", "User Management", "👥"},
-        {"admin-banks", "Bank Management", "🏦"},
-    };
+    // ── Pipeline items ────────────────────────────────────────────────────
+    @Wire private Div mc_item1;
+    @Wire private Div mc_item2;
+    @Wire private Div mc_item3;
+    @Wire private Div mc_item4;
+    @Wire private Div mc_item5;
+    @Wire private Div mc_item6;
+    @Wire private Div mc_item7;
+    @Wire private Div mc_item8;
+
+    // ── Attributes ────────────────────────────────────────────────────────
+    private boolean itemUserMgmt = false;
+    private boolean itemBankMgmt = false;
+    private boolean item1        = false;
+    private boolean item2        = false;
+    private boolean item3        = false;
+    private boolean item4        = false;
+    private boolean item5        = false;
+    private boolean item6        = false;
+    private boolean item7        = false;
+    private boolean item8        = false;
+    private String  activeItem   = "";
 
     public SidebarComponent() {
-    
+        compose();
     }
 
     @Override
     public void afterCompose() {
         super.afterCompose();
 
-        // BUG-FIX: Read SessionUserDTO (not User entity) from the correct session key.
-        // LoginController stores a SessionUserDTO under SessionUserDTO.SESSION_KEY ("sessionUser").
-        // Old code read "currentUser" as User entity → ClassCastException / null → NPE.
         SessionUserDTO sessionUser = (SessionUserDTO) Sessions.getCurrent()
                 .getAttribute(SessionUserDTO.SESSION_KEY);
-        String activePage = (String) Sessions.getCurrent().getAttribute("currentPage");
 
-        if (sessionUser == null) return;
-
-        String roleName = sessionUser.getRoleName();
-
-        if ("ADMIN".equalsIgnoreCase(roleName)) {
-            renderAdminMenu(activePage);
-        } else {
-            renderPipelineMenu(roleName, activePage);
-        }
-
-        if ("dashboard".equals(activePage)) {
-            mc_itemDashboard.setSclass("sidebar-item active");
-        }
-    }
-
-    // ── Renders pipeline steps for non-admin roles ────────────────────────
-
-    private void renderPipelineMenu(String roleName, String activePage) {
-        for (Object[] step : PIPELINE_STEPS) {
-            int      stepNum = (int)      step[0];
-            String   pageId  = (String)   step[1];
-            String   label   = (String)   step[2];
-            String[] allowed = (String[]) step[3];
-
-            boolean canAccess = hasRole(roleName, allowed);
-            boolean isActive  = pageId.equals(activePage);
-
-            Div item = buildMenuItem(String.valueOf(stepNum), label, pageId, canAccess, isActive);
-            item.setParent(mc_menuContainer);
-        }
-    }
-
-    // ── Renders admin-only items ──────────────────────────────────────────
-
-    private void renderAdminMenu(String activePage) {
-        mc_lblSection.setValue("ADMINISTRATION");
-        mc_itemDashboard.setVisible(true);
-
-        for (Object[] adminItem : ADMIN_ITEMS) {
-            String pageId    = (String) adminItem[0];
-            String label     = (String) adminItem[1];
-            String icon      = (String) adminItem[2];
-            boolean isActive = pageId.equals(activePage);
-
-            Div item = buildMenuItem(icon, label, pageId, true, isActive);
-            item.setParent(mc_menuContainer);
-        }
-    }
-
-    // ── Builds a single sidebar menu item div ─────────────────────────────
-
-    private Div buildMenuItem(String stepLabel, String itemLabel,
-                               String pageId, boolean accessible, boolean active) {
-        Div item = new Div();
-
-        String cssClass = "sidebar-item";
-        if (!accessible) cssClass += " locked";
-        if (active)      cssClass += " active";
-        item.setSclass(cssClass);
-
-        // Step number / icon badge
-        Div stepBadge = new Div();
-        stepBadge.setSclass("sidebar-step");
-        new Label(stepLabel).setParent(stepBadge);
-        stepBadge.setParent(item);
-
-        // Menu label
-        Label lbl = new Label(itemLabel);
-        lbl.setSclass("sidebar-item-label");
-        lbl.setParent(item);
-
-        // Only accessible items navigate on click
-        if (accessible) {
-            item.addEventListener("onClick", event ->
-                org.zkoss.zk.ui.Executions.sendRedirect("/" + pageId + ".zul")
+        if (sessionUser != null) {
+            String roleName = sessionUser.getRoleName();
+            mc_lblSection.setValue(
+                "ADMIN".equalsIgnoreCase(roleName) ? "ADMINISTRATION" : "PIPELINE"
             );
         }
 
-        return item;
+        // Dashboard — always enabled
+        enableItem(mc_itemDashboard, "/admin-dashboard.zul", "dashboard");
+
+        // Admin items
+        applyItem(mc_itemUserMgmt, itemUserMgmt, "/admin-users.zul",  "admin-users");
+        applyItem(mc_itemBankMgmt, itemBankMgmt, "/admin-banks.zul",  "admin-banks");
+
+        // Pipeline items
+        applyItem(mc_item1, item1, "/scan.zul",          "scan");
+        applyItem(mc_item2, item2, "/repair.zul",         "repair");
+        applyItem(mc_item3, item3, "/checker-out.zul",    "checker-out");
+        applyItem(mc_item4, item4, "/dem.zul",            "dem");
+        applyItem(mc_item5, item5, "/inward-repair.zul",  "inward-repair");
+        applyItem(mc_item6, item6, "/inward-verify.zul",  "inward-verify");
+        applyItem(mc_item7, item7, "/cbs.zul",            "cbs");
+        applyItem(mc_item8, item8, "/view-batches.zul",   "view-batches");
     }
 
-    // ── Checks if the user's role name is in the allowed list ────────────
-
-    private boolean hasRole(String roleName, String[] allowed) {
-        for (String r : allowed) {
-            if (r.equalsIgnoreCase(roleName)) return true;
+    private void applyItem(Div item, boolean enabled, String url, String pageId) {
+        if (enabled) {
+            enableItem(item, url, pageId);
+        } else {
+            item.setSclass("sidebar-item sidebar-disabled");
         }
-        return false;
     }
+
+    private void enableItem(Div item, String url, String pageId) {
+        boolean isActive = pageId.equals(activeItem);
+        item.setSclass("sidebar-item" + (isActive ? " active" : ""));
+        item.addEventListener("onClick", e ->
+            org.zkoss.zk.ui.Executions.sendRedirect(url)
+        );
+    }
+
+    // ── Getters & Setters ─────────────────────────────────────────────────
+    public boolean isItemUserMgmt() { return itemUserMgmt; }
+    public boolean isItemBankMgmt() { return itemBankMgmt; }
+    public boolean isItem1()        { return item1; }
+    public boolean isItem2()        { return item2; }
+    public boolean isItem3()        { return item3; }
+    public boolean isItem4()        { return item4; }
+    public boolean isItem5()        { return item5; }
+    public boolean isItem6()        { return item6; }
+    public boolean isItem7()        { return item7; }
+    public boolean isItem8()        { return item8; }
+    public String  getActiveItem()  { return activeItem; }
+
+    public void setItemUserMgmt(boolean v) { this.itemUserMgmt = v; }
+    public void setItemBankMgmt(boolean v) { this.itemBankMgmt = v; }
+    public void setItem1(boolean v)        { this.item1 = v; }
+    public void setItem2(boolean v)        { this.item2 = v; }
+    public void setItem3(boolean v)        { this.item3 = v; }
+    public void setItem4(boolean v)        { this.item4 = v; }
+    public void setItem5(boolean v)        { this.item5 = v; }
+    public void setItem6(boolean v)        { this.item6 = v; }
+    public void setItem7(boolean v)        { this.item7 = v; }
+    public void setItem8(boolean v)        { this.item8 = v; }
+    public void setActiveItem(String v)    { this.activeItem = v != null ? v : ""; }
 }

@@ -47,6 +47,17 @@
     display: block;
 }
 
+.sidebar-disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Divider */
 .sidebar-divider {
     height: 1px;
