@@ -1,6 +1,3 @@
-<!-- =========================================================
-FILE: admin-banks.zul
-========================================================= -->
 <?xml version="1.0" encoding="UTF-8"?>
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
@@ -9,11 +6,11 @@ FILE: admin-banks.zul
     <!-- ── Register macro components ─────────────────────────────────── -->
     <?component name="statcard"
                 macroURI="/reuseableComponents/statCard.zul"
-                class="com.iispl.composer.StatCard"?>
+                class="com.iispl.components.StatCard"?>
 
     <?component name="pageheader"
                 macroURI="/reuseableComponents/pageHeader.zul"
-                class="com.iispl.composer.PageHeader"?>
+                class="com.iispl.components.PageHeader"?>
 
     <borderlayout width="100%" height="100%">
 

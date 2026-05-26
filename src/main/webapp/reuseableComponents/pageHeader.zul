@@ -27,7 +27,8 @@
              visible="false">
 
             <button id="mc_btnAction"
-                    sclass="btn-primary-action"/>
+                    sclass="btn-primary-action"
+                    forward="onClick=onBtnAction"/>
 
         </div>
 

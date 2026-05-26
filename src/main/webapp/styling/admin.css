@@ -1,281 +1,299 @@
 /* =========================================================
-FILE: admin.css
-========================================================= */
+   CLEAN ENTERPRISE USER MODAL
+   ========================================================= */
 
-body{
-    margin:0;
-    background:#eef2f7;
-    font-family:'Segoe UI',sans-serif;
+.user-form-modal {
+    border: none !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.18) !important;
 }
 
-/* PAGE */
-
-.admin-page{
-    padding:28px 32px;
-    background:#eef2f7;
-    min-height:100vh;
+/* hide default zk title */
+.user-form-modal .z-window-header {
+    display: none !important;
 }
 
-.page-breadcrumb{
-    font-size:12px;
-    font-weight:700;
-    color:#6b7a90;
-    letter-spacing:1px;
+.user-form-modal .z-window-content {
+    padding: 0 !important;
+    background: #ffffff !important;
 }
 
-.page-title{
-    margin-top:8px;
-    font-size:34px;
-    font-weight:700;
-    color:#0f2747;
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.modal-header {
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 18px 22px !important;
+
+    border-bottom: 1px solid #e2e8f0 !important;
+
+    background: #ffffff !important;
 }
 
-.page-subtitle{
-    margin-top:8px;
-    font-size:14px;
-    color:#718096;
+.modal-title {
+
+    font-size: 20px !important;
+    font-weight: 700 !important;
+
+    color: #0f172a !important;
 }
 
-/* INFO BOX */
+/* close */
 
-.info-box{
-    margin-top:28px;
-    padding:16px 20px;
-    background:#edf4ff;
-    border:1px solid #2f6fdd;
-    border-left:4px solid #2f6fdd;
-    border-radius:6px;
-    color:#2f55d4;
-    font-size:14px;
+.modal-close {
+
+    width: 32px !important;
+    height: 32px !important;
+
+    min-height: 32px !important;
+
+    border: none !important;
+    border-radius: 6px !important;
+
+    background: #f1f5f9 !important;
+
+    color: #64748b !important;
+
+    font-size: 18px !important;
+    font-weight: 700 !important;
+
+    padding: 0 !important;
+
+    cursor: pointer !important;
 }
 
-/* SECTION */
-
-.section-title{
-    margin-top:28px;
-    margin-bottom:16px;
-    font-size:13px;
-    font-weight:700;
-    letter-spacing:1px;
-    color:#6b7a90;
+.modal-close:hover {
+    background: #e2e8f0 !important;
 }
 
-/* STATS */
+/* =========================================================
+   BODY
+   ========================================================= */
 
-.stats-layout{
-    margin-top:24px;
-    margin-bottom:24px;
+.modal-body {
+    padding: 24px !important;
+    background: #ffffff !important;
 }
 
-.stat-card{
-    background:white;
-    border-radius:10px;
-    padding:22px;
-    width:240px;
-    border-top:4px solid #2f6fdd;
-    box-shadow:0 1px 2px rgba(0,0,0,0.05);
+/* form rows */
+
+.form-row {
+    width: 100% !important;
+    margin-bottom: 18px !important;
 }
 
-.stat-card.small{
-    width:220px;
+.form-row > .z-hlayout-inner {
+    width: 100% !important;
 }
 
-.stat-card.green{
-    border-top-color:#16a34a;
+.form-row .z-vlayout {
+    width: 100% !important;
 }
 
-.stat-card.purple{
-    border-top-color:#7c3aed;
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+.form-label {
+
+    font-size: 11px !important;
+    font-weight: 700 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 0.7px !important;
+
+    color: #64748b !important;
 }
 
-.stat-card.teal{
-    border-top-color:#0f9d8a;
+.form-required {
+    color: #dc2626 !important;
 }
 
-.stat-card.red{
-    border-top-color:#dc2626;
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-input,
+.form-combo {
+    width: 100% !important;
 }
 
-.stat-number{
-    display:block;
-    font-size:44px;
-    font-weight:700;
-    color:#0f2747;
+/* textbox */
+
+.form-input input,
+.form-combo input {
+
+    width: 100% !important;
+
+    height: 42px !important;
+
+    border: 1px solid #cbd5e1 !important;
+
+    border-radius: 6px !important;
+
+    background: #ffffff !important;
+
+    padding: 0 14px !important;
+
+    font-size: 14px !important;
+
+    color: #334155 !important;
+
+    box-sizing: border-box !important;
+
+    transition: all 0.2s ease !important;
 }
 
-.stat-label{
-    display:block;
-    margin-top:8px;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:1px;
-    color:#6b7a90;
+/* focus */
+
+.form-input input:focus,
+.form-combo input:focus {
+
+    border-color: #2563eb !important;
+
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.08) !important;
+
+    outline: none !important;
 }
 
-/* MODULE CARD */
+/* combo button */
 
-.module-card{
-    width:340px;
-    background:white;
-    border:1px solid #dbe3ef;
-    border-radius:10px;
-    padding:24px;
+.form-combo .z-combobox-button {
+
+    height: 42px !important;
+
+    border: 1px solid #cbd5e1 !important;
+    border-left: none !important;
+
+    border-radius: 0 6px 6px 0 !important;
+
+    background: #ffffff !important;
 }
 
-.module-icon{
-    width:48px;
-    height:48px;
-    background:#edf4ff;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:24px;
+/* =========================================================
+   ROLE INFO
+   ========================================================= */
+
+.role-info-box {
+
+    background: #eff6ff !important;
+
+    border: 1px solid #bfdbfe !important;
+
+    border-radius: 6px !important;
+
+    padding: 12px 14px !important;
+
+    margin-top: 8px !important;
 }
 
-.module-title{
-    display:block;
-    margin-top:18px;
-    font-size:24px;
-    font-weight:700;
-    color:#0f2747;
+.role-info-text {
+
+    color: #1d4ed8 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
 }
 
-.module-desc{
-    display:block;
-    margin-top:10px;
-    font-size:14px;
-    color:#718096;
-    line-height:1.5;
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.form-error {
+
+    margin-top: 10px !important;
+
+    color: #dc2626 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
 }
 
-.module-link{
-    display:inline-block;
-    margin-top:20px;
-    color:#1d4ed8;
-    font-weight:700;
-    text-decoration:none;
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.modal-footer {
+
+    border-top: 1px solid #e2e8f0 !important;
+
+    padding: 18px 24px !important;
+
+    justify-content: flex-end !important;
+
+    background: #ffffff !important;
 }
 
-/* BUTTONS */
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 
-.btn-primary{
-    background:#2563eb;
-    border:none;
-    color:white;
-    font-weight:700;
-    border-radius:6px;
-    padding:10px 20px;
+/* cancel */
+
+.btn-modal-cancel {
+
+    height: 40px !important;
+
+    border-radius: 6px !important;
+
+    border: 1px solid #cbd5e1 !important;
+
+    background: #ffffff !important;
+
+    color: #334155 !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    padding: 0 18px !important;
 }
 
-.btn-edit{
-    background:white;
-    border:1px solid #cbd5e1;
-    border-radius:5px;
-    font-size:12px;
-    font-weight:600;
+.btn-modal-cancel:hover {
+    background: #f8fafc !important;
 }
 
-.btn-danger{
-    background:#d97706;
-    border:none;
-    color:white;
-    border-radius:5px;
-    font-size:12px;
-    font-weight:700;
+/* save */
+
+.btn-modal-save {
+
+    height: 40px !important;
+
+    border: none !important;
+
+    border-radius: 6px !important;
+
+    background: #2563eb !important;
+
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    padding: 0 20px !important;
 }
 
-/* TABLE CARD */
-
-.table-card{
-    margin-top:24px;
-    background:white;
-    border:1px solid #dbe3ef;
-    border-radius:10px;
-    overflow:hidden;
+.btn-modal-save:hover {
+    background: #1d4ed8 !important;
 }
 
-.table-header{
-    padding:20px 20px 10px;
+/* =========================================================
+   FIX ZK DEFAULTS
+   ========================================================= */
+
+.user-form-modal * {
+    font-family: Inter, sans-serif !important;
 }
 
-.table-title{
-    font-size:14px;
-    font-weight:700;
-    color:#0f2747;
-    letter-spacing:1px;
-}
-
-.table-count{
-    margin-left:auto;
-    color:#718096;
-    font-size:13px;
-}
-
-/* FILTERS */
-
-.filter-row{
-    padding:18px 20px;
-    border-top:1px solid #e5eaf2;
-    border-bottom:1px solid #e5eaf2;
-    align-items:center;
-}
-
-.filter-input .z-input,
-.filter-select .z-input,
-.date-filter .z-datebox-input{
-    height:38px;
-    border-radius:6px;
-    border:1px solid #cbd5e1;
-    background:white;
-}
-
-.filter-label{
-    font-size:12px;
-    font-weight:700;
-    color:#64748b;
-}
-
-/* GRID */
-
-.admin-table{
-    border:none;
-}
-
-.admin-table .z-column{
-    background:#f8fafc;
-    color:#64748b;
-    font-size:12px;
-    font-weight:700;
-    border-bottom:1px solid #dbe3ef;
-}
-
-.admin-table .z-row-content{
-    padding-top:14px;
-    padding-bottom:14px;
-    font-size:13px;
-    color:#334155;
-}
-
-/* BADGES */
-
-.role-badge{
-    padding:4px 10px;
-    border-radius:4px;
-    color:white;
-    font-size:11px;
-    font-weight:700;
-}
-
-.blue-badge{
-    background:#1d4ed8;
-}
-
-.status-active{
-    background:#dcfce7;
-    color:#15803d;
-    padding:4px 10px;
-    border-radius:4px;
-    font-size:11px;
-    font-weight:700;
+.user-form-modal input {
+    background: white !important;
 }
