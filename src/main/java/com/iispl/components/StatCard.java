@@ -7,49 +7,62 @@ import org.zkoss.zul.Label;
 
 public class StatCard extends HtmlMacroComponent {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Wire private Div   mc_statCard;
-    @Wire private Label mc_statNumber;
-    @Wire private Label mc_statLabel;
+	@Wire
+	private Div mc_statCard;
+	@Wire
+	private Label mc_statNumber;
+	@Wire
+	private Label mc_statLabel;
 
-    private String cardColor  = "blue";
-    private String cardSize   = "";
-    private String statNumber = "0";
-    private String statLabel  = "";
+	private String cardColor = "blue";
+	private String statNumber = "0";
+	private String statLabel = "";
+	private String statId;
 
-    public StatCard() {
-        compose();
-    }
+	public StatCard() {
+		// DO NOT call compose() here — ZK calls it automatically
+	}
 
-    @Override
-    public void afterCompose() {
-        super.afterCompose();
-        String css = "stat-card " + cardColor;
-        if (cardSize != null && !cardSize.isEmpty()) css += " " + cardSize;
-        mc_statCard.setSclass(css);
-        mc_statNumber.setValue(statNumber);
-        mc_statLabel.setValue(statLabel);
-    }
+	@Override
+	public void afterCompose() {
+		super.afterCompose(); // triggers @Wire — must be first
+		mc_statCard.setSclass("stat-card " + cardColor);
+		mc_statNumber.setValue(statNumber);
+		mc_statLabel.setValue(statLabel);
+	}
 
-    public String getCardColor()  { return cardColor;  }
-    public String getCardSize()   { return cardSize;   }
-    public String getStatNumber() { return statNumber; }
-    public String getStatLabel()  { return statLabel;  }
+	public void setCardColor(String v) {
+		this.cardColor = v != null ? v : "blue";
+	}
 
-    public void setCardColor(String cardColor) {
-        this.cardColor = cardColor != null ? cardColor : "blue";
-    }
+	public void setStatNumber(String v) {
+		this.statNumber = v != null ? v : "0";
+	}
 
-    public void setCardSize(String cardSize) {
-        this.cardSize = cardSize != null ? cardSize : "";
-    }
+	public void setStatLabel(String v) {
+		this.statLabel = v != null ? v : "";
+	}
 
-    public void setStatNumber(String statNumber) {
-        this.statNumber = statNumber != null ? statNumber : "0";
-    }
+	public String getCardColor() {
+		return cardColor;
+	}
 
-    public void setStatLabel(String statLabel) {
-        this.statLabel = statLabel != null ? statLabel : "";
-    }
+	public String getStatNumber() {
+		return statNumber;
+	}
+
+	public String getStatLabel() {
+		return statLabel;
+	}
+
+	public void setStatId(String statId) {
+		this.statId = statId;
+		this.setId(statId);
+	}
+
+	public String getStatId() {
+		return statId;
+	}
 }

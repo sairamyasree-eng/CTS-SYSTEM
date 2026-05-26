@@ -1,0 +1,32 @@
+/* ================================================
+   statCard.css  —  CTS Stat Card Component
+   ================================================ */
+
+.stat-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2332;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+}

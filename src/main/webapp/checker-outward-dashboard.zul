@@ -1,153 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?page title="CTS — Checker Outward Dashboard" contentType="text/html;charset=UTF-8"?>
-<!--
-    PAGE: checkerOutwardDashboard.zul
-    ===================================
-    Role     : CheckerOutward
-    Modules  : Checker Outward Verification → File Processing → Batch Status
-    Composer : com.iispl.controller.dashboard.CheckerOutwardDashboardComposer
--->
-<zk>
 
-    <!-- ── Declare reusable components ── -->
-    <?component name="ctstopbar"
-                macroURI="/reuseableComponents/topbar.zul"
-                class="com.iispl.components.TopbarComponent"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <?component name="ctssidebar"
-                macroURI="/reuseableComponents/sidebar.zul"
-                class="com.iispl.components.SidebarComponent"?>
+    <style src="/styling/checker-out.css"/>
 
-    <?component name="workflowbar"
-                macroURI="/reuseableComponents/workflowProgressBar.zul"
-                class="com.iispl.components.WorkflowProgressBarComponent"?>
+    <?component name="statcard"
+        macroURI="/reuseableComponents/statCard.zul"
+        class="com.iispl.components.StatCard"?>
 
-    <?component name="smarttable"
-                macroURI="/reuseableComponents/smartTable.zul"
-                class="com.iispl.components.SmartTableComponent"?>
+    <?component name="modulecard"
+        macroURI="/reuseableComponents/moduleCard.zul"
+        class="com.iispl.components.ModuleCard"?>
 
-    <!-- ── Page shell window ── -->
-    <window id="winCheckerOutward"
-            border="none"
-            width="100%"
-            height="100%"
-            sclass="cts-page-shell"
-            apply="com.iispl.controller.CheckerOutwardDashboardController">
+    <borderlayout width="100%" height="100%"
+                  apply="com.iispl.controller.CheckerOutwardDashboardController">
 
-        <!-- TOP BAR -->
-        <ctstopbar/>
+        <west width="220px" splittable="false" collapsible="false">
+            <include src="/reuseableComponents/sidebar.zul"/>
+        </west>
 
-        <!-- APP SHELL -->
-        <hlayout sclass="app-shell" spacing="0px" width="100%">
+        <center border="none" autoscroll="true">
 
-            <!-- SIDEBAR — currentPage = "dashboard" -->
-            <ctssidebar/>
+            <vlayout width="100%" spacing="0">
 
-            <!-- MAIN CONTENT -->
-            <div sclass="main-content" vflex="1">
+                <include src="/reuseableComponents/topbar.zul"/>
 
-                <!-- ── Page Header ── -->
-                <div sclass="page-hdr">
-                    <div sclass="page-hdr-left">
-                        <label sclass="page-breadcrumb" value="CTS / Dashboard"/>
-                        <label sclass="page-title"      value="Checker Outward — Dashboard"/>
-                        <label sclass="page-sub"        value="Verify outward batches, approve or refer cheques back to Maker"/>
+                <div sclass="dash-page">
+
+                    <div sclass="stats-layout">
+                        <statcard cardColor="blue"   statId="lblAutoApproved"   statNumber="0" statLabel="AUTO APPROVED"/>
+                        <statcard cardColor="amber"  statId="lblAwaitingReview" statNumber="0" statLabel="AWAITING REVIEW"/>
+                        <statcard cardColor="green"  statId="lblApproved"       statNumber="0" statLabel="APPROVED"/>
+                        <statcard cardColor="red"    statId="lblRejected"       statNumber="0" statLabel="REJECTED"/>
+                        <statcard cardColor="purple" statId="lblReferred"       statNumber="0" statLabel="REFERRED"/>
                     </div>
-                    <button id="btnGoVerify"
-                            label="Open Verification Queue"
-                            sclass="btn btn-primary"
-                            onClick="@command('navigate', page='checker-out')"/>
+
+                    <label value="ACCESSIBLE MODULES" sclass="section-title"/>
+
+                    <div sclass="mod-row">
+                        <modulecard icon="✅" stepLabel="STEP 3" moduleTitle="Checker Outward Verification"
+                            moduleDesc="Review scanned cheques with image and MICR details. Approve, reject or refer back to Maker."
+                            moduleHref="/checker-out.zul" moduleAction="Open →"/>
+                        <modulecard icon="📁" stepLabel="STEP 4" moduleTitle="File Processing"
+                            moduleDesc="Generate DEM XML bundle from approved batches and send to NPCI CTS grid."
+                            moduleHref="/dem.zul" moduleAction="Open →"/>
+                        <modulecard icon="📋" stepLabel="STEP 8" moduleTitle="Batch Status"
+                            moduleDesc="Track batch lifecycle from Maker submission through NPCI acknowledgement."
+                            moduleHref="/view-batches.zul" moduleAction="Open →"/>
+                    </div>
+
                 </div>
 
-                <!-- ── Workflow Progress Bar ── -->
-                <!--
-                    Composer sets: bar.setActiveStep("checker-out")
-                    so: Scan=done, Repair=done, CheckerOut=active, rest=pending
-                -->
-                <workflowbar id="wfBar"/>
+            </vlayout>
 
-                <!-- ── KPI Stat Row ── -->
-                <hlayout sclass="stat-row" spacing="12px">
-                    <div sclass="stat-box amber">
-                        <label id="lblPendingVerify" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"     value="Pending Verification"/>
-                    </div>
-                    <div sclass="stat-box green">
-                        <label id="lblApproved" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl" value="Approved"/>
-                    </div>
-                    <div sclass="stat-box red">
-                        <label id="lblReferred" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl" value="Referred to Maker"/>
-                    </div>
-                    <div sclass="stat-box blue">
-                        <label id="lblDemReady" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl" value="DEM Ready"/>
-                    </div>
-                    <div sclass="stat-box slate">
-                        <label id="lblSentNPCI" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl" value="Sent to NPCI"/>
-                    </div>
-                </hlayout>
+        </center>
 
-                <!-- ── Quick-Access Module Tiles ── -->
-                <div sclass="section-lbl"><label value="YOUR MODULES"/></div>
-                <hlayout sclass="mod-grid" spacing="12px">
+    </borderlayout>
 
-                    <div sclass="mod-tile" onClick="@command('navigate', page='checker-out')">
-                        <label sclass="mod-tile-step"  value="STEP 3"/>
-                        <label sclass="mod-tile-title" value="Checker Outward Verification"/>
-                        <label sclass="mod-tile-desc"
-                               value="Review scanned cheques with image &amp; MICR details. Approve, reject or refer back to Maker."/>
-                        <label sclass="mod-tile-action" value="Go to Verification →"/>
-                    </div>
-
-                    <div sclass="mod-tile" onClick="@command('navigate', page='dem')">
-                        <label sclass="mod-tile-step"  value="STEP 4"/>
-                        <label sclass="mod-tile-title" value="File Processing (DEM)"/>
-                        <label sclass="mod-tile-desc"
-                               value="Generate DEM XML bundle from approved batches and send to NPCI CTS grid."/>
-                        <label sclass="mod-tile-action" value="Go to File Processing →"/>
-                    </div>
-
-                    <div sclass="mod-tile" onClick="@command('navigate', page='view-batches')">
-                        <label sclass="mod-tile-step"  value="STEP 8"/>
-                        <label sclass="mod-tile-title" value="Batch Status"/>
-                        <label sclass="mod-tile-desc"
-                               value="Track batch lifecycle from Maker submission through NPCI acknowledgement."/>
-                        <label sclass="mod-tile-action" value="View Batches →"/>
-                    </div>
-
-                </hlayout>
-
-                <!-- ── Pending Batches Smart Table ── -->
-                <!--
-                    Composer calls:
-                        tableComp.setColumns(List.of(
-                            new ColumnDef("batchId","Batch ID",true,true),
-                            new ColumnDef("chequeCount","Cheques",true,false),
-                            new ColumnDef("totalAmount","Amount (₹)",true,true),
-                            new ColumnDef("submittedBy","Maker",true,false),
-                            new ColumnDef("status","Status",false,false)
-                        ));
-                        tableComp.setData(pendingBatches);
-                        tableComp.setFilterKey("status");
-                        tableComp.refresh();
-                -->
-                <div sclass="card-panel">
-                    <div sclass="card-panel-header">
-                        <label sclass="card-panel-title" value="PENDING BATCHES — AWAITING YOUR VERIFICATION"/>
-                    </div>
-                    <div sclass="card-panel-body">
-                        <smarttable id="tblPendingBatches"/>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /main-content -->
-
-        </hlayout>
-        <!-- /app-shell -->
-
-    </window>
-    
 </zk>

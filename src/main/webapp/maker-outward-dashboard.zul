@@ -1,197 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?page title="CTS — Maker Outward Dashboard" contentType="text/html;charset=UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <?link rel="stylesheet" type="text/css"
-        href="/styling/makeroutwarddashboard.css"?>
+    <style src="/styling/maker-outward.css"/>
 
-    <!-- ── Declare reusable components ── -->
+    <?component name="statcard"
+        macroURI="/reuseableComponents/statCard.zul"
+        class="com.iispl.components.StatCard"?>
 
-    <?component name="ctstopbar"
-        macroURI="/reuseableComponents/topbar.zul"
-        class="com.iispl.components.TopbarComponent"?>
+    <?component name="modulecard"
+        macroURI="/reuseableComponents/moduleCard.zul"
+        class="com.iispl.components.ModuleCard"?>
 
-    <?component name="ctssidebar"
-        macroURI="/reuseableComponents/sidebar.zul"
-        class="com.iispl.components.SidebarComponent"?>
+    <borderlayout width="100%" height="100%"
+                  apply="com.iispl.controller.MakerOutwardController">
 
-    <?component name="workflowbar"
-        macroURI="/reuseableComponents/workflowProgressBar.zul"
-        class="com.iispl.components.WorkflowProgressBarComponent"?>
+        <west width="220px" splittable="false" collapsible="false">
+            <include src="/reuseableComponents/sidebar.zul"/>
+        </west>
 
-    <?component name="smarttable"
-        macroURI="/reuseableComponents/smartTable.zul"
-        class="com.iispl.components.SmartTableComponent"?>
+        <center border="none" autoscroll="true">
 
-    <!-- ── Page shell window ── -->
+            <vlayout width="100%" spacing="0">
 
-    <window id="winMakerOutward"
-            border="none"
-            width="100%"
-            height="100%"
-            sclass="cts-page-shell"
-            apply="com.iispl.controller.MakerOutwardController">
+                <include src="/reuseableComponents/topbar.zul"/>
 
-        <!-- TOP BAR -->
-        <ctstopbar/>
+                <div sclass="dash-page">
 
-        <!-- APP SHELL -->
-        <div sclass="app-shell">
-
-            <!-- SIDEBAR -->
-            <ctssidebar/>
-
-            <!-- MAIN CONTENT -->
-            <div sclass="main-content">
-
-                <!-- PAGE HEADER -->
-                <div sclass="page-hdr">
-
-                    <div sclass="page-hdr-left">
-                        <label sclass="page-breadcrumb"
-                               value="CTS / Dashboard"/>
-
-                        <label sclass="page-title"
-                               value="Maker Outward — Dashboard"/>
-
-                        <label sclass="page-sub"
-                               value="Outward cheque scanning, repair and batch dispatch"/>
+                    <div sclass="stats-layout">
+                        <statcard cardColor="blue"   statId="lblChequesLoaded" statNumber="3" statLabel="CHEQUES LOADED"/>
+                        <statcard cardColor="green"  statId="lblAutoApproved"  statNumber="2" statLabel="AUTO APPROVED"/>
+                        <statcard cardColor="red"    statId="lblIqaFailed"     statNumber="1" statLabel="IQA FAILED"/>
+                        <statcard cardColor="teal"   statId="lblRepaired"      statNumber="0" statLabel="REPAIRED"/>
+                        <statcard cardColor="purple" statId="lblReferredBack"  statNumber="0" statLabel="REFERRED BACK"/>
                     </div>
 
-                    <button id="btnNewScan"
-                            label="+ New Scan Session"
-                            sclass="btn btn-primary"
-                            onClick="@command('openScanDialog')"/>
-                </div>
-
-                <!-- WORKFLOW BAR -->
-                <workflowbar id="wfBar"/>
-
-                <!-- KPI ROW -->
-                <div sclass="stat-row">
-
-                    <div sclass="stat-box blue">
-                        <label id="lblTotalScanned"
-                               sclass="stat-val"
-                               value="0"/>
-
-                        <label sclass="stat-lbl"
-                               value="Total Scanned Today"/>
+                    <div sclass="action-row">
+                        <button id="btnNewScan" label="Initiate New Scan" sclass="btn btn-primary"/>
                     </div>
 
-                    <div sclass="stat-box amber">
-                        <label id="lblPendingRepair"
-                               sclass="stat-val"
-                               value="0"/>
+                    <label value="ACCESSIBLE MODULES" sclass="section-title"/>
 
-                        <label sclass="stat-lbl"
-                               value="Pending Repair"/>
-                    </div>
-
-                    <div sclass="stat-box green">
-                        <label id="lblAutoApproved"
-                               sclass="stat-val"
-                               value="0"/>
-
-                        <label sclass="stat-lbl"
-                               value="Auto Approved"/>
-                    </div>
-
-                    <div sclass="stat-box purple">
-                        <label id="lblInBatch"
-                               sclass="stat-val"
-                               value="0"/>
-
-                        <label sclass="stat-lbl"
-                               value="In Batch"/>
-                    </div>
-
-                    <div sclass="stat-box slate">
-                        <label id="lblDemSent"
-                               sclass="stat-val"
-                               value="0"/>
-
-                        <label sclass="stat-lbl"
-                               value="DEM Sent"/>
+                    <div sclass="mod-row">
+                        <modulecard icon="🖨️" stepLabel="STEP 1" moduleTitle="Scan Service"
+                            moduleDesc="Initiate a scan session, load cheque images and run IQA / MICR validation."
+                            moduleHref="/scan.zul" moduleAction="Open →"/>
+                        <modulecard icon="🔧" stepLabel="STEP 2" moduleTitle="Reject &amp; Repair"
+                            moduleDesc="Review flagged cheques, correct field errors, reject irreparable items."
+                            moduleHref="/repair.zul" moduleAction="Open →"/>
+                        <modulecard icon="📋" stepLabel="STEP 8" moduleTitle="Batch Status"
+                            moduleDesc="Monitor batches sent to Checker, DEM file dispatch status and NPCI acknowledgements."
+                            moduleHref="/view-batches.zul" moduleAction="Open →"/>
                     </div>
 
                 </div>
 
-                <!-- MODULES -->
-                <div sclass="section-lbl">
-                    <label value="YOUR MODULES"/>
-                </div>
+            </vlayout>
 
-                <div sclass="mod-grid">
+        </center>
 
-                    <div sclass="mod-tile"
-                         onClick="@command('navigate', page='scan')">
-
-                        <label sclass="mod-tile-step"
-                               value="STEP 1"/>
-
-                        <label sclass="mod-tile-title"
-                               value="Scan Service"/>
-
-                        <label sclass="mod-tile-desc"
-                               value="Initiate a scan session, load cheque images and run IQA / MICR validation."/>
-
-                        <label sclass="mod-tile-action"
-                               value="Go to Scan →"/>
-                    </div>
-
-                    <div sclass="mod-tile"
-                         onClick="@command('navigate', page='repair')">
-
-                        <label sclass="mod-tile-step"
-                               value="STEP 2"/>
-
-                        <label sclass="mod-tile-title"
-                               value="Reject &amp; Repair"/>
-
-                        <label sclass="mod-tile-desc"
-                               value="Review flagged cheques, correct field errors, reject irreparable items."/>
-
-                        <label sclass="mod-tile-action"
-                               value="Go to Repair →"/>
-                    </div>
-
-                    <div sclass="mod-tile"
-                         onClick="@command('navigate', page='view-batches')">
-
-                        <label sclass="mod-tile-step"
-                               value="STEP 8"/>
-
-                        <label sclass="mod-tile-title"
-                               value="Batch Status"/>
-
-                        <label sclass="mod-tile-desc"
-                               value="Monitor batches sent to Checker, DEM file dispatch status and NPCI acknowledgements."/>
-
-                        <label sclass="mod-tile-action"
-                               value="View Batches →"/>
-                    </div>
-
-                </div>
-
-                <!-- TABLE -->
-                <div sclass="card-panel">
-
-                    <div sclass="card-panel-header">
-                        <label sclass="card-panel-title"
-                               value="RECENT CHEQUES — TODAY"/>
-                    </div>
-
-                    <div sclass="card-panel-body">
-                        <smarttable id="tblRecentCheques"/>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </window>
+    </borderlayout>
 
 </zk>

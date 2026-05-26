@@ -1,155 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?page title="CTS — Maker Inward Dashboard" contentType="text/html;charset=UTF-8"?>
-<!--
-    PAGE: makerInwardDashboard.zul
-    ================================
-    Role     : MakerInward
-    Modules  : File Processing (DEM receive) → Inward Repair → Batch Status
-    Composer : com.iispl.controller.dashboard.MakerInwardDashboardComposer
--->
-<zk>
 
-    <!-- ── Declare reusable components ── -->
-    <?component name="ctstopbar"
-                macroURI="/reuseableComponents/topbar.zul"
-                class="com.iispl.components.TopbarComponent"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <?component name="ctssidebar"
-                macroURI="/reuseableComponents/sidebar.zul"
-                class="com.iispl.components.SidebarComponent"?>
+	<style src="/styling/maker-inward.css" />
 
-    <?component name="workflowbar"
-                macroURI="/reuseableComponents/workflowProgressBar.zul"
-                class="com.iispl.components.WorkflowProgressBarComponent"?>
+	<?component name="statcard"
+        macroURI="/reuseableComponents/statCard.zul"
+        class="com.iispl.components.StatCard"?>
 
-    <?component name="smarttable"
-                macroURI="/reuseableComponents/smartTable.zul"
-                class="com.iispl.components.SmartTableComponent"?>
+	<?component name="modulecard"
+        macroURI="/reuseableComponents/moduleCard.zul"
+        class="com.iispl.components.ModuleCard"?>
 
-    <!-- ── Page shell window ── -->
-    <window id="winMakerInward"
-            border="none"
-            width="100%"
-            height="100%"
-            sclass="cts-page-shell"
-            apply="com.iispl.controller.MakerInwardDashboardController">
+	<borderlayout width="100%" height="100%"
+		apply="com.iispl.controller.MakerInwardDashboardController">
 
-        <!-- TOP BAR -->
-        <ctstopbar/>
+		<west width="220px" splittable="false" collapsible="false">
+			<include src="/reuseableComponents/sidebar.zul" />
+		</west>
 
-        <!-- APP SHELL -->
-        <hlayout sclass="app-shell" spacing="0px" width="100%">
+		<center border="none" autoscroll="true">
 
-            <!-- SIDEBAR — currentPage = "dashboard" -->
-            <ctssidebar/>
+			<vlayout width="100%" spacing="0">
 
-            <!-- MAIN CONTENT -->
-            <div sclass="main-content" vflex="1">
+				<include src="/reuseableComponents/topbar.zul" />
 
-                <!-- ── Page Header ── -->
-                <div sclass="page-hdr">
-                    <div sclass="page-hdr-left">
-                        <label sclass="page-breadcrumb" value="CTS / Dashboard"/>
-                        <label sclass="page-title"      value="Maker Inward — Dashboard"/>
-                        <label sclass="page-sub"
-                               value="Receive inward BPXF files, parse cheques, and send for verification"/>
-                    </div>
-                    <button id="btnLoadBpxf"
-                            label="Load BPXF Files"
-                            sclass="btn btn-primary"
-                            onClick="@command('navigate', page='dem')"/>
-                </div>
+				<div sclass="dash-page">
 
-                <!-- ── Workflow Progress Bar ── -->
-                <!--
-                    Composer sets: bar.setActiveStep("dem")
-                    so: Scan=done, Repair=done, CheckerOut=done, DEM=active, rest=pending
-                -->
-                <workflowbar id="wfBar"/>
+					<div sclass="stats-layout">
+						<statcard cardColor="amber"
+							statId="lblBpxfStatus" statNumber="Pending"
+							statLabel="BPXF STATUS" />
+						<statcard cardColor="blue" statId="lblParsed"
+							statNumber="0" statLabel="PARSED" />
+						<statcard cardColor="purple"
+							statId="lblSentChecker" statNumber="0"
+							statLabel="SENT TO CHECKER" />
+					</div>
 
-                <!-- ── KPI Stat Row ── -->
-                <hlayout sclass="stat-row" spacing="12px">
-                    <div sclass="stat-box blue">
-                        <label id="lblBpxfReceived" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"    value="BPXF Files Received"/>
-                    </div>
-                    <div sclass="stat-box amber">
-                        <label id="lblParsedCheques" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"     value="Parsed Cheques"/>
-                    </div>
-                    <div sclass="stat-box red">
-                        <label id="lblNeedsRepair" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"   value="Needs Inward Repair"/>
-                    </div>
-                    <div sclass="stat-box purple">
-                        <label id="lblSentVerify" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"  value="Sent for Verification"/>
-                    </div>
-                    <div sclass="stat-box green">
-                        <label id="lblMakerVerified" sclass="stat-val" value="0"/>
-                        <label sclass="stat-lbl"     value="Maker Verified"/>
-                    </div>
-                </hlayout>
+					<label value="ACCESSIBLE MODULES"
+						sclass="section-title" />
 
-                <!-- ── Quick-Access Module Tiles ── -->
-                <div sclass="section-lbl"><label value="YOUR MODULES"/></div>
-                <hlayout sclass="mod-grid" spacing="12px">
+					<div sclass="mod-row">
+						<modulecard icon="📥" stepLabel="STEP 4"
+							moduleTitle="File Processing"
+							moduleDesc="Select and parse BPXF inward files received from NPCI. Auto-creates inward cheque records."
+							moduleHref="/dem.zul" moduleAction="Open →" />
+						<modulecard icon="🔧" stepLabel="STEP 5"
+							moduleTitle="Inward Repair"
+							moduleDesc="Review inward cheques with MICR issues. Edit MICR fields and send corrected cheques for Checker verification."
+							moduleHref="/inward-repair.zul" moduleAction="Open →" />
+						<modulecard icon="📋" stepLabel="STEP 8"
+							moduleTitle="Batch Status"
+							moduleDesc="View current status of all inward and outward batches across the CTS pipeline."
+							moduleHref="/view-batches.zul" moduleAction="Open →" />
+					</div>
 
-                    <div sclass="mod-tile" onClick="@command('navigate', page='dem')">
-                        <label sclass="mod-tile-step"  value="STEP 4"/>
-                        <label sclass="mod-tile-title" value="File Processing (DEM)"/>
-                        <label sclass="mod-tile-desc"
-                               value="Select and parse BPXF inward files received from NPCI. Auto-creates inward cheque records."/>
-                        <label sclass="mod-tile-action" value="Go to File Processing →"/>
-                    </div>
+				</div>
 
-                    <div sclass="mod-tile" onClick="@command('navigate', page='inward-repair')">
-                        <label sclass="mod-tile-step"  value="STEP 5"/>
-                        <label sclass="mod-tile-title" value="Inward Repair"/>
-                        <label sclass="mod-tile-desc"
-                               value="Review inward cheques with MICR issues. Edit MICR fields and send corrected cheques for Checker verification."/>
-                        <label sclass="mod-tile-action" value="Go to Inward Repair →"/>
-                    </div>
+			</vlayout>
 
-                    <div sclass="mod-tile" onClick="@command('navigate', page='view-batches')">
-                        <label sclass="mod-tile-step"  value="STEP 8"/>
-                        <label sclass="mod-tile-title" value="Batch Status"/>
-                        <label sclass="mod-tile-desc"
-                               value="View current status of all inward and outward batches across the CTS pipeline."/>
-                        <label sclass="mod-tile-action" value="View Batches →"/>
-                    </div>
+		</center>
 
-                </hlayout>
-
-                <!-- ── Inward Cheques Smart Table ── -->
-                <!--
-                    Composer calls:
-                        tableComp.setColumns(List.of(
-                            new ColumnDef("chequeNumber","Cheque No.",true,true),
-                            new ColumnDef("payeeName","Payee",true,false),
-                            new ColumnDef("drawerBank","Drawer Bank",true,false),
-                            new ColumnDef("amount","Amount (₹)",true,true),
-                            new ColumnDef("inwardStatus","Status",false,false)
-                        ));
-                        tableComp.setData(inwardCheques);
-                        tableComp.setFilterKey("inwardStatus");
-                        tableComp.setDateField("chequeDate");
-                        tableComp.refresh();
-                -->
-                <div sclass="card-panel">
-                    <div sclass="card-panel-header">
-                        <label sclass="card-panel-title" value="INWARD CHEQUES — TODAY"/>
-                    </div>
-                    <div sclass="card-panel-body">
-                        <smarttable id="tblInwardCheques"/>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /main-content -->
-
-        </hlayout>
-        <!-- /app-shell -->
-
-    </window>
+	</borderlayout>
 
 </zk>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    CENTRAL CSS LOADER: head.zul
+    =============================
+    Include this ONCE at the top of every page ZUL.
+    Do NOT use <?link ?> inside individual component ZULs
+    because ZK drops processing instructions in included fragments.
+
+    Usage in every page:
+        <include src="/components/head.zul"/>
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <?link rel="stylesheet" href="/styling/topbar.css"?>
+    <?link rel="stylesheet" href="/styling/sidebar.css"?>
+    <?link rel="stylesheet" href="/styling/pageHeader.css"?>
+    <?link rel="stylesheet" href="/styling/smartTable.css"?>
+    <?link rel="stylesheet" href="/styling/workflowProgressBar.css"?>
+    <?link rel="stylesheet" href="/styling/imageViewerPanel.css"?>
+    <?link rel="stylesheet" href="/styling/statCard.css"?>
+    <?link rel="stylesheet" href="/styling/moduleCard.css"?>
+
+    <!-- Invisible placeholder — ZK needs at least one component -->
+    <label visible="false"/>
+</zk>

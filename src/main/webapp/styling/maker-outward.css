@@ -1,0 +1,189 @@
+/* =============================================================
+   makeroutwarddashboard.css  —  Maker Outward Dashboard
+   ============================================================= */
+
+:root {
+    --primary:    #0a2540;
+    --accent:     #1a6bcc;
+    --bg:         #f0f4f8;
+    --border:     #d1d9e6;
+    --surface:    #ffffff;
+    --text-muted: #64748b;
+    --mono:       'IBM Plex Mono', monospace;
+    --sans:       'IBM Plex Sans', Arial, sans-serif;
+    --radius-lg:  10px;
+    --radius:     4px;
+}
+
+.z-vlayout,
+.z-vlayout-inner {
+    width: 100%;
+    display: block;
+}
+
+.dash-page {
+    padding: 24px 28px;
+    background: var(--bg);
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--primary);
+    width: 100%;
+    box-sizing: border-box;
+    min-height: calc(100vh - 60px);
+}
+
+/* ── Stats ── */
+.stats-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 14px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.stats-layout > div {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: block !important;
+}
+
+.stat-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-top: 4px solid var(--accent) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 18px 20px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 90px !important;
+}
+
+.stat-card.blue   { border-top-color: #1a6bcc !important; }
+.stat-card.green  { border-top-color: #059669 !important; }
+.stat-card.red    { border-top-color: #dc2626 !important; }
+.stat-card.amber  { border-top-color: #d97706 !important; }
+.stat-card.purple { border-top-color: #7c3aed !important; }
+.stat-card.teal   { border-top-color: #0d9488 !important; }
+
+.stat-number {
+    display: block !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    font-family: var(--mono) !important;
+    color: var(--primary) !important;
+    line-height: 1 !important;
+}
+
+.stat-label {
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .07em !important;
+}
+
+.stat-card span,
+.stat-card .z-label {
+    display: block !important;
+}
+
+/* ── Section title ── */
+.section-title,
+span.section-title,
+.z-label.section-title {
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .1em !important;
+    color: var(--text-muted) !important;
+    margin: 16px 0 12px !important;
+}
+
+/* ── Action row ── */
+.action-row {
+    margin-bottom: 20px;
+}
+
+/* ── Modules ── */
+.mod-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+.mod-row > div {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: block !important;
+}
+
+.module-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-left: 4px solid var(--accent) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 18px !important;
+    cursor: pointer !important;
+    transition: box-shadow .15s, transform .15s !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-height: 150px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.module-card:hover {
+    box-shadow: 0 4px 16px rgba(26,107,204,.13) !important;
+    transform: translateY(-2px) !important;
+}
+
+.module-icon  { font-size: 20px !important; line-height: 1 !important; margin-bottom: 6px !important; display: block !important; }
+.module-step  { display: block !important; font-size: 9px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .08em !important; color: var(--text-muted) !important; margin-bottom: 2px !important; }
+.module-title { display: block !important; font-size: 13px !important; font-weight: 700 !important; color: var(--primary) !important; margin-bottom: 4px !important; }
+.module-desc  { display: block !important; font-size: 11px !important; color: var(--text-muted) !important; line-height: 1.55 !important; flex: 1 !important; }
+
+.module-card span,
+.module-card .z-label {
+    display: block !important;
+}
+
+.module-link {
+    display: inline-block !important;
+    margin-top: 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: var(--accent) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.module-link:hover { text-decoration: underline !important; }
+
+/* ── Button ── */
+.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: var(--radius) !important;
+    cursor: pointer !important;
+    border: none !important;
+    font-family: var(--sans) !important;
+    transition: filter .15s !important;
+}
+
+.btn:hover   { filter: brightness(1.08) !important; }
+.btn-primary { background: var(--accent) !important; color: #fff !important; }
