@@ -1,298 +1,6 @@
-
-.user-form-modal {
-    border: none !important;
-    border-radius: 8px !important;
-    overflow: hidden !important;
-    background: #ffffff !important;
-    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.18) !important;
-}
-
-/* hide default zk title */
-.user-form-modal .z-window-header {
-    display: none !important;
-}
-
-.user-form-modal .z-window-content {
-    padding: 0 !important;
-    background: #ffffff !important;
-}
-
 /* =========================================================
-   HEADER
-   ========================================================= */
-
-.modal-header {
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-
-    padding: 18px 22px !important;
-
-    border-bottom: 1px solid #e2e8f0 !important;
-
-    background: #ffffff !important;
-}
-
-.modal-title {
-
-    font-size: 20px !important;
-    font-weight: 700 !important;
-
-    color: #0f172a !important;
-}
-
-/* close */
-
-.modal-close {
-
-    width: 32px !important;
-    height: 32px !important;
-
-    min-height: 32px !important;
-
-    border: none !important;
-    border-radius: 6px !important;
-
-    background: #f1f5f9 !important;
-
-    color: #64748b !important;
-
-    font-size: 18px !important;
-    font-weight: 700 !important;
-
-    padding: 0 !important;
-
-    cursor: pointer !important;
-}
-
-.modal-close:hover {
-    background: #e2e8f0 !important;
-}
-
-/* =========================================================
-   BODY
-   ========================================================= */
-
-.modal-body {
-    padding: 24px !important;
-    background: #ffffff !important;
-}
-
-/* form rows */
-
-.form-row {
-    width: 100% !important;
-    margin-bottom: 18px !important;
-}
-
-.form-row > .z-hlayout-inner {
-    width: 100% !important;
-}
-
-.form-row .z-vlayout {
-    width: 100% !important;
-}
-
-/* =========================================================
-   LABELS
-   ========================================================= */
-
-.form-label {
-
-    font-size: 11px !important;
-    font-weight: 700 !important;
-
-    text-transform: uppercase !important;
-
-    letter-spacing: 0.7px !important;
-
-    color: #64748b !important;
-}
-
-.form-required {
-    color: #dc2626 !important;
-}
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-.form-input,
-.form-combo {
-    width: 100% !important;
-}
-
-/* textbox */
-
-.form-input input,
-.form-combo input {
-
-    width: 100% !important;
-
-    height: 42px !important;
-
-    border: 1px solid #cbd5e1 !important;
-
-    border-radius: 6px !important;
-
-    background: #ffffff !important;
-
-    padding: 0 14px !important;
-
-    font-size: 14px !important;
-
-    color: #334155 !important;
-
-    box-sizing: border-box !important;
-
-    transition: all 0.2s ease !important;
-}
-
-/* focus */
-
-.form-input input:focus,
-.form-combo input:focus {
-
-    border-color: #2563eb !important;
-
-    box-shadow: 0 0 0 2px rgba(37,99,235,0.08) !important;
-
-    outline: none !important;
-}
-
-/* combo button */
-
-.form-combo .z-combobox-button {
-
-    height: 42px !important;
-
-    border: 1px solid #cbd5e1 !important;
-    border-left: none !important;
-
-    border-radius: 0 6px 6px 0 !important;
-
-    background: #ffffff !important;
-}
-
-/* =========================================================
-   ROLE INFO
-   ========================================================= */
-
-.role-info-box {
-
-    background: #eff6ff !important;
-
-    border: 1px solid #bfdbfe !important;
-
-    border-radius: 6px !important;
-
-    padding: 12px 14px !important;
-
-    margin-top: 8px !important;
-}
-
-.role-info-text {
-
-    color: #1d4ed8 !important;
-
-    font-size: 13px !important;
-
-    font-weight: 600 !important;
-}
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-.form-error {
-
-    margin-top: 10px !important;
-
-    color: #dc2626 !important;
-
-    font-size: 13px !important;
-
-    font-weight: 600 !important;
-}
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.modal-footer {
-
-    border-top: 1px solid #e2e8f0 !important;
-
-    padding: 18px 24px !important;
-
-    justify-content: flex-end !important;
-
-    background: #ffffff !important;
-}
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-/* cancel */
-
-.btn-modal-cancel {
-
-    height: 40px !important;
-
-    border-radius: 6px !important;
-
-    border: 1px solid #cbd5e1 !important;
-
-    background: #ffffff !important;
-
-    color: #334155 !important;
-
-    font-size: 14px !important;
-    font-weight: 600 !important;
-
-    padding: 0 18px !important;
-}
-
-.btn-modal-cancel:hover {
-    background: #f8fafc !important;
-}
-
-/* save */
-
-.btn-modal-save {
-
-    height: 40px !important;
-
-    border: none !important;
-
-    border-radius: 6px !important;
-
-    background: #2563eb !important;
-
-    color: #ffffff !important;
-
-    font-size: 14px !important;
-    font-weight: 600 !important;
-
-    padding: 0 20px !important;
-}
-
-.btn-modal-save:hover {
-    background: #1d4ed8 !important;
-}
-
-/* =========================================================
-   FIX ZK DEFAULTS
-   ========================================================= */
-
-.user-form-modal * {
-    font-family: Inter, sans-serif !important;
-}
-
-.user-form-modal input {
-    background: white !important;
+FILE: admin.css
+========================================================= */
 
 zk, vlayout {
     margin: 0;
@@ -305,8 +13,8 @@ zk, vlayout {
 
 /* ── Root layout ── */
 .cts-sidebar-wrapper {
-    width: 220px;
-    min-width: 220px;
+    width: 176px;
+    min-width: 176px;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -317,6 +25,7 @@ zk, vlayout {
 /* ── Sidebar ── */
 .cts-sidebar {
     height: 100%;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     background: #0f2747;
@@ -327,62 +36,56 @@ zk, vlayout {
 /* ── Scrollable content surface ── */
 .admin-surface {
     background: #eef2f7;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1;
     min-height: 0;
-    -webkit-overflow-scrolling: touch;
+    
 }
 
-.admin-surface::-webkit-scrollbar { width: 6px; }
-.admin-surface::-webkit-scrollbar-track { background: #f0f4fa; }
-.admin-surface::-webkit-scrollbar-thumb { background: #c0cfe4; border-radius: 3px; }
 
 /* ── Page body ── */
 .admin-body {
-    padding: 28px 32px;
+    padding: 22px 26px;
     background: #eef2f7;
     min-height: 100%;
 }
 
 /* ── PAGE HEADER ── */
 .page-breadcrumb {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     color: #6b7a90;
     letter-spacing: 1px;
 }
 
 .page-title {
-    margin-top: 8px;
-    font-size: 34px;
+    margin-top: 6px;
+    font-size: 27px;
     font-weight: 700;
     color: #0f2747;
 }
 
 .page-subtitle {
-    margin-top: 8px;
-    font-size: 14px;
+    margin-top: 6px;
+    font-size: 11px;
     color: #718096;
 }
 
 /* ── INFO BOX ── */
 .info-box {
-    margin-top: 28px;
-    padding: 16px 20px;
+    margin-top: 22px;
+    padding: 13px 16px;
     background: #edf4ff;
     border: 1px solid #2f6fdd;
-    border-left: 4px solid #2f6fdd;
-    border-radius: 6px;
+    border-left: 3px solid #2f6fdd;
+    border-radius: 5px;
     color: #2f55d4;
-    font-size: 14px;
+    font-size: 11px;
 }
 
 /* ── SECTION ── */
 .section-title {
-    margin-top: 28px;
-    margin-bottom: 16px;
-    font-size: 13px;
+    margin-top: 22px;
+    margin-bottom: 13px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 1px;
     color: #6b7a90;
@@ -391,16 +94,16 @@ zk, vlayout {
 
 /* ── STATS ── */
 .stats-layout {
-    margin-top: 24px;
-    margin-bottom: 24px;
+    margin-top: 19px;
+    margin-bottom: 19px;
 }
 
 .stat-card {
     background: white;
-    border-radius: 10px;
-    padding: 22px;
-    width: 240px;
-    border-top: 4px solid #2f6fdd;
+    border-radius: 8px;
+    padding: 18px;
+    width: 192px;
+    border-top: 3px solid #2f6fdd;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
@@ -412,15 +115,15 @@ zk, vlayout {
 
 .stat-number {
     display: block;
-    font-size: 44px;
+    font-size: 35px;
     font-weight: 700;
     color: #0f2747;
 }
 
 .stat-label {
     display: block;
-    margin-top: 8px;
-    font-size: 12px;
+    margin-top: 6px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 1px;
     color: #6b7a90;
@@ -428,43 +131,43 @@ zk, vlayout {
 
 /* ── MODULE CARD ── */
 .module-card {
-    width: 340px;
+    width: 272px;
     background: white;
     border: 1px solid #dbe3ef;
-    border-radius: 10px;
-    padding: 24px;
+    border-radius: 8px;
+    padding: 19px;
 }
 
 .module-icon {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     background: #edf4ff;
-    border-radius: 10px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 19px;
 }
 
 .module-title {
     display: block;
-    margin-top: 18px;
-    font-size: 24px;
+    margin-top: 14px;
+    font-size: 19px;
     font-weight: 700;
     color: #0f2747;
 }
 
 .module-desc {
     display: block;
-    margin-top: 10px;
-    font-size: 14px;
+    margin-top: 8px;
+    font-size: 11px;
     color: #718096;
     line-height: 1.5;
 }
 
 .module-link {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 16px;
     color: #1d4ed8;
     font-weight: 700;
     text-decoration: none;
@@ -476,15 +179,15 @@ zk, vlayout {
     border: none;
     color: white;
     font-weight: 700;
-    border-radius: 6px;
-    padding: 10px 20px;
+    border-radius: 5px;
+    padding: 8px 16px;
 }
 
 .btn-edit {
     background: white;
     border: 1px solid #cbd5e1;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 4px;
+    font-size: 10px;
     font-weight: 600;
 }
 
@@ -492,22 +195,22 @@ zk, vlayout {
     background: #d97706;
     border: none;
     color: white;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 4px;
+    font-size: 10px;
     font-weight: 700;
 }
 
 /* ── TABLE CARD ── */
 .table-card {
-    margin-top: 24px;
+    margin-top: 19px;
     background: white;
     border: 1px solid #dbe3ef;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
 .table-title {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
     color: #0f2747;
     letter-spacing: 1px;
@@ -516,19 +219,19 @@ zk, vlayout {
 .table-count {
     margin-left: auto;
     color: #718096;
-    font-size: 13px;
+    font-size: 10px;
 }
 
 /* ── FILTERS ── */
 .filter-row {
-    padding: 18px 20px;
+    padding: 14px 16px;
     border-top: 1px solid #e5eaf2;
     border-bottom: 1px solid #e5eaf2;
     align-items: center;
 }
 
 .filter-label {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     color: #64748b;
 }
@@ -537,24 +240,23 @@ zk, vlayout {
 .admin-table .z-column {
     background: #f8fafc;
     color: #64748b;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     border-bottom: 1px solid #dbe3ef;
 }
 
 .admin-table .z-row-content {
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 13px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    font-size: 10px;
     color: #334155;
 }
-
 /* ── BADGES ── */
 .role-badge {
-    padding: 4px 10px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    border-radius: 3px;
     color: white;
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 700;
 }
 
@@ -563,9 +265,9 @@ zk, vlayout {
 .status-active {
     background: #dcfce7;
     color: #15803d;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 9px;
     font-weight: 700;
 }
 
@@ -581,12 +283,12 @@ zk, vlayout {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    margin-top: 12px;
+    gap: 5px;
+    margin-top: 10px;
 }
 
 .register-hint {
-    font-size: 13px;
+    font-size: 10px;
     color: #6b7280;
 }
 
@@ -595,7 +297,7 @@ zk, vlayout {
     border: none !important;
     box-shadow: none !important;
     color: #3b82f6 !important;
-    font-size: 13px !important;
+    font-size: 10px !important;
     font-weight: 600 !important;
     cursor: pointer !important;
     padding: 0 !important;
@@ -604,10 +306,4 @@ zk, vlayout {
 
 .btn-register-link:hover {
     color: #1d4ed8 !important;
-    
-    
-} 
-    
-    
-    
-    
+}

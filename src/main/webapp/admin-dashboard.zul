@@ -19,7 +19,12 @@
     <?component name="sidebar"
         macroURI="/reuseableComponents/sidebar.zul"
         class="com.iispl.components.SidebarComponent"?>
-
+	
+	    <?component name="topbar"
+        macroURI="/reuseableComponents/topbar.zul"
+        class="com.iispl.components.TopbarComponent"?>
+	
+	
     <!-- Root: sidebar left, main right — no borderlayout -->
     <hlayout hflex="1" vflex="1" style="margin:0;padding:0;overflow:hidden;height:100vh;">
 
@@ -31,13 +36,13 @@
         </div>
 
         <!-- MAIN: topbar + scrollable content -->
-        <vlayout hflex="1" vflex="1" style="margin:0;padding:0;display:flex;flex-direction:column;height:100vh;">
+        <vlayout hflex="1" vflex="1" style="margin:0;padding:0;display:flex;flex-direction:column;height:100vh;overflow: auto;">
 
             <!-- TOPBAR -->
-            <include src="/reuseableComponents/topbar.zul"/>
-
+           <topbar/>
+           
             <!-- SCROLLABLE SURFACE -->
-            <div sclass="admin-surface" vflex="1">
+            <div sclass="admin-surface" style="height : 70vh;">
 
                 <div sclass="admin-body">
 
@@ -46,15 +51,15 @@
                         breadcrumb="CTS / ADMIN"
                         pageTitle="Administration Dashboard"
                         pageSubtitle="User and Bank management"
-                        btnLabel="" style = "padding : 30px;"/>
+                        btnLabel="" style="padding:24px;"/>
 
                     <!-- INFO BOX -->
-                    <div sclass="info-box" style = "margin : 30px;">
+                    <div sclass="info-box" style="margin:24px;">
                         <label value="As Admin, you have access to User Management and Bank Management only. Pipeline processing is restricted to operational roles."/>
                     </div>
 
                     <!-- STATS -->
-                    <hlayout width="100%" spacing="15px" sclass="stats-layout" style = "padding : 30px;">
+                    <hlayout width="100%" spacing="12px" sclass="stats-layout" style="padding:24px;">
                         <statcard cardColor="blue"   statNumber="6" statLabel="SYSTEM USERS"/>
                         <statcard cardColor="green"  statNumber="6" statLabel="ACTIVE USERS"/>
                         <statcard cardColor="purple" statNumber="6" statLabel="BANKS CONFIGURED"/>
@@ -62,9 +67,9 @@
                     </hlayout>
 
                     <!-- MODULE SECTION -->
-                    <label value="ADMINISTRATION MODULES" sclass="section-title" style = "padding : 30px;"/>
+                    <label value="ADMINISTRATION MODULES" sclass="section-title" style="padding:24px;"/>
 
-                    <hlayout spacing="15px" style = "padding : 30px;">
+                    <hlayout spacing="12px" style="padding:24px;">
                         <modulecard
                             icon="👥"
                             moduleTitle="User Management"

@@ -1,231 +1,284 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <?link rel="stylesheet" href="/styling/admin.css"?>
+
+
+    <?link rel="stylesheet" href="/styling/admin-user.css"?>
+
+
 
     <?component name="pageheader"
+
                 macroURI="/reuseableComponents/pageHeader.zul"
+
                 class="com.iispl.components.PageHeader"?>
 
+
+
     <borderlayout width="100%"
+
                   height="100%"
+
                   apply="com.iispl.controller.AdminUsersController">
 
-        <!-- =========================================================
-             SIDEBAR
-        ========================================================== -->
+
 
         <west width="220px">
+
             <include src="/reuseableComponents/sidebar.zul"/>
+
         </west>
 
-        <!-- =========================================================
-             MAIN CONTENT
-        ========================================================== -->
+
 
         <center border="none"
+
                 autoscroll="true">
 
+
+
             <vlayout width="100%"
+
                       style="min-height:100%;overflow-y:auto;">
 
-                <!-- TOPBAR -->
+
+
                 <include src="/reuseableComponents/topbar.zul"/>
+
+
 
                 <div sclass="admin-page">
 
-                    <!-- =====================================================
-                         PAGE HEADER
-                    ====================================================== -->
+
 
                     <pageheader id="pgHeader"
+
                                 breadcrumb="CTS / ADMIN / USERS"
+
                                 pageTitle="User Management"
+
                                 pageSubtitle="Manage CTS system users, roles and branch assignments"
+
                                 btnLabel="+ Add User"
+
                                 forward="onBtnAction=onAddUser"/>
 
-                    <!-- =====================================================
-                         STATS CARDS
-                    ====================================================== -->
+
 
                     <hlayout width="100%"
+
                               spacing="15px"
+
                               sclass="stats-layout">
 
-                        <!-- ADMIN -->
+
 
                         <div sclass="stat-card">
 
                             <label id="lblStatAdmin"
+
                                    value="0"
+
                                    sclass="stat-number"/>
 
                             <label value="ADMIN"
+
                                    sclass="stat-label"/>
 
                         </div>
 
-                        <!-- MAKER OUTWARD -->
+
 
                         <div sclass="stat-card">
 
                             <label id="lblStatMakerOut"
+
                                    value="0"
+
                                    sclass="stat-number"/>
 
                             <label value="MAKER OUTWARD"
+
                                    sclass="stat-label"/>
 
                         </div>
 
-                        <!-- CHECKER OUTWARD -->
+
 
                         <div sclass="stat-card">
 
                             <label id="lblStatCheckerOut"
+
                                    value="0"
+
                                    sclass="stat-number"/>
 
                             <label value="CHECKER OUTWARD VERIFICATION"
+
                                    sclass="stat-label"/>
 
                         </div>
 
-                        <!-- MAKER INWARD -->
+
 
                         <div sclass="stat-card">
 
                             <label id="lblStatMakerIn"
+
                                    value="0"
+
                                    sclass="stat-number"/>
 
                             <label value="MAKER INWARD"
+
                                    sclass="stat-label"/>
 
                         </div>
 
-                        <!-- CHECKER INWARD -->
+
 
                         <div sclass="stat-card">
 
                             <label id="lblStatCheckerIn"
+
                                    value="0"
+
                                    sclass="stat-number"/>
 
                             <label value="CHECKER INWARD VERIFICATION"
+
                                    sclass="stat-label"/>
 
                         </div>
 
+
+
                     </hlayout>
 
-                    <!-- =====================================================
-                         TABLE CARD
-                    ====================================================== -->
+
 
                     <div sclass="table-card">
 
-                        <!-- =================================================
-                             TABLE HEADER
-                        ================================================== -->
+
 
                         <hlayout width="100%"
+
                                   sclass="table-header">
 
                             <label id="lblTableTitle"
+
                                    value="SYSTEM USERS (0)"
+
                                    sclass="table-title"/>
 
                             <label id="lblTableCount"
+
                                    value="0 active · 0 inactive"
+
                                    sclass="table-count"/>
 
                             <label id="lblTablePager"
+
                                    value="0/0"
+
                                    sclass="table-pager"/>
 
                         </hlayout>
 
-                        <!-- =================================================
-                             FILTER SECTION
-                        ================================================== -->
+
 
                         <hlayout spacing="12px"
+
                                   sclass="filter-row">
 
-                            <!-- SEARCH -->
+
 
                             <textbox id="txtSearch"
+
                                      placeholder="Search users..."
+
                                      sclass="filter-input"/>
 
-                            <!-- ROLE FILTER -->
+
 
                             <combobox id="cmbRoleFilter"
+
                                       readonly="true"
+
                                       sclass="filter-select">
 
                                 <comboitem label="All Roles"
+
                                            value="ALL"/>
 
                             </combobox>
 
-                            <!-- DATE FILTER -->
+
 
                             <label value="FROM"
+
                                    sclass="filter-label"/>
 
                             <datebox id="dtFrom"
+
                                      format="dd/MM/yyyy"
+
                                      sclass="date-filter"/>
 
                             <label value="TO"
+
                                    sclass="filter-label"/>
 
                             <datebox id="dtTo"
+
                                      format="dd/MM/yyyy"
+
                                      sclass="date-filter"/>
+
+
 
                         </hlayout>
 
-                        <!-- =================================================
-                             USER TABLE
-                        ================================================== -->
+
 
                         <grid sclass="admin-table"
+
                               width="100%">
 
                             <columns menupopup="auto">
 
-                                <column label="USERNAME ⇕"
-                                        sort="auto"
-                                        width="150px"
-                                        sclass="col-sortable"/>
+                                <column sort="auto" width="150px" sclass="col-sortable">
 
-                                <column label="FULL NAME ⇕"
-                                        sort="auto"
-                                        width="200px"
-                                        sclass="col-sortable"/>
+                                    <label value="Username" style="color:#1e2a3b;font-size:13px;font-weight:600;"/>
 
-                                <column label="ROLE"
-                                        sclass="col-role"/>
+                                </column>
 
-                                <column label="BRANCH ⇕"
-                                        sort="auto"
-                                        width="180px"
-                                        sclass="col-sortable"/>
+                                <column sclass="col-role">
 
-                                <column label="STATUS"
-                                        width="120px"/>
+                                    <label value="Role" style="color:#1e2a3b;font-size:13px;font-weight:600;"/>
 
-                                <column label="CREATED ⇕"
-                                        sort="auto"
-                                        width="130px"
-                                        sclass="col-sortable"/>
+                                </column>
 
-                                <column width="220px"
-                                        sclass="col-actions"/>
+                                <column sort="auto" width="180px" sclass="col-sortable">
+
+                                    <label value="Branch" style="color:#1e2a3b;font-size:13px;font-weight:600;"/>
+
+                                </column>
+
+                                <column width="120px">
+
+                                    <label value="Status" style="color:#1e2a3b;font-size:13px;font-weight:600;"/>
+
+                                </column>
+
+                                <column sort="auto" width="130px" sclass="col-sortable">
+
+                                    <label value="Created" style="color:#1e2a3b;font-size:13px;font-weight:600;"/>
+
+                                </column>
+
+                                <column width="220px" sclass="col-actions"/>
 
                             </columns>
 
@@ -233,255 +286,290 @@
 
                         </grid>
 
+
+
                     </div>
+
+
 
                 </div>
 
-                <!-- =====================================================
-                     ADD / EDIT USER MODAL
-                ====================================================== -->
+
+
+                <!-- ADD / EDIT USER MODAL -->
 
                 <window id="winUserForm"
+
                         border="none"
+
                         width="650px"
+
                         position="center"
+
                         visible="false"
+
                         closable="false"
-                        mode="overlapped"
+
+                        mode="modal"
+
                         sclass="user-form-modal">
 
-                    <!-- =================================================
-                         HEADER
-                    ================================================== -->
+
 
                     <div sclass="modal-header">
 
-                        <label value="Add New User"
+                        <label id="lblModalTitle"
+
+                               value="Add New User"
+
                                sclass="modal-title"/>
 
                         <button id="btnCloseForm"
+
                                 label="×"
+
                                 sclass="modal-close"/>
 
                     </div>
 
-                    <!-- =================================================
-                         MODAL BODY
-                    ================================================== -->
+
 
                     <vlayout sclass="modal-body"
+
                               spacing="0">
 
-                        <!-- =============================================
-                             FULL NAME + USERNAME
-                        ============================================== -->
+
 
                         <hlayout width="100%"
+
                                   spacing="18px"
+
                                   sclass="form-row">
 
-                            <!-- FULL NAME -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
+
+                            <vlayout hflex="1" spacing="6px">
 
                                 <hlayout spacing="2px">
 
-                                    <label value="FULL NAME"
-                                           sclass="form-label"/>
+                                    <label value="FULL NAME" sclass="form-label"/>
 
-                                    <label value="*"
-                                           sclass="form-required"/>
+                                    <label value="*" sclass="form-required"/>
 
                                 </hlayout>
 
                                 <textbox id="txtFullName"
+
                                          width="100%"
+
                                          placeholder="Enter full name"
+
                                          sclass="form-input"/>
 
                             </vlayout>
 
-                            <!-- USERNAME -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
+
+                            <vlayout hflex="1" spacing="6px">
 
                                 <hlayout spacing="2px">
 
-                                    <label value="USERNAME"
-                                           sclass="form-label"/>
+                                    <label value="USERNAME" sclass="form-label"/>
 
-                                    <label value="*"
-                                           sclass="form-required"/>
+                                    <label value="*" sclass="form-required"/>
 
                                 </hlayout>
 
                                 <textbox id="txtUsername"
+
                                          width="100%"
+
                                          placeholder="Enter username"
+
                                          sclass="form-input"/>
 
                             </vlayout>
 
+
+
                         </hlayout>
 
-                        <!-- =============================================
-                             ROLE + BRANCH
-                        ============================================== -->
+
 
                         <hlayout width="100%"
+
                                   spacing="18px"
+
                                   sclass="form-row">
 
-                            <!-- ROLE -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
+
+                            <vlayout hflex="1" spacing="6px">
 
                                 <hlayout spacing="2px">
 
-                                    <label value="ROLE"
-                                           sclass="form-label"/>
+                                    <label value="ROLE" sclass="form-label"/>
 
-                                    <label value="*"
-                                           sclass="form-required"/>
+                                    <label value="*" sclass="form-required"/>
 
                                 </hlayout>
 
                                 <combobox id="cmbRole"
+
                                           readonly="true"
+
                                           width="100%"
+
                                           sclass="form-combo"/>
 
                             </vlayout>
 
-                            <!-- BRANCH -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
+
+                            <vlayout hflex="1" spacing="6px">
 
                                 <hlayout spacing="2px">
 
-                                    <label value="BRANCH"
-                                           sclass="form-label"/>
+                                    <label value="BRANCH" sclass="form-label"/>
 
-                                    <label value="*"
-                                           sclass="form-required"/>
+                                    <label value="*" sclass="form-required"/>
 
                                 </hlayout>
 
                                 <textbox id="txtBranch"
+
                                          width="100%"
+
                                          placeholder="Enter branch"
+
                                          sclass="form-input"/>
 
                             </vlayout>
 
+
+
                         </hlayout>
 
-                        <!-- =============================================
-                             PASSWORD + STATUS
-                        ============================================== -->
+
 
                         <hlayout width="100%"
+
                                   spacing="18px"
+
                                   sclass="form-row">
 
-                            <!-- PASSWORD -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
+
+                            <vlayout hflex="1" spacing="6px">
 
                                 <hlayout spacing="2px">
 
-                                    <label value="PASSWORD"
-                                           sclass="form-label"/>
+                                    <label value="PASSWORD" sclass="form-label"/>
 
-                                    <label value="*"
-                                           sclass="form-required"/>
+                                    <label value="*" sclass="form-required"/>
 
                                 </hlayout>
 
                                 <textbox id="txtPassword"
+
                                          type="password"
+
                                          width="100%"
+
                                          placeholder="Minimum 6 characters"
+
                                          sclass="form-input"/>
 
                             </vlayout>
 
-                            <!-- STATUS -->
 
-                            <vlayout hflex="1"
-                                      spacing="6px">
 
-                                <label value="STATUS"
-                                       sclass="form-label"/>
+                            <vlayout hflex="1" spacing="6px">
+
+                                <label value="STATUS" sclass="form-label"/>
 
                                 <combobox id="cmbStatus"
+
                                           readonly="true"
+
                                           width="100%"
+
                                           sclass="form-combo">
 
-                                    <comboitem label="Active"
-                                               value="Active"/>
+                                    <comboitem label="Active"   value="Active"/>
 
-                                    <comboitem label="Inactive"
-                                               value="Inactive"/>
+                                    <comboitem label="Inactive" value="Inactive"/>
 
                                 </combobox>
 
                             </vlayout>
 
+
+
                         </hlayout>
 
-                        <!-- =============================================
-                             ROLE INFO BOX
-                        ============================================== -->
+
 
                         <div id="divRoleInfo"
+
                              visible="false"
+
                              sclass="role-info-box">
 
                             <label id="lblRoleInfo"
+
                                    sclass="role-info-text"/>
 
                         </div>
 
-                        <!-- =============================================
-                             ERROR MESSAGE
-                        ============================================== -->
+
 
                         <label id="lblFormError"
+
                                visible="false"
+
                                sclass="form-error"/>
+
+
 
                     </vlayout>
 
-                    <!-- =================================================
-                         FOOTER
-                    ================================================== -->
+
 
                     <hlayout sclass="modal-footer"
+
                               spacing="10px">
 
                         <button id="btnCancelUser"
+
                                 label="Cancel"
+
                                 sclass="btn-modal-cancel"/>
 
                         <button id="btnSaveUser"
+
                                 label="Save User"
+
                                 sclass="btn-modal-save"/>
 
                     </hlayout>
 
+
+
                 </window>
+
+
 
             </vlayout>
 
+
+
         </center>
 
+
+
     </borderlayout>
+
+
 
 </zk>

@@ -29,6 +29,7 @@ public class TopbarComponent extends HtmlMacroComponent {
     public TopbarComponent() {
         // DO NOT call compose() here — ZK calls it automatically.
         // Calling it manually causes @Wire fields to be null in afterCompose().
+    	compose();
     }
 
     @Override
