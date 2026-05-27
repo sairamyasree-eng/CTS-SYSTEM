@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="CTS — Maker Outward Dashboard" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+
+    <style src="/styling/scanService.css"/>
+    <?component name="topbar"
+          macroURI="/reuseableComponents/topbar.zul"
+          class="com.iispl.components.TopbarComponent"?>
+    <?component name="sidebar"
+          macroURI="/reuseableComponents/sidebar.zul"
+          class="com.iispl.components.SidebarComponent"?>
+
+    <borderlayout width="100%" height="100vh">
+
+        <west width="220px" border="none" splittable="false" collapsible="false" margins="0,0,0,0">
+            <sidebar/>
+        </west>
+
+        <center border="none" autoscroll="true" margins="0,0,0,0">
+            <vlayout width="100%" spacing="0">
+                <topbar style="width:100%"/>
+
+                <!-- Page Header -->
+                <div sclass="page-header">
+                    <div sclass="page-breadcrumb">CTS / SCAN SERVICE</div>
+                    <div sclass="page-header-row">
+                        <div>
+                            <label sclass="page-title" value="Scan Service"/>
+                            <label sclass="page-subtitle" value="Batch loaded — verify manifest reconciliation"/>
+                        </div>
+                        <button id="btnRejectRepair" label="Reject &amp; Repair →" sclass="btn btn-primary"/>
+                    </div>
+                </div>
+
+                <!-- Manifest Table -->
+                <div sclass="manifest-table">
+                    <div sclass="manifest-header-row">
+                        <label sclass="manifest-col-head" value="METRIC"/>
+                        <label sclass="manifest-col-head" value="EXPECTED"/>
+                        <label sclass="manifest-col-head" value="LOADED"/>
+                    </div>
+                    <div sclass="manifest-row">
+                        <label sclass="manifest-metric" value="Cheque Count"/>
+                        <div sclass="manifest-cell">
+                            <label id="lblExpectedCount" sclass="manifest-value" value="22"/>
+                        </div>
+                        <div sclass="manifest-cell">
+                            <label id="lblLoadedCount" sclass="manifest-value" value="10"/>
+                        </div>
+                    </div>
+                    <div sclass="manifest-row">
+                        <label sclass="manifest-metric" value="Total Amount"/>
+                        <div sclass="manifest-cell">
+                            <label id="lblExpectedAmount" sclass="manifest-value" value="₹1"/>
+                            <label id="lblExpectedWords" sclass="manifest-words" value="One Rupees Only"/>
+                        </div>
+                        <div sclass="manifest-cell">
+                            <label id="lblLoadedAmount" sclass="manifest-value manifest-value-large" value="₹14,60,000"/>
+                            <label id="lblLoadedWords" sclass="manifest-words" value="Fourteen Lakh Sixty Thousand Rupees Only"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scanner Validation Results -->
+                <div sclass="section-card">
+                    <div sclass="section-card-header">
+                        <label sclass="section-card-title" value="SCANNER VALIDATION RESULTS"/>
+                    </div>
+                    <div sclass="validation-summary">
+                        <div sclass="validation-badge green">
+                            <label sclass="vbadge-icon" value="✓"/>
+                            <vlayout spacing="0">
+                                <label sclass="vbadge-label" value="AUTO APPROVED"/>
+                                <label sclass="vbadge-count" value="6 cheques"/>
+                            </vlayout>
+                        </div>
+                        <div sclass="validation-badge red">
+                            <label sclass="vbadge-icon" value="✗"/>
+                            <vlayout spacing="0">
+                                <label sclass="vbadge-label" value="IQA FAIL"/>
+                                <label sclass="vbadge-count" value="2 cheques"/>
+                            </vlayout>
+                        </div>
+                        <div sclass="validation-badge red">
+                            <label sclass="vbadge-icon" value="✗"/>
+                            <vlayout spacing="0">
+                                <label sclass="vbadge-label" value="MICR FAIL"/>
+                                <label sclass="vbadge-count" value="3 cheques"/>
+                            </vlayout>
+                        </div>
+                        <div sclass="validation-badge green">
+                            <label sclass="vbadge-icon" value="✓"/>
+                            <vlayout spacing="0">
+                                <label sclass="vbadge-label" value="IQA+MICR PASS"/>
+                                <label sclass="vbadge-count" value="6 cheques"/>
+                            </vlayout>
+                        </div>
+                    </div>
+                    <div sclass="validation-info">
+                        <label sclass="info-icon" value="i"/>
+                        <hlayout spacing="4px">
+                            <label sclass="info-bold" value="6 cheque(s)"/>
+                            <label value="with no IQA/MICR issues have been"/>
+                            <label sclass="info-bold" value="Auto Approved"/>
+                            <label value="and will skip manual Checker review."/>
+                        </hlayout>
+                    </div>
+                </div>
+
+                <!-- Loaded Cheques Table -->
+                <div sclass="section-card" style="margin-top: 20px;">
+                    <div sclass="section-card-header">
+                        <label sclass="section-card-title" value="LOADED CHEQUES (10)"/>
+                        <hlayout sclass="table-header-right" spacing="8px">
+                            <label sclass="legend-item auto-approved-legend" value="Auto Approved"/>
+                            <label sclass="legend-item iqa-fail-legend" value="IQA Fail"/>
+                            <button sclass="btn btn-primary btn-sm" label="SDDSF"/>
+                        </hlayout>
+                    </div>
+
+                    <!-- Filters -->
+                    <hlayout sclass="table-filters" spacing="8px">
+                        <textbox sclass="filter-search" placeholder="Search cheques..."/>
+                        <combobox sclass="filter-select">
+                            <comboitem label="All IQA"/>
+                            <comboitem label="Pass"/>
+                            <comboitem label="Fail"/>
+                        </combobox>
+                        <label sclass="filter-label" value="FROM"/>
+                        <datebox sclass="filter-date" format="yyyy-MM-dd"/>
+                        <label sclass="filter-label" value="TO"/>
+                        <datebox sclass="filter-date" format="yyyy-MM-dd"/>
+                        <label sclass="filter-count-right" value="10/10"/>
+                    </hlayout>
+
+                    <!-- Cheques Grid -->
+                    <grid sclass="cheque-table">
+                        <columns>
+                            <column label="CHEQUE NO. ⇅"/>
+                            <column label="PAYEE NAME ⇅"/>
+                            <column label="DRAWER BANK ⇅"/>
+                            <column label="AMOUNT"/>
+                            <column label="AMOUNT IN WORDS"/>
+                            <column label="DATE ⇅"/>
+                            <column label="MICR ⇅"/>
+                            <column label="IQA"/>
+                            <column label="MICR"/>
+                            <column label="STATUS"/>
+                        </columns>
+                        <rows>
+                            <row sclass="row-auto-approved">
+                                <label value="000012345"/>
+                                <label value="Raj Enterprises"/>
+                                <label value="State Bank of India"/>
+                                <label value="₹1,50,000"/>
+                                <label sclass="words-col" value="One Lakh Fifty Thousand Rupees Only"/>
+                                <label value="2026-05-01"/>
+                                <label value="400002001"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-auto" value="AUTO APPROVED"/>
+                            </row>
+                            <row sclass="row-auto-approved">
+                                <label value="000023456"/>
+                                <label value="Tech Solutions Ltd"/>
+                                <label value="HDFC Bank"/>
+                                <label value="₹1,25,000"/>
+                                <label sclass="words-col" value="One Lakh Twenty Five Thousand Rupees Only"/>
+                                <label value="2026-05-02"/>
+                                <label value="400003999"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-auto" value="AUTO APPROVED"/>
+                            </row>
+                            <row>
+                                <label value="000034567"/>
+                                <label value="Global Traders"/>
+                                <label value="ICICI Bank"/>
+                                <label value="₹75,000"/>
+                                <label sclass="words-col" value="Seventy Five Thousand Rupees Only"/>
+                                <label value="2026-05-02"/>
+                                <label value="400004003"/>
+                                <label sclass="badge badge-fail" value="FAIL"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-pending" value="PENDING"/>
+                            </row>
+                            <row>
+                                <label value="000045678"/>
+                                <label value="Sunrise Industries"/>
+                                <label value="Axis Bank"/>
+                                <label value="₹2,00,000"/>
+                                <label sclass="words-col" value="Two Lakh Rupees Only"/>
+                                <label value="2026-05-03"/>
+                                <label value="400005888"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-fail" value="FAIL"/>
+                                <label sclass="badge badge-pending" value="PENDING"/>
+                            </row>
+                            <row sclass="row-auto-approved">
+                                <label value="000056789"/>
+                                <label value="Metro Supplies"/>
+                                <label value="Bank of Baroda"/>
+                                <label value="₹35,000"/>
+                                <label sclass="words-col" value="Thirty Five Thousand Rupees Only"/>
+                                <label value="2026-05-03"/>
+                                <label value="400006005"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-auto" value="AUTO APPROVED"/>
+                            </row>
+                            <row sclass="row-iqa-fail">
+                                <label value="000067890"/>
+                                <label value="City Builders"/>
+                                <label value="Punjab National Bank"/>
+                                <label value="₹2,02,000"/>
+                                <label sclass="words-col" value="Two Lakh Two Thousand Rupees Only"/>
+                                <label value="2026-05-04"/>
+                                <label value="400007006"/>
+                                <label sclass="badge badge-fail" value="FAIL"/>
+                                <label sclass="badge badge-fail" value="FAIL"/>
+                                <label sclass="badge badge-pending" value="PENDING"/>
+                            </row>
+                            <row sclass="row-auto-approved">
+                                <label value="000078901"/>
+                                <label value="Delta Corp"/>
+                                <label value="Canara Bank"/>
+                                <label value="₹88,000"/>
+                                <label sclass="words-col" value="Eighty Eight Thousand Rupees Only"/>
+                                <label value="2026-05-04"/>
+                                <label value="400008007"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-auto" value="AUTO APPROVED"/>
+                            </row>
+                            <row>
+                                <label value="000089012"/>
+                                <label value="Omega Trading"/>
+                                <label value="Union Bank"/>
+                                <label value="₹3,10,000"/>
+                                <label sclass="words-col" value="Three Lakh Ten Thousand Rupees Only"/>
+                                <label value="2026-05-05"/>
+                                <label value="400009008"/>
+                                <label sclass="badge badge-pass" value="PASS"/>
+                                <label sclass="badge badge-fail" value="FAIL"/>
+                                <label sclass="badge badge-pending" value="PENDING"/>
+                            </row>
+                        </rows>
+                    </grid>
+
+                    <!-- Pagination -->
+                    <div sclass="table-footer">
+                        <hlayout sclass="pagination" spacing="4px">
+                            <button sclass="page-btn" label="‹"/>
+                            <button sclass="page-btn active" label="1"/>
+                            <button sclass="page-btn" label="2"/>
+                            <button sclass="page-btn" label="›"/>
+                        </hlayout>
+                        <label sclass="page-info" value="Page 1/2 · 10 records"/>
+                    </div>
+                </div>
+
+            </vlayout>
+        </center>
+
+    </borderlayout>
+</zk>

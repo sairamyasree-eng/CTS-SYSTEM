@@ -40,6 +40,8 @@ public class MakerOutwardController
 
     @Listen("onClick = #btnNewScan")
     public void openScanDialog() {
-        org.zkoss.zk.ui.Executions.sendRedirect("/scan.zul");
+        org.zkoss.zk.ui.Executions.sendRedirect("/scanPopup.zul");
     }
+        
+    
 }

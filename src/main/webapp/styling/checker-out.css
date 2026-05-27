@@ -23,40 +23,43 @@
 .dash-page {
     padding: 24px 28px;
     background: var(--bg);
-    min-height: 100%;
     font-family: var(--sans);
     font-size: 13px;
-    color: var(--text);
+    color: var(--primary);
+    width: 100%;
     box-sizing: border-box;
+    min-height: calc(100vh - 60px);
 }
 
 /* ── Stats row ── */
 .stats-layout {
-    display: flex;
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     gap: 14px;
     margin-bottom: 20px;
     width: 100%;
     box-sizing: border-box;
-    flex-wrap: nowrap;
 }
 
 .stats-layout > div {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: block !important;
 }
 
 .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 4px solid var(--accent);
-    border-radius: var(--radius-lg);
-    padding: 18px 20px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    box-sizing: border-box;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-top: 4px solid var(--accent) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 18px 20px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 90px !important;
 }
 
 .stat-card.blue   { border-top-color: #1a6bcc; }
@@ -67,114 +70,136 @@
 .stat-card.teal   { border-top-color: #0d9488; }
 
 .stat-number {
-    display: block;
-    font-size: 28px;
-    font-weight: 700;
-    font-family: var(--mono);
-    color: var(--primary);
-    line-height: 1;
+    display: block !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    font-family: var(--mono) !important;
+    color: var(--primary) !important;
+    line-height: 1 !important;
 }
 
 .stat-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: .07em;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .07em !important;
 }
+
+.stat-card span,
+.stat-card .z-label {
+    display: block !important;
+}
+
 
 /* ── Section title ── */
-.section-title {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    margin-top: 8px;
+.section-title,
+span.section-title,
+.z-label.section-title {
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .1em !important;
+    color: var(--text-muted) !important;
+    margin: 16px 0 12px !important;
 }
 
-/* ── Module row ── */
+.action-row {
+    margin-bottom: 20px;
+}
+
+
+/* ── Modules ── */
 .mod-row {
-    display: flex;
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     gap: 14px;
     width: 100%;
     box-sizing: border-box;
-    flex-wrap: nowrap;
+    margin-bottom: 24px;
 }
 
 .mod-row > div {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: block !important;
 }
 
 .module-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius-lg);
-    padding: 18px;
-    cursor: pointer;
-    transition: box-shadow .15s, transform .15s;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-height: 150px;
-    width: 100%;
-    box-sizing: border-box;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-left: 4px solid var(--accent) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 18px !important;
+    cursor: pointer !important;
+    transition: box-shadow .15s, transform .15s !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-height: 150px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .module-card:hover {
-    box-shadow: 0 4px 16px rgba(26,107,204,.13);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(26,107,204,.13) !important;
+    transform: translateY(-2px) !important;
 }
 
 .module-icon {
-    font-size: 20px;
-    line-height: 1;
-    margin-bottom: 6px;
-    display: block;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
 }
 
 .module-step {
-    display: block;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--text-muted);
-    margin-bottom: 2px;
+    display: block !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 2px !important;
 }
 
 .module-title {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 4px;
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    margin-bottom: 4px !important;
 }
 
 .module-desc {
-    display: block;
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.55;
-    flex: 1;
+    display: block !important;
+    font-size: 11px !important;
+    color: var(--text-muted) !important;
+    line-height: 1.55 !important;
+    flex: 1 !important;
+}
+
+.module-card span,
+.module-card .z-label {
+    display: block !important;
 }
 
 .module-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    text-decoration: none;
+    display: inline-block !important;
+    margin-top: 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: var(--accent) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
 }
 
-.module-link:hover { text-decoration: underline; }
+.module-link:hover {
+    text-decoration: underline !important;
+}
 
 /* ── Buttons ── */
 .btn {
@@ -267,4 +292,17 @@
     color: #b45309;
     font-style: italic;
     width: 100%;
+}
+
+.z-center-body,
+.z-west-body,
+.z-north-body {
+    padding: 0 !important;
+}
+
+/* Add after :root block */
+.z-vlayout,
+.z-vlayout-inner {
+    width: 100%;
+    display: block;
 }

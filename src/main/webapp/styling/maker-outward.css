@@ -1,3 +1,4 @@
+
 /* =============================================================
    makeroutwarddashboard.css  —  Maker Outward Dashboard
    ============================================================= */
@@ -149,10 +150,38 @@ span.section-title,
     transform: translateY(-2px) !important;
 }
 
-.module-icon  { font-size: 20px !important; line-height: 1 !important; margin-bottom: 6px !important; display: block !important; }
-.module-step  { display: block !important; font-size: 9px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .08em !important; color: var(--text-muted) !important; margin-bottom: 2px !important; }
-.module-title { display: block !important; font-size: 13px !important; font-weight: 700 !important; color: var(--primary) !important; margin-bottom: 4px !important; }
-.module-desc  { display: block !important; font-size: 11px !important; color: var(--text-muted) !important; line-height: 1.55 !important; flex: 1 !important; }
+.module-icon {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+.module-step {
+    display: block !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 2px !important;
+}
+
+.module-title {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    margin-bottom: 4px !important;
+}
+
+.module-desc {
+    display: block !important;
+    font-size: 11px !important;
+    color: var(--text-muted) !important;
+    line-height: 1.55 !important;
+    flex: 1 !important;
+}
 
 .module-card span,
 .module-card .z-label {
@@ -169,7 +198,9 @@ span.section-title,
     cursor: pointer !important;
 }
 
-.module-link:hover { text-decoration: underline !important; }
+.module-link:hover {
+    text-decoration: underline !important;
+}
 
 /* ── Button ── */
 .btn {
@@ -185,5 +216,21 @@ span.section-title,
     transition: filter .15s !important;
 }
 
-.btn:hover   { filter: brightness(1.08) !important; }
-.btn-primary { background: var(--accent) !important; color: #fff !important; }
+.btn:hover {
+    filter: brightness(1.08) !important;
+}
+
+.btn-primary {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
+
+
+
+/* KEEP THESE - FIXES TOPBAR/SIDEBAR GAPS */
+.z-center-body,
+.z-west-body,
+.z-north-body {
+    padding: 0 !important;
+}
+

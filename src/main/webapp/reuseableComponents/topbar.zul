@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?page contentType="text/html;charset=UTF-8"?>
-
-
 <zk>
- <style src="/styling/topbar.css"/>
+    <style src="/styling/topbar.css"/>
     <div sclass="cts-topbar">
 
         <!-- Brand -->
@@ -10,16 +9,17 @@
             <div sclass="topbar-logo">
                 <label sclass="topbar-logo-text" value="CTS"/>
             </div>
-            <vlayout spacing="0px">
-                <label sclass="topbar-title"    value="CTS Portal"/>
-                <label sclass="topbar-subtitle" value="CHEQUE TRUNCATION SYSTEM"/>
-            </vlayout>
+            <!-- CHANGED: vlayout → div with topbar-brand-text class -->
+            <div sclass="topbar-brand-text">
+                <label sclass="topbar-title"    value="CHEQUE TRUNCATION SYSTEM"/>
+                <label sclass="topbar-subtitle" value="NPCI · CTS GRID PROCESSING"/>
+            </div>
         </div>
 
         <!-- Right section -->
         <div sclass="topbar-right">
 
-            <!-- Session badge (hidden by default) -->
+            <!-- Session badge (shown after login by controller) -->
             <div id="mc_sessionBadge" sclass="topbar-session" visible="false">
                 <label id="mc_lblSessionId"   sclass="session-id"/>
                 <label sclass="session-sep"   value="|"/>
@@ -30,15 +30,16 @@
 
             <!-- User info -->
             <div sclass="topbar-user">
-                <vlayout spacing="0px">
+                <!-- CHANGED: vlayout → div with topbar-user-text class -->
+                <div sclass="topbar-user-text">
                     <label id="mc_lblUserName"   sclass="topbar-user-name"/>
                     <label id="mc_lblUserBranch" sclass="topbar-user-branch"/>
-                </vlayout>
+                </div>
                 <label id="mc_lblRoleBadge" sclass="topbar-role-badge role-default"/>
             </div>
 
             <!-- Sign out -->
-            <button id="mc_btnSignOut" sclass="btn-signout" label="Sign Out"/>
+            <button id="mc_btnSignOut" sclass="btn-signout" label="SIGN OUT"/>
 
         </div>
     </div>

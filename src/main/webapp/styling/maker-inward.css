@@ -26,12 +26,11 @@
 .dash-page {
     padding: 24px 28px;
     background: var(--bg);
+    min-height: 100%;
     font-family: var(--sans);
     font-size: 13px;
-    color: var(--primary);
-    width: 100%;
+    color: var(--text);
     box-sizing: border-box;
-    min-height: calc(100vh - 60px);
 }
 
 /* ══════════════════════════════════════════
@@ -235,3 +234,10 @@ span.section-title,
 
 .btn:hover    { filter: brightness(1.08) !important; }
 .btn-primary  { background: var(--accent) !important; color: #fff !important; }
+
+.z-center-body,
+.z-west-body,
+.z-north-body {
+    padding: 0 !important;
+}
+

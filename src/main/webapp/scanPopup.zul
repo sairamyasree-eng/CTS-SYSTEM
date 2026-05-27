@@ -1,0 +1,54 @@
+<zk>
+	<?link rel="stylesheet" href="/styling/scan.css"?>
+	   <window id="winUserForm"
+
+                        border="none"
+
+                        width="650px"
+
+                        position="center"
+
+                        visible="false"
+
+                        closable="false"
+
+                        mode="modal"
+
+                        sclass="user-form-modal" 
+                        
+                        apply="com.iispl.controller.ScanController"
+                        >
+	
+	<hlayout>
+	<label value="Scan Service" sclass="scan-heading"/>
+	<label value="X" id="close_button" sclass="x"/>
+	</hlayout>
+	
+	<hlayout style="margin-top:15px;">
+		<vlayout>
+			<label value="Enter expected Cheque Count" sclass="scan-label"/>
+			<textbox id="cheque_count" sclass = "scan-input"/>
+			<label value="Enter expected total amount" sclass="scan-label"/>
+			<textbox id="total_amount" sclass = "scan-input"/>
+			<label value="Enter Batch Id" sclass="scan-label"/>
+			<textbox id="batch_id" sclass = "scan-input"/>
+		</vlayout>
+			
+			
+		<vlayout style="margin-left:20px;">
+		<label value="Folder Upload" sclass="scan-label"/>
+			<textbox id="folder_upload" sclass = "scan-input"/>
+			<label value="Processing Date" sclass="scan-label"/>
+			<datebox id="processing_date"  style="margin-top:10px;margin-left:7px;" sclass="date-input"/> 
+			
+		</vlayout>
+		
+		
+	</hlayout>
+	<hlayout style="margin-left:360px">
+			<button label="Start" id="scanButton" sclass="scan-button"/>
+			<button label="Cancel" id="cancelButton" sclass="cancel-button" />
+	</hlayout>
+	
+	</window>
+</zk>

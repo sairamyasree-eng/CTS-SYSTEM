@@ -14,13 +14,16 @@
 
     <borderlayout width="100%" height="100%">
 
-        <west width="220px">
-            <include src="/reuseableComponents/sidebar.zul"/>
-        </west>
+		<north border="none" size="0px" />
 
-        <center border="none">
+		<west width="220px" border="none" splittable="false"
+			collapsible="false">
+			<include src="/reuseableComponents/sidebar.zul" />
+		</west>
 
-            <vlayout width="100%">
+		<center border="none" autoscroll="true">
+
+			<div style="width:100%;">
 
                 <include src="/reuseableComponents/topbar.zul"/>
 
@@ -100,10 +103,11 @@
 
                 </div>
 
-            </vlayout>
+            </div>
 
         </center>
 
     </borderlayout>
 
 </zk>
+

@@ -1,0 +1,63 @@
+.scan-label{
+	margin-botton:20px;
+	color:black;
+}
+
+.scan-input{
+	padding:10px;
+	margin: 10px;
+	border: 1px solid #D3D3D3;
+	border-radius : 8px;
+}
+
+.scan-input:hover{
+	border: 2px solid black;
+}
+
+.scan-heading{
+	font-weight: 700;
+	font-size: 22px;
+}
+
+.scan-button{
+	background: #2563eb;
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 8px 16px;
+    width:110px;
+}
+
+.x{
+	margin-left:410px;
+	font-weight:700;
+}
+
+.user-form-modal{
+	 border-radius: 8px !important;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,.22) !important;
+
+    border: none !important;
+
+    overflow: hidden;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cancel-button{
+	background: red;
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 8px 16px;
+    width:110px;
+}
+
+.cancel-button:hover{
+	background: white;
+	color: black;
+	border: 1px solid #D3D3D3 ;
+}

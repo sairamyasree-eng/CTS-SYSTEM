@@ -30,6 +30,7 @@
     box-sizing: border-box;
 }
 
+
 /* ── Stats row ── */
 .stats-layout {
     display: flex;
@@ -244,3 +245,11 @@
 .badge-rejected { background: #fee2e2; color: #b91c1c; }
 .badge-pending  { background: #f1f5f9; color: #475569; }
 .badge-cbs      { background: #d1fae5; color: #065f46; }
+
+
+
+.z-center-body,
+.z-west-body,
+.z-north-body {
+    padding: 0 !important;
+}

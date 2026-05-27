@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk xmlns="http://www.zkoss.org/2005/zul">
-
+	<style src="/styling/moduleCard.css"/>
 	<div id="mc_moduleCard" sclass="module-card">
 		<label id="mc_icon" sclass="module-icon" />
 		<label id="mc_stepLabel" sclass="module-step" />

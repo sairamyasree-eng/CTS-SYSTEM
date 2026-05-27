@@ -1,6 +1,4 @@
-/* =========================================================
-FILE: admin.css
-========================================================= */
+
 
 zk, vlayout {
     margin: 0;
@@ -43,7 +41,7 @@ zk, vlayout {
 
 /* ── Page body ── */
 .admin-body {
-    padding: 22px 26px;
+    padding: 24px 28px;
     background: #eef2f7;
     min-height: 100%;
 }
@@ -307,3 +305,16 @@ zk, vlayout {
 .btn-register-link:hover {
     color: #1d4ed8 !important;
 }
+
+html,
+body,
+.z-page,
+.z-borderlayout,
+.z-borderlayout-body,
+.z-center-body,
+.z-west-body,
+.z-north-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+

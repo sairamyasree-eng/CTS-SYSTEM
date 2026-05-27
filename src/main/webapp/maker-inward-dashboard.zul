@@ -12,27 +12,29 @@
 	<?component name="modulecard"
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
-        
-    <?component name="topbar"
+
+	<?component name="topbar"
         macroURI="/reuseableComponents/topbar.zul"
         class="com.iispl.components.TopbarComponent"?>
-        
-    <?component name="sidebar"
+
+	<?component name="sidebar"
         macroURI="/reuseableComponents/sidebar.zul"
         class="com.iispl.components.SidebarComponent"?>
 
-	<borderlayout width="100%" height="100%"
-		apply="com.iispl.controller.MakerInwardDashboardController">
+	<borderlayout width="100%" height="100%">
 
-		<west width="220px" splittable="false" collapsible="false">
-			<sidebar/>
+		<north border="none" size="0px" />
+
+		<west width="220px" border="none" splittable="false"
+			collapsible="false">
+			<include src="/reuseableComponents/sidebar.zul" />
 		</west>
 
 		<center border="none" autoscroll="true">
 
-			<vlayout width="100%" spacing="0">
+			<div style="width:100%;">
 
-				<topbar style="width:100%"/>
+				<topbar style="width:100%" />
 
 				<div sclass="dash-page">
 
@@ -67,7 +69,7 @@
 
 				</div>
 
-			</vlayout>
+			</div>
 
 		</center>
 

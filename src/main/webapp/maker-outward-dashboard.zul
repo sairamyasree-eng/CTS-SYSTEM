@@ -3,67 +3,83 @@
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <style src="/styling/maker-outward.css"/>
+	<style src="/styling/maker-outward.css" />
 
-    <?component name="statcard"
+	<?component name="statcard"
         macroURI="/reuseableComponents/statCard.zul"
         class="com.iispl.components.StatCard"?>
 
-    <?component name="modulecard"
+	<?component name="modulecard"
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
-        
-     <?component name="topbar"
+
+	<?component name="topbar"
         macroURI="/reuseableComponents/topbar.zul"
         class="com.iispl.components.TopbarComponent"?>
 
-    <borderlayout width="100%" height="100%"
-                  apply="com.iispl.controller.MakerOutwardController">
+	<borderlayout width="100%" height="100%">
 
-        <west width="220px" splittable="false" collapsible="false">
-            <include src="/reuseableComponents/sidebar.zul"/>
-        </west>
+		<north border="none" size="0px" />
 
-        <center border="none" autoscroll="true">
+		<west width="220px" border="none" splittable="false"
+			collapsible="false">
+			<include src="/reuseableComponents/sidebar.zul" />
+		</west>
 
-            <vlayout width="100%" spacing="0">
+		<center border="none" autoscroll="true">
 
-				<topbar style="width:100%"/>
-				
-                <div sclass="dash-page">
+			<div style="width:100%;">
 
-                    <div sclass="stats-layout">
-                        <statcard cardColor="blue"   statId="lblChequesLoaded" statNumber="3" statLabel="CHEQUES LOADED"/>
-                        <statcard cardColor="green"  statId="lblAutoApproved"  statNumber="2" statLabel="AUTO APPROVED"/>
-                        <statcard cardColor="red"    statId="lblIqaFailed"     statNumber="1" statLabel="IQA FAILED"/>
-                        <statcard cardColor="teal"   statId="lblRepaired"      statNumber="0" statLabel="REPAIRED"/>
-                        <statcard cardColor="purple" statId="lblReferredBack"  statNumber="0" statLabel="REFERRED BACK"/>
-                    </div>
+				<topbar style="width:100%" />
 
-                    <div sclass="action-row">
-                        <button id="btnNewScan" label="Initiate New Scan" sclass="btn btn-primary"/>
-                    </div>
+				<div sclass="dash-page">
 
-                    <label value="ACCESSIBLE MODULES" sclass="section-title"/>
+					<div sclass="stats-layout">
+						<statcard cardColor="blue"
+							statId="lblChequesLoaded" statNumber="3"
+							statLabel="CHEQUES LOADED" />
+						<statcard cardColor="green"
+							statId="lblAutoApproved" statNumber="2"
+							statLabel="AUTO APPROVED" />
+						<statcard cardColor="red" statId="lblIqaFailed"
+							statNumber="1" statLabel="IQA FAILED" />
+						<statcard cardColor="teal" statId="lblRepaired"
+							statNumber="0" statLabel="REPAIRED" />
+						<statcard cardColor="purple"
+							statId="lblReferredBack" statNumber="0"
+							statLabel="REFERRED BACK" />
+					</div>
 
-                    <div sclass="mod-row">
-                        <modulecard icon="🖨️" stepLabel="STEP 1" moduleTitle="Scan Service"
-                            moduleDesc="Initiate a scan session, load cheque images and run IQA / MICR validation."
-                            moduleHref="/scan.zul" moduleAction="Open →"/>
-                        <modulecard icon="🔧" stepLabel="STEP 2" moduleTitle="Reject &amp; Repair"
-                            moduleDesc="Review flagged cheques, correct field errors, reject irreparable items."
-                            moduleHref="/repair.zul" moduleAction="Open →"/>
-                        <modulecard icon="📋" stepLabel="STEP 8" moduleTitle="Batch Status"
-                            moduleDesc="Monitor batches sent to Checker, DEM file dispatch status and NPCI acknowledgements."
-                            moduleHref="/view-batches.zul" moduleAction="Open →"/>
-                    </div>
+					<div sclass="action-row">
+						<button id="btnNewScan"
+							label="Initiate New Scan" sclass="btn btn-primary" />
+					</div>
 
-                </div>
+					<label value="ACCESSIBLE MODULES"
+						sclass="section-title" />
 
-            </vlayout>
+					<div sclass="mod-row">
+						<modulecard icon="🖨️" stepLabel="STEP 1"
+							moduleTitle="Scan Service"
+							moduleDesc="Initiate a scan session, load cheque images and run IQA / MICR validation."
+							moduleHref="/scan.zul" moduleAction="Open →" />
+						<modulecard icon="🔧" stepLabel="STEP 2"
+							moduleTitle="Reject &amp; Repair"
+							moduleDesc="Review flagged cheques, correct field errors, reject irreparable items."
+							moduleHref="/repair.zul" moduleAction="Open →" />
+						<modulecard icon="📋" stepLabel="STEP 8"
+							moduleTitle="Batch Status"
+							moduleDesc="Monitor batches sent to Checker, DEM file dispatch status and NPCI acknowledgements."
+							moduleHref="/view-batches.zul" moduleAction="Open →" />
+					</div>
 
-        </center>
+				</div>
 
-    </borderlayout>
+			</div>
+
+
+		</center>
+
+	</borderlayout>
 
 </zk>

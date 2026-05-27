@@ -1,129 +1,179 @@
-/* ================================================
-   topbar.css  —  CTS Top Navigation Bar
-   ================================================ */
 
 .cts-topbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 52px;
+    height: 56px;
     padding: 0 20px;
     background: #0a2540;
     border-bottom: 1px solid rgba(255,255,255,.08);
     flex-shrink: 0;
-    gap: 16px;
-    width: 100%
+    gap: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Brand */
+/* ── Brand ── */
 .topbar-brand {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-shrink: 0;
 }
+
 .topbar-logo {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     background: #1a6bcc;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
+
 .topbar-logo-text {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: #fff;
-    letter-spacing: .04em;
+    letter-spacing: .02em;
 }
+
+/* div wrapper around the two title labels */
+.topbar-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .topbar-title {
     display: block;
     font-size: 13px;
     font-weight: 700;
     color: #fff;
-    letter-spacing: .03em;
-}
-.topbar-subtitle {
-    display: block;
-    font-size: 10px;
-    color: rgba(255,255,255,.35);
-    letter-spacing: .05em;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    line-height: 1.2;
 }
 
-/* Right section */
+.topbar-subtitle {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,.38);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+/* ── Right section ── */
 .topbar-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     margin-left: auto;
 }
 
-/* Session badge */
+/* ── Session badge  S2 | 11:00-14:00 | 2026-05-27 ── */
 .topbar-session {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0;
     padding: 5px 12px;
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: 4px;
     font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
 }
-.session-id   { color: #93b4e0; font-weight: 700; }
-.session-sep  { color: rgba(255,255,255,.2); }
-.session-time { color: rgba(255,255,255,.6); }
-.session-date { color: rgba(255,255,255,.45); }
 
-/* User info */
+.session-id   { color: #93b4e0; font-weight: 700; padding-right: 2px; }
+.session-sep  { color: rgba(255,255,255,.22); padding: 0 7px; }
+.session-time { color: rgba(255,255,255,.65); font-weight: 600; }
+.session-date { color: rgba(255,255,255,.40); }
+
+/* ── User info ── */
 .topbar-user {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+/* div wrapper around name + branch labels */
+.topbar-user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    text-align: right;
+}
+
 .topbar-user-name {
     display: block;
     font-size: 12px;
     font-weight: 600;
     color: #fff;
+    line-height: 1.2;
 }
+
 .topbar-user-branch {
     display: block;
     font-size: 10px;
-    color: rgba(255,255,255,.4);
+    color: rgba(255,255,255,.38);
+    letter-spacing: .02em;
+    line-height: 1.2;
 }
 
-/* Role badges */
+/* ── Role badge ── */
 .topbar-role-badge {
-    display: inline-block;
-    padding: 3px 9px;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
     border-radius: 3px;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: .05em;
+    letter-spacing: .06em;
     text-transform: uppercase;
+    flex-shrink: 0;
 }
+
 .role-admin        { background: #3b1fa8; color: #c4b5fd; }
 .role-maker-out    { background: #1a3a6b; color: #93b4e0; }
 .role-checker-out  { background: #065f46; color: #6ee7b7; }
 .role-maker-in     { background: #7c2d12; color: #fda986; }
 .role-checker-in   { background: #1e3a5f; color: #7dd3fc; }
-.role-default      { background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); }
+.role-default      { background: rgba(255,255,255,.10); color: rgba(255,255,255,.7); }
 
-/* Sign out button */
-.btn-signout {
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 600;
-    background: transparent;
-    color: rgba(255,255,255,.6);
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 4px;
-    cursor: pointer;
-    letter-spacing: .03em;
-    transition: background .12s, color .12s;
+/* ── Sign Out button ── */
+.btn-signout,
+.z-button.btn-signout {
+    padding: 7px 16px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    background: transparent !important;
+    color: rgba(255,255,255,.70) !important;
+    border: 1px solid rgba(255,255,255,.22) !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    letter-spacing: .05em !important;
+    text-transform: uppercase !important;
+    transition: background .12s, color .12s !important;
+    box-shadow: none !important;
+    height: auto !important;
+    line-height: normal !important;
+    flex-shrink: 0;
 }
-.btn-signout:hover {
-    background: rgba(255,255,255,.08);
-    color: #fff;
+
+.btn-signout:hover,
+.z-button.btn-signout:hover {
+    background: rgba(255,255,255,.09) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.35) !important;
+}
+
+/* ── Neutralise ZK vlayout if it appears inside topbar ── */
+.cts-topbar .z-vlayout,
+.cts-topbar .z-vlayout-inner {
+    display: contents !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
 }

@@ -3,7 +3,7 @@
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
-    <style src="/styling/checker-out.css"/>
+    <style src="/styling/checker-out.css" />
 
     <?component name="statcard"
         macroURI="/reuseableComponents/statCard.zul"
@@ -12,55 +12,95 @@
     <?component name="modulecard"
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
-        
+
     <?component name="topbar"
         macroURI="/reuseableComponents/topbar.zul"
         class="com.iispl.components.TopbarComponent"?>
 
- <?component name="sidebar"
+    <?component name="sidebar"
         macroURI="/reuseableComponents/sidebar.zul"
         class="com.iispl.components.SidebarComponent"?>
 
-    <borderlayout width="100%" height="100%"
-                  apply="com.iispl.controller.CheckerOutwardDashboardController">
+    <borderlayout width="100%" height="100%">
 
-        <west width="220px" splittable="false" collapsible="false">
-            <sidebar/>
+        <north border="none" size="0px" />
+
+        <west width="220px" border="none"
+              splittable="false"
+              collapsible="false">
+            <sidebar />
         </west>
 
         <center border="none" autoscroll="true">
 
-            <vlayout width="100%" spacing="0">
+            <!-- Center can have only ONE child -->
+            <div style="width:100%;">
 
-              <topbar style="width:100%"/>
+                <topbar style="width:100%" />
 
                 <div sclass="dash-page">
 
                     <div sclass="stats-layout">
-                        <statcard cardColor="blue"   statId="lblAutoApproved"   statNumber="0" statLabel="AUTO APPROVED"/>
-                        <statcard cardColor="amber"  statId="lblAwaitingReview" statNumber="0" statLabel="AWAITING REVIEW"/>
-                        <statcard cardColor="green"  statId="lblApproved"       statNumber="0" statLabel="APPROVED"/>
-                        <statcard cardColor="red"    statId="lblRejected"       statNumber="0" statLabel="REJECTED"/>
-                        <statcard cardColor="purple" statId="lblReferred"       statNumber="0" statLabel="REFERRED"/>
+                        <statcard cardColor="blue"
+                                  statId="lblAutoApproved"
+                                  statNumber="0"
+                                  statLabel="AUTO APPROVED" />
+
+                        <statcard cardColor="amber"
+                                  statId="lblAwaitingReview"
+                                  statNumber="0"
+                                  statLabel="AWAITING REVIEW" />
+
+                        <statcard cardColor="green"
+                                  statId="lblApproved"
+                                  statNumber="0"
+                                  statLabel="APPROVED" />
+
+                        <statcard cardColor="red"
+                                  statId="lblRejected"
+                                  statNumber="0"
+                                  statLabel="REJECTED" />
+
+                        <statcard cardColor="purple"
+                                  statId="lblReferred"
+                                  statNumber="0"
+                                  statLabel="REFERRED" />
                     </div>
 
-                    <label value="ACCESSIBLE MODULES" sclass="section-title"/>
+                    <label value="ACCESSIBLE MODULES"
+                           sclass="section-title" />
 
                     <div sclass="mod-row">
-                        <modulecard icon="✅" stepLabel="STEP 3" moduleTitle="Checker Outward Verification"
+
+                        <modulecard
+                            icon="✅"
+                            stepLabel="STEP 3"
+                            moduleTitle="Checker Outward Verification"
                             moduleDesc="Review scanned cheques with image and MICR details. Approve, reject or refer back to Maker."
-                            moduleHref="/checker-out.zul" moduleAction="Open →"/>
-                        <modulecard icon="📁" stepLabel="STEP 4" moduleTitle="File Processing"
+                            moduleHref="/checker-out.zul"
+                            moduleAction="Open →" />
+
+                        <modulecard
+                            icon="📁"
+                            stepLabel="STEP 4"
+                            moduleTitle="File Processing"
                             moduleDesc="Generate DEM XML bundle from approved batches and send to NPCI CTS grid."
-                            moduleHref="/dem.zul" moduleAction="Open →"/>
-                        <modulecard icon="📋" stepLabel="STEP 8" moduleTitle="Batch Status"
+                            moduleHref="/dem.zul"
+                            moduleAction="Open →" />
+
+                        <modulecard
+                            icon="📋"
+                            stepLabel="STEP 8"
+                            moduleTitle="Batch Status"
                             moduleDesc="Track batch lifecycle from Maker submission through NPCI acknowledgement."
-                            moduleHref="/view-batches.zul" moduleAction="Open →"/>
+                            moduleHref="/view-batches.zul"
+                            moduleAction="Open →" />
+
                     </div>
 
                 </div>
 
-            </vlayout>
+            </div>
 
         </center>
 

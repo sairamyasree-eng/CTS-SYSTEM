@@ -12,54 +12,86 @@
     <?component name="modulecard"
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
-        
-          <?component name="topbar"
+
+    <?component name="topbar"
         macroURI="/reuseableComponents/topbar.zul"
         class="com.iispl.components.TopbarComponent"?>
-        
-         <?component name="sidebar"
+
+    <?component name="sidebar"
         macroURI="/reuseableComponents/sidebar.zul"
         class="com.iispl.components.SidebarComponent"?>
-        
 
-    <borderlayout width="100%" height="100%"
-                  apply="com.iispl.controller.CheckerInwardDashboardController">
+    <borderlayout width="100%" height="100%">
 
-        <west width="220px" splittable="false" collapsible="false">
-        <sidebar/>
+        <north border="none" size="0px" />
+
+        <west width="220px"
+              border="none"
+              splittable="false"
+              collapsible="false">
+            <include src="/reuseableComponents/sidebar.zul" />
         </west>
 
         <center border="none" autoscroll="true">
 
-            <vlayout width="100%" spacing="0">
+            <!-- ONLY ONE CHILD INSIDE CENTER -->
+            <div style="width:100%;">
 
-               <topbar style="width:100%"/>
+                <topbar style="width:100%"/>
 
                 <div sclass="dash-page">
 
                     <div sclass="stats-layout">
-                        <statcard cardColor="amber"  statId="lblPendingVerification" statNumber="0" statLabel="PENDING VERIFICATION"/>
-                        <statcard cardColor="green"  statId="lblVerified"            statNumber="0" statLabel="VERIFIED"/>
-                        <statcard cardColor="purple" statId="lblCbsProcessed"        statNumber="0" statLabel="CBS PROCESSED"/>
+                        <statcard cardColor="amber"
+                                  statId="lblPendingVerification"
+                                  statNumber="0"
+                                  statLabel="PENDING VERIFICATION"/>
+
+                        <statcard cardColor="green"
+                                  statId="lblVerified"
+                                  statNumber="0"
+                                  statLabel="VERIFIED"/>
+
+                        <statcard cardColor="purple"
+                                  statId="lblCbsProcessed"
+                                  statNumber="0"
+                                  statLabel="CBS PROCESSED"/>
                     </div>
 
-                    <label value="ACCESSIBLE MODULES" sclass="section-title"/>
+                    <label value="ACCESSIBLE MODULES"
+                           sclass="section-title"/>
 
                     <div sclass="mod-row">
-                        <modulecard icon="✅" stepLabel="STEP 6" moduleTitle="Checker Inward Verification"
+
+                        <modulecard
+                            icon="✅"
+                            stepLabel="STEP 6"
+                            moduleTitle="Checker Inward Verification"
                             moduleDesc="Verify or reject inward cheques one by one with cheque image, MICR, and edit history."
-                            moduleHref="/inward-verify.zul" moduleAction="Open →"/>
-                        <modulecard icon="🏦" stepLabel="STEP 7" moduleTitle="CBS Processing"
+                            moduleHref="/inward-verify.zul"
+                            moduleAction="Open →"/>
+
+                        <modulecard
+                            icon="🏦"
+                            stepLabel="STEP 7"
+                            moduleTitle="CBS Processing"
                             moduleDesc="Post verified inward cheques to Core Banking System. Select and bulk-process in one click."
-                            moduleHref="/cbs.zul" moduleAction="Open →"/>
-                        <modulecard icon="📋" stepLabel="STEP 8" moduleTitle="Batch Status"
+                            moduleHref="/cbs.zul"
+                            moduleAction="Open →"/>
+
+                        <modulecard
+                            icon="📋"
+                            stepLabel="STEP 8"
+                            moduleTitle="Batch Status"
                             moduleDesc="Full pipeline batch status view — outward and inward, current session."
-                            moduleHref="/view-batches.zul" moduleAction="Open →"/>
+                            moduleHref="/view-batches.zul"
+                            moduleAction="Open →"/>
+
                     </div>
 
                 </div>
 
-            </vlayout>
+            </div>
 
         </center>
 
