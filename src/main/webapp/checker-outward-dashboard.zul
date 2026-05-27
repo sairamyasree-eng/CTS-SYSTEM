@@ -12,19 +12,27 @@
     <?component name="modulecard"
         macroURI="/reuseableComponents/moduleCard.zul"
         class="com.iispl.components.ModuleCard"?>
+        
+    <?component name="topbar"
+        macroURI="/reuseableComponents/topbar.zul"
+        class="com.iispl.components.TopbarComponent"?>
+
+ <?component name="sidebar"
+        macroURI="/reuseableComponents/sidebar.zul"
+        class="com.iispl.components.SidebarComponent"?>
 
     <borderlayout width="100%" height="100%"
                   apply="com.iispl.controller.CheckerOutwardDashboardController">
 
         <west width="220px" splittable="false" collapsible="false">
-            <include src="/reuseableComponents/sidebar.zul"/>
+            <sidebar/>
         </west>
 
         <center border="none" autoscroll="true">
 
             <vlayout width="100%" spacing="0">
 
-                <include src="/reuseableComponents/topbar.zul"/>
+              <topbar style="width:100%"/>
 
                 <div sclass="dash-page">
 

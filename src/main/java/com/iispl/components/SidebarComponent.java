@@ -43,12 +43,13 @@ public class SidebarComponent extends HtmlMacroComponent {
     private String  activeItem   = "";
 
     public SidebarComponent() {
-        compose();
+        // do not call compose() here
+    	compose();
     }
 
     @Override
     public void afterCompose() {
-        super.afterCompose();
+        super.afterCompose(); // renders template + injects @Wire fields — must be first
 
         SessionUserDTO sessionUser = (SessionUserDTO) Sessions.getCurrent()
                 .getAttribute(SessionUserDTO.SESSION_KEY);
@@ -64,18 +65,18 @@ public class SidebarComponent extends HtmlMacroComponent {
         enableItem(mc_itemDashboard, "/admin-dashboard.zul", "dashboard");
 
         // Admin items
-        applyItem(mc_itemUserMgmt, itemUserMgmt, "/admin-users.zul",  "admin-users");
-        applyItem(mc_itemBankMgmt, itemBankMgmt, "/admin-banks.zul",  "admin-banks");
+        applyItem(mc_itemUserMgmt, itemUserMgmt, "/admin-users.zul", "admin-users");
+        applyItem(mc_itemBankMgmt, itemBankMgmt, "/admin-banks.zul", "admin-banks");
 
         // Pipeline items
-        applyItem(mc_item1, item1, "/scan.zul",          "scan");
-        applyItem(mc_item2, item2, "/repair.zul",         "repair");
-        applyItem(mc_item3, item3, "/checker-out.zul",    "checker-out");
-        applyItem(mc_item4, item4, "/dem.zul",            "dem");
-        applyItem(mc_item5, item5, "/inward-repair.zul",  "inward-repair");
-        applyItem(mc_item6, item6, "/inward-verify.zul",  "inward-verify");
-        applyItem(mc_item7, item7, "/cbs.zul",            "cbs");
-        applyItem(mc_item8, item8, "/view-batches.zul",   "view-batches");
+        applyItem(mc_item1, item1, "/scan.zul",         "scan");
+        applyItem(mc_item2, item2, "/repair.zul",        "repair");
+        applyItem(mc_item3, item3, "/checker-out.zul",   "checker-out");
+        applyItem(mc_item4, item4, "/dem.zul",           "dem");
+        applyItem(mc_item5, item5, "/inward-repair.zul", "inward-repair");
+        applyItem(mc_item6, item6, "/inward-verify.zul", "inward-verify");
+        applyItem(mc_item7, item7, "/cbs.zul",           "cbs");
+        applyItem(mc_item8, item8, "/view-batches.zul",  "view-batches");
     }
 
     private void applyItem(Div item, boolean enabled, String url, String pageId) {

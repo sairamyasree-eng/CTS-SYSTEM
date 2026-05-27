@@ -39,7 +39,7 @@
         <vlayout hflex="1" vflex="1" style="margin:0;padding:0;display:flex;flex-direction:column;height:100vh;overflow: auto;">
 
             <!-- TOPBAR -->
-           <topbar/>
+           <topbar style="width:100%"/>
            
             <!-- SCROLLABLE SURFACE -->
             <div sclass="admin-surface" style="height : 70vh;">

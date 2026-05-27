@@ -164,7 +164,7 @@ public class AdminUsersController extends SelectorComposer<Component> {
             Row row = new Row();
 
             row.appendChild(new Label(user.getUsername()));
-            row.appendChild(new Label(user.getFullName() != null ? user.getFullName() : ""));
+           // row.appendChild(new Label(user.getFullName() != null ? user.getFullName() : ""));
 
             if (user.getRole() != null) {
             	Label badge = new Label(user.getRole().getRoleName());
