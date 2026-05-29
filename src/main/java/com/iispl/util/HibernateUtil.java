@@ -5,6 +5,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.iispl.entity.AuditLog;
 import com.iispl.entity.Batch;
+import com.iispl.entity.BpxfFile;
 import com.iispl.entity.Cheque;
 import com.iispl.entity.CtsSession;
 import com.iispl.entity.InwardCheque;
@@ -45,6 +46,7 @@ public class HibernateUtil {
             cfg.addAnnotatedClass(User.class);
             cfg.addAnnotatedClass(CtsSession.class);
             cfg.addAnnotatedClass(Batch.class);
+            cfg.addAnnotatedClass(BpxfFile.class);
             cfg.addAnnotatedClass(Cheque.class);
             cfg.addAnnotatedClass(OutwardCheque.class);
             cfg.addAnnotatedClass(InwardCheque.class);

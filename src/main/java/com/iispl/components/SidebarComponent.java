@@ -62,7 +62,8 @@ public class SidebarComponent extends HtmlMacroComponent {
         }
 
         // Dashboard — always enabled
-        enableItem(mc_itemDashboard, "/admin-dashboard.zul", "dashboard");
+        //enableItem(mc_itemDashboard, "/admin-dashboard.zul", "dashboard");
+        enableItem(mc_itemDashboard, getDashboardUrl(), "dashboard");
 
         // Admin items
         applyItem(mc_itemUserMgmt, itemUserMgmt, "/admin-users.zul", "admin-users");
@@ -94,6 +95,41 @@ public class SidebarComponent extends HtmlMacroComponent {
             org.zkoss.zk.ui.Executions.sendRedirect(url)
         );
     }
+    
+    private String getDashboardUrl() {
+
+        SessionUserDTO sessionUser =
+            (SessionUserDTO) Sessions.getCurrent()
+                .getAttribute(SessionUserDTO.SESSION_KEY);
+
+        if (sessionUser == null) {
+            return "/login.zul";
+        }
+
+        String role = sessionUser.getRoleName();
+
+        switch (role) {
+
+        case "ADMIN":
+            return "/admin-dashboard.zul";
+
+        case "MAKER_OUTWARD":
+            return "/maker-outward-dashboard.zul";
+
+        case "CHECKER_OUTWARD":
+            return "/checker-outward-dashboard.zul";
+
+        case "MAKER_INWARD":
+            return "/maker-inward-dashboard.zul";
+
+        case "CHECKER_INWARD":
+            return "/checker-inward-dashboard.zul";
+
+        default:
+            return "/login.zul";
+        }
+    }
+    
 
     // ── Getters & Setters ─────────────────────────────────────────────────
     public boolean isItemUserMgmt() { return itemUserMgmt; }

@@ -56,7 +56,7 @@
 						<modulecard icon="📥" stepLabel="STEP 4"
 							moduleTitle="File Processing"
 							moduleDesc="Select and parse BPXF inward files received from NPCI. Auto-creates inward cheque records."
-							moduleHref="/dem.zul" moduleAction="Open →" />
+							moduleHref="/makerinwardfileprocessing.zul" moduleAction="Open →" />
 						<modulecard icon="🔧" stepLabel="STEP 5"
 							moduleTitle="Inward Repair"
 							moduleDesc="Review inward cheques with MICR issues. Edit MICR fields and send corrected cheques for Checker verification."

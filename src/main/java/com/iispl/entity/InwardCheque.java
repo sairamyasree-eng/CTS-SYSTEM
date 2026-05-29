@@ -73,7 +73,7 @@ public class InwardCheque {
 	private String referNote;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "batch_id", nullable = true)
+	@JoinColumn(name = "batch_id", nullable = true)  // already nullable=true, confirm this
 	private Batch batch;
 
 	public InwardCheque() {
